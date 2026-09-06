@@ -1,0 +1,28 @@
+.dashboard-page {
+  min-height: 100vh;
+  background: #0c0a08;
+  color: #f2ede4;
+  padding: 3rem;
+}
+
+.dashboard-page__role {
+  color: #cbbfa3;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-page__sections {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 320px;
+}
+
+.dashboard-page__sections li {
+  background: #16130f;
+  border: 1px solid #2a251c;
+  border-radius: 0.5rem;
+  padding: 0.85rem 1rem;
+  font-weight: 600;
+}

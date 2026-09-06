@@ -22,6 +22,19 @@ Other available scripts:
 - `npm run preview` — serve the production build locally
 - `npm run lint` — run ESLint over the project
 
+## Login (mocked authentication)
+
+The real backend doesn't exist yet, so login requests are intercepted in development by [Mock Service Worker](https://mswjs.io/) (see `src/mocks/`). This only runs when `npm run dev` is used (`import.meta.env.DEV`) - it is excluded from production builds.
+
+Two fixed test credentials are available at `/login`, one per user type:
+
+| Role     | E-mail                 | Password      |
+| -------- | ----------------------- | ------------- |
+| Personal | `personal@fitforge.app` | `personal123` |
+| Aluno    | `aluno@fitforge.app`    | `aluno123`    |
+
+Any other email/password combination results in a login error. A successful login navigates to `/dashboard`, which renders a different placeholder view depending on the authenticated role.
+
 ## Template Details
 
 This project was scaffolded with the official Vite React + TypeScript template, which provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
