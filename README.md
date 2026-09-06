@@ -1,6 +1,30 @@
-# React + TypeScript + Vite
+# Personal Trainer Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Base React + TypeScript + Vite project scaffold.
+
+## Getting Started
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Other available scripts:
+
+- `npm run build` — type-check and produce a production build in `dist/`
+- `npm run preview` — serve the production build locally
+- `npm run lint` — run ESLint over the project
+
+## Template Details
+
+This project was scaffolded with the official Vite React + TypeScript template, which provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
 
