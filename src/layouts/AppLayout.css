@@ -1,0 +1,91 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  background: #0c0a08;
+  color: #f2ede4;
+}
+
+.app-sidebar {
+  width: 260px;
+  flex: 0 0 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 2rem 1.25rem;
+  border-right: 1px solid #2a251c;
+  background: #110f0c;
+}
+
+.app-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #e2a83e;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.app-sidebar__logo {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: inline-block;
+  background: #e2a83e;
+  transform: rotate(45deg);
+}
+
+.app-sidebar__role {
+  margin: 0;
+  color: #a7a095;
+  font-size: 0.8rem;
+}
+
+.app-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.app-sidebar__link {
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.4rem;
+  color: #cbbfa3;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.app-sidebar__link:hover,
+.app-sidebar__link--active {
+  background: #2b2111;
+  color: #f2c265;
+}
+
+.app-sidebar__logout {
+  margin-top: auto;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #3a3021;
+  border-radius: 0.4rem;
+  background: transparent;
+  color: #cbbfa3;
+  cursor: pointer;
+  font-weight: 600;
+  text-align: left;
+}
+
+.app-sidebar__logout:hover {
+  border-color: #e2a83e;
+  color: #f2c265;
+}
+
+.app-shell__content {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .app-sidebar {
+    width: 210px;
+    flex-basis: 210px;
+    padding: 1.5rem 0.75rem;
+  }
+}
