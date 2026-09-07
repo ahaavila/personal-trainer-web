@@ -1,7 +1,39 @@
 import { http, HttpResponse } from 'msw'
 import type { LoginErrorResponse, LoginRequestBody, LoginSuccessResponse } from '../auth/types'
+import type { PersonalDashboardData, StudentDashboardData } from '../dashboard/types'
 
 const MOCK_SESSION_COOKIE = 'mock_session'
+
+const PERSONAL_DASHBOARD: PersonalDashboardData = {
+  metrics: { clients: 4, activeClients: 3, exercises: 4, trainingPlans: 6 },
+  upcomingTrainings: [
+    { time: '08:00', clientName: 'Mariana Costa', context: 'Hipertrofia · Treino presencial', status: 'confirmed' },
+    { time: '18:30', clientName: 'Lucas Almeida', context: 'Emagrecimento · Treino presencial', status: 'confirmed' },
+  ],
+  weeklyEvolution: [
+    { label: 'Seg', value: 3 },
+    { label: 'Ter', value: 5 },
+    { label: 'Qua', value: 4 },
+    { label: 'Qui', value: 7 },
+    { label: 'Sex', value: 6 },
+  ],
+}
+
+const STUDENT_DASHBOARD: StudentDashboardData = {
+  currentPlan: { title: 'Ficha de treino atual', progress: 68 },
+  nextWorkouts: [
+    { name: 'Treino A · Peito e tríceps', exerciseCount: 6, scheduledFor: 'Hoje' },
+    { name: 'Treino B · Costas e bíceps', exerciseCount: 7, scheduledFor: 'Amanhã' },
+  ],
+  progress: { completedWorkouts: 8, totalWorkouts: 12 },
+  weeklyActivity: [
+    { label: 'Seg', value: 1 },
+    { label: 'Ter', value: 0 },
+    { label: 'Qua', value: 1 },
+    { label: 'Qui', value: 1 },
+    { label: 'Sex', value: 0 },
+  ],
+}
 
 const TEST_CREDENTIALS: Record<string, { password: string; response: LoginSuccessResponse }> = {
   'personal@fitforge.app': {
@@ -57,5 +89,19 @@ export const handlers = [
         'Set-Cookie': `${MOCK_SESSION_COOKIE}=; Path=/; Max-Age=0`,
       },
     })
+  }),
+
+  http.get('/api/dashboard/personal', ({ cookies }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+    return HttpResponse.json(PERSONAL_DASHBOARD)
+  }),
+
+  http.get('/api/dashboard/aluno', ({ cookies }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'aluno@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+    return HttpResponse.json(STUDENT_DASHBOARD)
   }),
 ]

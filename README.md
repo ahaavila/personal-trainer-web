@@ -37,6 +37,10 @@ Two fixed test credentials work in both modes (the backend seeds the same two us
 
 Any other email/password combination results in a login error. A successful login navigates to `/dashboard`, which renders a different placeholder view depending on the authenticated role.
 
+## Dashboard
+
+The dashboard calls `/api/dashboard/personal` for personal trainers and `/api/dashboard/aluno` for alunos. The real endpoints are planned in the backend repository's `add-dashboard-endpoints` change; until that change is implemented, use `npm run dev:mock` to preview the populated role-specific dashboard data.
+
 ### Session
 
 Authentication uses an httpOnly session cookie (set by the backend, or simulated by the mock) rather than a token in the response body. All auth requests (`login`, `me`, `logout`) send `credentials: 'include'` so the browser attaches/receives the cookie automatically - no manual token handling in the frontend.
