@@ -22,11 +22,13 @@ Other available scripts:
 - `npm run preview` — serve the production build locally
 - `npm run lint` — run ESLint over the project
 
-## Login (mocked authentication)
+## Login
 
-The real backend doesn't exist yet, so login requests are intercepted in development by [Mock Service Worker](https://mswjs.io/) (see `src/mocks/`). This only runs when `npm run dev` is used (`import.meta.env.DEV`) - it is excluded from production builds.
+By default (`npm run dev`), login requests go through the Vite dev proxy (`/api` → `http://localhost:3000`) to the real backend ([`personal-trainer-backend`](https://github.com/ahaavila/personal-trainer-backend)), which must be running locally with its database migrated and seeded.
 
-Two fixed test credentials are available at `/login`, one per user type:
+If you want to work on the UI without running the backend, use `npm run dev:mock` instead - this starts the app with [Mock Service Worker](https://mswjs.io/) (see `src/mocks/`) intercepting login requests. Mocking is controlled by the `VITE_ENABLE_MOCKS` env var (see `.env.mock`, loaded automatically in `mock` mode) and is always excluded from production builds.
+
+Two fixed test credentials work in both modes (the backend seeds the same two users), one per user type:
 
 | Role     | E-mail                 | Password      |
 | -------- | ----------------------- | ------------- |
