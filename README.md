@@ -37,6 +37,12 @@ Two fixed test credentials work in both modes (the backend seeds the same two us
 
 Any other email/password combination results in a login error. A successful login navigates to `/dashboard`, which renders a different placeholder view depending on the authenticated role.
 
+### Session
+
+Authentication uses an httpOnly session cookie (set by the backend, or simulated by the mock) rather than a token in the response body. All auth requests (`login`, `me`, `logout`) send `credentials: 'include'` so the browser attaches/receives the cookie automatically - no manual token handling in the frontend.
+
+On app load, the frontend calls `GET /api/auth/me` before rendering routes to recover an existing session, so reloading the page while logged in does not force a new login. Use the "Sair" button on the dashboard to log out (calls `POST /api/auth/logout`), which ends the session in both `npm run dev` and `npm run dev:mock`.
+
 ## Template Details
 
 This project was scaffolded with the official Vite React + TypeScript template, which provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

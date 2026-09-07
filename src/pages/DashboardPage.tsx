@@ -1,4 +1,5 @@
-import { Navigate } from 'react-router'
+import { Navigate, useNavigate } from 'react-router'
+import { logout } from '../auth/api'
 import { useAuth } from '../auth/useAuth'
 import './DashboardPage.css'
 
@@ -6,13 +7,20 @@ const PERSONAL_SECTIONS = ['Alunos', 'Treinos', 'Financeiro', 'Configurações']
 const ALUNO_SECTIONS = ['Meus Treinos', 'Meu Perfil']
 
 function DashboardPage() {
-  const { user } = useAuth()
+  const { user, clearUser } = useAuth()
+  const navigate = useNavigate()
 
   if (!user) {
     return <Navigate to="/login" replace />
   }
 
   const sections = user.role === 'personal' ? PERSONAL_SECTIONS : ALUNO_SECTIONS
+
+  async function handleLogout() {
+    await logout()
+    clearUser()
+    navigate('/login')
+  }
 
   return (
     <main className="dashboard-page">
@@ -25,6 +33,9 @@ function DashboardPage() {
           <li key={section}>{section}</li>
         ))}
       </ul>
+      <button type="button" className="dashboard-page__logout" onClick={handleLogout}>
+        Sair
+      </button>
     </main>
   )
 }

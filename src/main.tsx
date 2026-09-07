@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router'
 import './index.css'
 import router from './router.tsx'
 import { AuthProvider } from './auth/AuthContext.tsx'
+import { getSession } from './auth/api.ts'
 
 async function enableMocking() {
   if (!import.meta.env.DEV) return
@@ -12,13 +13,15 @@ async function enableMocking() {
   await worker.start({ onUnhandledRequest: 'bypass' })
 }
 
-enableMocking().then(() => {
-  createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
-    </StrictMode>,
-  )
-})
+enableMocking()
+  .then(() => getSession())
+  .then((user) => {
+    createRoot(document.getElementById('root')!).render(
+      <StrictMode>
+        <AuthProvider initialUser={user}>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </StrictMode>,
+    )
+  })
 

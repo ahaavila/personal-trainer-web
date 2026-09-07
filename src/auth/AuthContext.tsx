@@ -2,8 +2,14 @@ import { useMemo, useState, type ReactNode } from 'react'
 import type { AuthUser, AuthContextValue } from './authContextInstance'
 import { AuthContext } from './authContextInstance'
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUserState] = useState<AuthUser | null>(null)
+export function AuthProvider({
+  children,
+  initialUser = null,
+}: {
+  children: ReactNode
+  initialUser?: AuthUser | null
+}) {
+  const [user, setUserState] = useState<AuthUser | null>(initialUser)
 
   const value = useMemo<AuthContextValue>(
     () => ({

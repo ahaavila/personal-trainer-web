@@ -4,6 +4,7 @@ export async function login(body: LoginRequestBody): Promise<LoginSuccessRespons
   const response = await fetch('/api/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify(body),
   })
 
@@ -14,4 +15,28 @@ export async function login(body: LoginRequestBody): Promise<LoginSuccessRespons
   }
 
   return data as LoginSuccessResponse
+}
+
+export async function getSession(): Promise<LoginSuccessResponse | null> {
+  try {
+    const response = await fetch('/api/auth/me', {
+      method: 'GET',
+      credentials: 'include',
+    })
+
+    if (!response.ok) {
+      return null
+    }
+
+    return (await response.json()) as LoginSuccessResponse
+  } catch {
+    return null
+  }
+}
+
+export async function logout(): Promise<void> {
+  await fetch('/api/auth/logout', {
+    method: 'POST',
+    credentials: 'include',
+  })
 }
