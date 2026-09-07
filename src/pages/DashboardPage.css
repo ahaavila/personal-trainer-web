@@ -1,7 +1,7 @@
 .dashboard-view { min-height: 100vh; padding: 2rem 2.2rem 3rem; background: #0d0e0d; color: #f2efe8; }
 .dashboard-view__header { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
 .dashboard-view__date { display: block; color: #dcae43; font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-.dashboard-view h1 { margin: .65rem 0 .3rem; color: #f4f0e8; font-size: clamp(2rem, 4vw, 3.1rem); letter-spacing: -.05em; }
+.dashboard-view h1 { margin: .9rem 0 .65rem; color: #f4f0e8; font-size: clamp(1.65rem, 3vw, 2.35rem); letter-spacing: -.04em; }
 .dashboard-view__header p, .dashboard-section__header p, .dashboard-metric p, .dashboard-training p, .dashboard-plan p, .dashboard-student-workout p { margin: 0; color: #aaa69d; }
 .dashboard-view__actions { display: flex; gap: .55rem; }
 .dashboard-button { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; min-height: 2.9rem; padding: 0 .95rem; border: 1px solid #473b21; border-radius: .65rem; font-weight: 750; text-decoration: none; cursor: pointer; }
