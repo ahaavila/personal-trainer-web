@@ -44,9 +44,9 @@ const ALUNOS: AlunoListItem[] = [
 ]
 
 const EXERCISES: ExerciseListItem[] = [
-  { muscleGroup: 'Perna', level: 'intermediario', name: 'Agachamento livre', description: 'Exercício composto para membros inferiores.', defaultSets: 4, defaultReps: '8 a 10' },
-  { muscleGroup: 'Peito', level: 'intermediario', name: 'Supino reto', description: 'Fortalecimento de peitoral, ombros e tríceps.', defaultSets: 4, defaultReps: '8 a 12' },
-  { muscleGroup: 'Costas', level: 'iniciante', name: 'Remada baixa', description: 'Movimento controlado para dorsais e braços.', defaultSets: 3, defaultReps: '10 a 12' },
+  { id: 1, muscleGroup: 'Perna', level: 'intermediario', name: 'Agachamento livre', equipment: 'Barra', description: 'Exercício composto para membros inferiores.', defaultSets: 4, defaultReps: '8 a 10' },
+  { id: 2, muscleGroup: 'Peito', level: 'intermediario', name: 'Supino reto', equipment: 'Banco', description: 'Fortalecimento de peitoral, ombros e tríceps.', defaultSets: 4, defaultReps: '8 a 12' },
+  { id: 3, muscleGroup: 'Costas', level: 'iniciante', name: 'Remada baixa', equipment: 'Halter', description: 'Movimento controlado para dorsais e braços.', defaultSets: 3, defaultReps: '10 a 12' },
 ]
 
 const TEST_CREDENTIALS: Record<string, { password: string; response: LoginSuccessResponse }> = {
@@ -166,5 +166,44 @@ export const handlers = [
       return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
     }
     return HttpResponse.json(EXERCISES)
+  }),
+
+  http.post('/api/exercicios', async ({ cookies, request }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const input = (await request.json()) as {
+      name?: string
+      muscleGroup?: string
+      equipment?: string
+      description?: string
+      defaultSets?: number
+      defaultReps?: string
+      level?: string
+    }
+
+    if (!input.name || !input.muscleGroup || !input.description || !input.defaultReps || !input.level) {
+      return HttpResponse.json({ message: 'Dados do exercício inválidos.' }, { status: 400 })
+    }
+
+    const defaultSets = Number(input.defaultSets)
+    if (!Number.isFinite(defaultSets) || defaultSets < 1 || defaultSets > 20) {
+      return HttpResponse.json({ message: 'As séries padrão devem estar entre 1 e 20.' }, { status: 400 })
+    }
+
+    const exercise: ExerciseListItem = {
+      id: Date.now(),
+      name: input.name.trim(),
+      muscleGroup: input.muscleGroup.trim(),
+      equipment: input.equipment?.trim() || undefined,
+      description: input.description.trim(),
+      defaultSets,
+      defaultReps: input.defaultReps.trim(),
+      level: (input.level as ExerciseListItem['level']) || 'iniciante',
+    }
+
+    EXERCISES.unshift(exercise)
+    return HttpResponse.json(exercise, { status: 201 })
   }),
 ]

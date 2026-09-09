@@ -1,0 +1,29 @@
+.novo-exercicio-page { min-height: 100vh; padding: 2rem 2.2rem 3rem; color: #f2efe8; background: #0d0e0d; text-align: left; }
+.novo-exercicio-page__header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
+.novo-exercicio-page__header > div > span { color: #dcae43; font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.novo-exercicio-page h1 { margin: .55rem 0; color: #f4f0e8; font-size: clamp(1.8rem, 3vw, 2.45rem); }
+.novo-exercicio-page__header p, .novo-exercicio-form section > p { color: #aaa69d; }
+.novo-exercicio-page__back { display: inline-flex; align-items: center; gap: .5rem; color: #e8bd51; font-weight: 700; text-decoration: none; }
+.novo-exercicio-form { max-width: 62rem; border: 1px solid #302f2b; border-radius: 1rem; overflow: hidden; background: linear-gradient(145deg, #1a1b1a, #151615); }
+.novo-exercicio-form section { padding: 1.4rem; border-bottom: 1px solid #302f2b; }
+.novo-exercicio-form h2 { margin: 0 0 .35rem; color: #f2efe8; font-size: 1.2rem; }
+.novo-exercicio-form__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+.novo-exercicio-form__grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.novo-exercicio-form__field { display: grid; gap: .45rem; color: #e8e3d9; font-size: .86rem; font-weight: 700; }
+.novo-exercicio-form input, .novo-exercicio-form select, .novo-exercicio-form textarea { width: 100%; box-sizing: border-box; min-height: 2.8rem; border: 1px solid #48453e; border-radius: .65rem; padding: .7rem .75rem; outline: 0; color: #f2efe8; background: #10110f; font: inherit; font-size: .9rem; }
+.novo-exercicio-form textarea { min-height: 7.5rem; resize: vertical; }
+.novo-exercicio-form input:focus, .novo-exercicio-form select:focus, .novo-exercicio-form textarea:focus { border-color: #dcae43; }
+.novo-exercicio-form__field small, .novo-exercicio-form__error, .novo-exercicio-form__server-error { color: #ef9e8d; font-size: .75rem; font-weight: 500; }
+.novo-exercicio-form__media-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+.novo-exercicio-form__upload { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .7rem; min-height: 9rem; border: 1px dashed #5b574f; border-radius: .9rem; padding: 1rem; color: #efe7d7; text-align: center; background: #141513; cursor: pointer; }
+.novo-exercicio-form__upload input { display: none; }
+.novo-exercicio-form__upload-icon { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; color: #1d160c; background: linear-gradient(135deg, #f0c65e, #bd8c27); }
+.novo-exercicio-form__upload-status { display: block; color: #aaa69d; font-size: .74rem; line-height: 1.4; }
+.novo-exercicio-form__upload-status.is-selected { color: #d9c89d; }
+.novo-exercicio-form__media-disabled { margin-top: 1rem; padding: .9rem 1rem; border: 1px solid #564f39; border-radius: .7rem; color: #d9c89d; background: rgba(205, 161, 75, .08); }
+.novo-exercicio-form__server-error { margin: 1rem 1.4rem 0; }
+.novo-exercicio-form footer { display: flex; align-items: center; justify-content: flex-end; gap: 1rem; padding: 1rem 1.4rem; }
+.novo-exercicio-form footer a { color: #e8bd51; text-decoration: none; font-weight: 700; }
+.novo-exercicio-form footer button { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.8rem; border: 0; border-radius: .6rem; padding: 0 .9rem; color: #211909; background: linear-gradient(135deg, #f0c65e, #bd8c27); font-weight: 800; cursor: pointer; }
+.novo-exercicio-form footer button:disabled { opacity: .65; cursor: wait; }
+@media (max-width: 760px) { .novo-exercicio-page { padding: 1.1rem; } .novo-exercicio-page__header { flex-direction: column; } .novo-exercicio-form__grid, .novo-exercicio-form__grid--three, .novo-exercicio-form__media-grid { grid-template-columns: 1fr; } }

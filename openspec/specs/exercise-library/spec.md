@@ -15,6 +15,10 @@ The system SHALL provide an exercises page for authenticated personal users, dis
 - **WHEN** the personal has no exercises
 - **THEN** the system displays an intentional empty state
 
+#### Scenario: Newly created exercise appears in library
+- **WHEN** a personal creates an exercise and returns to the exercise library
+- **THEN** the new exercise appears only in that personal's library
+
 ### Requirement: Personal can filter exercises
 The system SHALL allow a personal to filter loaded exercises by name search, muscle group, and level.
 
