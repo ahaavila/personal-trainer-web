@@ -9,7 +9,7 @@ The system SHALL display a side navigation menu to authenticated users, showing 
 
 #### Scenario: Personal sees the personal menu
 - **WHEN** an authenticated personal views any authenticated page
-- **THEN** the side navigation shows, in order: Dashboard, Clientes, Exercícios, Nova Ficha de Treino, Treinos, Meu Perfil, Criar utilizador
+- **THEN** the side navigation shows, in order: Dashboard, Alunos, Exercícios, Nova Ficha de Treino, Treinos, Meu Perfil, Criar utilizador
 
 #### Scenario: Aluno sees the aluno menu
 - **WHEN** an authenticated aluno views any authenticated page

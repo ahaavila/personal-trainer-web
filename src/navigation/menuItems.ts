@@ -18,7 +18,7 @@ export interface MenuItem {
 
 export const PERSONAL_MENU_ITEMS: MenuItem[] = [
   { label: 'Dashboard', path: '/dashboard', icon: Grid2X2 },
-  { label: 'Clientes', path: '/clientes', icon: Users },
+  { label: 'Alunos', path: '/alunos', icon: Users },
   { label: 'Exercícios', path: '/exercicios', icon: Dumbbell },
   { label: 'Nova Ficha de Treino', path: '/nova-ficha-de-treino', icon: FilePlus2 },
   { label: 'Treinos', path: '/treinos', icon: History },

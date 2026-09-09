@@ -17,14 +17,14 @@ export function getPersonalDashboard(): Promise<PersonalDashboardData> {
     const upcomingTrainings = (payload.upcomingTrainings as Array<Record<string, unknown>> | undefined) ?? []
     return {
       metrics: {
-        clients: metrics?.clients ?? metrics?.clientsCount ?? 0,
-        activeClients: metrics?.activeClients ?? metrics?.clientsCount ?? 0,
+        students: metrics?.students ?? metrics?.clients ?? metrics?.clientsCount ?? 0,
+        activeStudents: metrics?.activeStudents ?? metrics?.activeClients ?? metrics?.clientsCount ?? 0,
         exercises: metrics?.exercises ?? metrics?.exercisesCount ?? 0,
         trainingPlans: metrics?.trainingPlans ?? metrics?.trainingPlansCount ?? 0,
       },
       upcomingTrainings: upcomingTrainings.map((training) => ({
         time: typeof training.time === 'string' ? training.time : '--:--',
-        clientName: typeof training.clientName === 'string' ? training.clientName : typeof training.alunoName === 'string' ? training.alunoName : 'Cliente',
+        studentName: typeof training.studentName === 'string' ? training.studentName : typeof training.clientName === 'string' ? training.clientName : typeof training.alunoName === 'string' ? training.alunoName : 'Aluno',
         context: typeof training.context === 'string' ? training.context : typeof training.planTitle === 'string' ? `${training.name ?? 'Treino'} · ${training.planTitle}` : String(training.name ?? 'Treino'),
         status: training.status === 'pending' ? 'pending' : 'confirmed',
       })),

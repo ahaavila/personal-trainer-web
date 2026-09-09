@@ -5,15 +5,15 @@ export interface WeeklyPoint {
 
 export interface UpcomingTraining {
   time: string
-  clientName: string
+  studentName: string
   context: string
   status: 'confirmed' | 'pending'
 }
 
 export interface PersonalDashboardData {
   metrics: {
-    clients: number
-    activeClients: number
+    students: number
+    activeStudents: number
     exercises: number
     trainingPlans: number
   }

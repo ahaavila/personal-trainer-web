@@ -1,0 +1,6 @@
+.access-denied-page { display: grid; min-height: 100vh; place-content: center; justify-items: center; gap: .7rem; padding: 2rem; color: #f2efe8; background: #0d0e0d; text-align: center; }
+.access-denied-page__icon { display: grid; width: 3.3rem; height: 3.3rem; place-items: center; border-radius: 1rem; color: #e7bb4f; background: #2b2415; }
+.access-denied-page__code { color: #e7bb4f; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.access-denied-page h1 { margin: 0; color: #f2efe8; font-size: 1.8rem; }
+.access-denied-page p { margin: 0; color: #aaa69d; }
+.access-denied-page a { margin-top: .4rem; border-radius: .55rem; padding: .65rem .9rem; color: #1f180c; background: #e4b548; font-weight: 750; text-decoration: none; }

@@ -1,14 +1,15 @@
 import { http, HttpResponse } from 'msw'
 import type { LoginErrorResponse, LoginRequestBody, LoginSuccessResponse } from '../auth/types'
 import type { PersonalDashboardData, StudentDashboardData } from '../dashboard/types'
+import type { AlunoListItem } from '../alunos/types'
 
 const MOCK_SESSION_COOKIE = 'mock_session'
 
 const PERSONAL_DASHBOARD: PersonalDashboardData = {
-  metrics: { clients: 4, activeClients: 3, exercises: 4, trainingPlans: 6 },
+  metrics: { students: 4, activeStudents: 3, exercises: 4, trainingPlans: 6 },
   upcomingTrainings: [
-    { time: '08:00', clientName: 'Mariana Costa', context: 'Hipertrofia · Treino presencial', status: 'confirmed' },
-    { time: '18:30', clientName: 'Lucas Almeida', context: 'Emagrecimento · Treino presencial', status: 'confirmed' },
+    { time: '08:00', studentName: 'Mariana Costa', context: 'Hipertrofia · Treino presencial', status: 'confirmed' },
+    { time: '18:30', studentName: 'Lucas Almeida', context: 'Emagrecimento · Treino presencial', status: 'confirmed' },
   ],
   weeklyEvolution: [
     { label: 'Seg', value: 3 },
@@ -34,6 +35,12 @@ const STUDENT_DASHBOARD: StudentDashboardData = {
     { label: 'Sex', value: 0 },
   ],
 }
+
+const ALUNOS: AlunoListItem[] = [
+  { name: 'Mariana Costa', email: 'mariana.costa@email.com', objective: 'Hipertrofia', level: 'Intermediário', status: 'ativo', latestWorkout: { name: 'Treino A', completedAt: '2026-09-09T08:00:00.000Z' } },
+  { name: 'Lucas Almeida', email: 'lucas.almeida@email.com', objective: 'Emagrecimento', level: 'Iniciante', status: 'ativo', latestWorkout: { name: 'Treino B', completedAt: '2026-09-08T19:00:00.000Z' } },
+  { name: 'Beatriz Rocha', email: 'beatriz.rocha@email.com', objective: 'Condicionamento', level: 'Avançado', status: 'inativo', latestWorkout: null },
+]
 
 const TEST_CREDENTIALS: Record<string, { password: string; response: LoginSuccessResponse }> = {
   'personal@fitforge.app': {
@@ -103,5 +110,12 @@ export const handlers = [
       return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
     }
     return HttpResponse.json(STUDENT_DASHBOARD)
+  }),
+
+  http.get('/api/alunos', ({ cookies }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+    return HttpResponse.json(ALUNOS)
   }),
 ]
