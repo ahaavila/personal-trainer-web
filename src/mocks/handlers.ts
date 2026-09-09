@@ -2,6 +2,7 @@ import { http, HttpResponse } from 'msw'
 import type { LoginErrorResponse, LoginRequestBody, LoginSuccessResponse } from '../auth/types'
 import type { PersonalDashboardData, StudentDashboardData } from '../dashboard/types'
 import type { AlunoListItem } from '../alunos/types'
+import type { ExerciseListItem } from '../exercicios/types'
 
 const MOCK_SESSION_COOKIE = 'mock_session'
 
@@ -40,6 +41,12 @@ const ALUNOS: AlunoListItem[] = [
   { name: 'Mariana Costa', email: 'mariana.costa@email.com', objective: 'Hipertrofia', level: 'Intermediário', status: 'ativo', latestWorkout: { name: 'Treino A', completedAt: '2026-09-09T08:00:00.000Z' } },
   { name: 'Lucas Almeida', email: 'lucas.almeida@email.com', objective: 'Emagrecimento', level: 'Iniciante', status: 'ativo', latestWorkout: { name: 'Treino B', completedAt: '2026-09-08T19:00:00.000Z' } },
   { name: 'Beatriz Rocha', email: 'beatriz.rocha@email.com', objective: 'Condicionamento', level: 'Avançado', status: 'inativo', latestWorkout: null },
+]
+
+const EXERCISES: ExerciseListItem[] = [
+  { muscleGroup: 'Perna', level: 'intermediario', name: 'Agachamento livre', description: 'Exercício composto para membros inferiores.', defaultSets: 4, defaultReps: '8 a 10' },
+  { muscleGroup: 'Peito', level: 'intermediario', name: 'Supino reto', description: 'Fortalecimento de peitoral, ombros e tríceps.', defaultSets: 4, defaultReps: '8 a 12' },
+  { muscleGroup: 'Costas', level: 'iniciante', name: 'Remada baixa', description: 'Movimento controlado para dorsais e braços.', defaultSets: 3, defaultReps: '10 a 12' },
 ]
 
 const TEST_CREDENTIALS: Record<string, { password: string; response: LoginSuccessResponse }> = {
@@ -152,5 +159,12 @@ export const handlers = [
     }
     ALUNOS.push(aluno)
     return HttpResponse.json(aluno, { status: 201 })
+  }),
+
+  http.get('/api/exercicios', ({ cookies }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+    return HttpResponse.json(EXERCISES)
   }),
 ]

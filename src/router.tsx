@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
 import AlunosPage from './pages/AlunosPage'
 import NovoAlunoPage from './pages/NovoAlunoPage'
+import ExerciciosPage from './pages/ExerciciosPage'
 
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/login" replace /> },
@@ -19,7 +20,14 @@ const router = createBrowserRouter([
         path: '/alunos',
         element: <RequireRole role="personal"><AlunosPage /></RequireRole>,
       },
-      { path: '/exercicios', element: <ComingSoonPage title="Exercícios" /> },
+      {
+        path: '/exercicios',
+        element: <RequireRole role="personal"><ExerciciosPage /></RequireRole>,
+      },
+      {
+        path: '/novo-exercicio',
+        element: <RequireRole role="personal"><ComingSoonPage title="Novo exercício" /></RequireRole>,
+      },
       {
         path: '/nova-ficha-de-treino',
         element: <ComingSoonPage title="Nova Ficha de Treino" />,
