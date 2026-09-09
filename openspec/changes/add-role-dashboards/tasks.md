@@ -22,4 +22,4 @@
 
 - [x] 4.1 Run build and lint with the dashboard implementation and verify both pass
 - [x] 4.2 Verify the personal and aluno dashboard flows in the browser against the mock mode contract, including loading, populated, empty, error, and retry states
-- [ ] 4.3 Verify the real backend integration against both role-specific endpoints once the backend change is implemented, and document the dashboard response dependency in README.md
+- [x] 4.3 Verify the real backend integration against both role-specific endpoints once the backend change is implemented, and document the dashboard response dependency in README.md

@@ -39,7 +39,7 @@ Any other email/password combination results in a login error. A successful logi
 
 ## Dashboard
 
-The dashboard calls `/api/dashboard/personal` for personal trainers and `/api/dashboard/aluno` for alunos. The real endpoints are planned in the backend repository's `add-dashboard-endpoints` change; until that change is implemented, use `npm run dev:mock` to preview the populated role-specific dashboard data.
+The dashboard calls `/api/dashboard/personal` for personal trainers and `/api/dashboard/aluno` for alunos. Both endpoints are available in the backend; use `npm run dev:mock` when you want to preview the populated role-specific dashboard data without running the API or PostgreSQL locally.
 
 ### Session
 
