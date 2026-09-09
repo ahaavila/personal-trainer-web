@@ -118,4 +118,39 @@ export const handlers = [
     }
     return HttpResponse.json(ALUNOS)
   }),
+
+  http.post('/api/alunos', async ({ cookies, request }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const input = (await request.json()) as {
+      name?: string
+      email?: string
+      password?: string
+      objective?: string
+      level?: string
+    }
+
+    if (!input.name || !input.email || !input.password || !input.objective || !input.level) {
+      return HttpResponse.json({ message: 'Invalid aluno data' }, { status: 400 })
+    }
+
+    const email = input.email.trim().toLowerCase()
+
+    if (ALUNOS.some((aluno) => aluno.email.toLowerCase() === email)) {
+      return HttpResponse.json({ message: 'Email is already in use' }, { status: 409 })
+    }
+
+    const aluno: AlunoListItem = {
+      name: input.name,
+      email,
+      objective: input.objective,
+      level: input.level,
+      status: 'ativo',
+      latestWorkout: null,
+    }
+    ALUNOS.push(aluno)
+    return HttpResponse.json(aluno, { status: 201 })
+  }),
 ]

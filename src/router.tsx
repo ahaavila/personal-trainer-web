@@ -5,6 +5,7 @@ import ComingSoonPage from './pages/ComingSoonPage'
 import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
 import AlunosPage from './pages/AlunosPage'
+import NovoAlunoPage from './pages/NovoAlunoPage'
 
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/login" replace /> },
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
       { path: '/meu-perfil', element: <ComingSoonPage title="Meu Perfil" /> },
       {
         path: '/criar-utilizador',
-        element: <ComingSoonPage title="Criar utilizador" />,
+        element: <RequireRole role="personal"><NovoAlunoPage /></RequireRole>,
       },
       {
         path: '/ficha-de-treino-atual',
