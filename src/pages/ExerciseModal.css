@@ -1,0 +1,415 @@
+.exercise-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.exercise-modal__content {
+  background: #141514;
+  border: 1px solid #35342f;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 38rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  color: #f2efe8;
+  display: flex;
+  flex-direction: column;
+}
+
+.exercise-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #282926;
+  background: #191a19;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.exercise-modal__tag {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  color: #efd178;
+  background: #393018;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.exercise-modal__header h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  color: #f4f0e8;
+}
+
+.exercise-modal__close {
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.exercise-modal__close:hover {
+  color: #fff;
+  background: #252624;
+}
+
+.exercise-modal__form {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.exercise-modal__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.exercise-modal__grid--three {
+  grid-template-columns: 1fr 1fr 0.8fr;
+}
+
+.exercise-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: left;
+}
+
+.exercise-modal__field span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #b0aca3;
+}
+
+.exercise-modal__field input,
+.exercise-modal__field select,
+.exercise-modal__field textarea {
+  background: #101110;
+  border: 1px solid #3c3b36;
+  border-radius: 0.55rem;
+  padding: 0.6rem 0.75rem;
+  color: #f2efe8;
+  font: inherit;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.exercise-modal__field input:focus,
+.exercise-modal__field select:focus,
+.exercise-modal__field textarea:focus {
+  border-color: #d1a843;
+}
+
+.exercise-modal__field textarea {
+  resize: vertical;
+}
+
+.exercise-modal__error {
+  color: #f87171;
+  font-size: 0.75rem;
+}
+
+.exercise-modal__error-msg {
+  color: #f87171;
+  font-size: 0.85rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  margin: 0;
+}
+
+.exercise-modal__status-msg {
+  color: #efd178;
+  font-size: 0.85rem;
+  background: rgba(239, 209, 120, 0.1);
+  border: 1px solid rgba(239, 209, 120, 0.25);
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  margin: 0;
+}
+
+/* Media section styles */
+.exercise-modal__media-section {
+  border-top: 1px solid #282926;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.exercise-modal__media-section h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #f2efe8;
+}
+
+.exercise-modal__media-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.exercise-modal__media-card {
+  background: #191a19;
+  border: 1px solid #30312e;
+  border-radius: 0.65rem;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.exercise-modal__media-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #f2efe8;
+  font-size: 0.82rem;
+}
+
+.exercise-modal__media-icon {
+  color: #d1a843;
+}
+
+.exercise-modal__media-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.exercise-modal__thumb {
+  width: 100%;
+  max-height: 8rem;
+  object-fit: cover;
+  border-radius: 0.45rem;
+  border: 1px solid #3c3b36;
+}
+
+.exercise-modal__video-thumb {
+  width: 100%;
+  max-height: 8rem;
+  border-radius: 0.45rem;
+  border: 1px solid #3c3b36;
+  background: #000;
+}
+
+.exercise-modal__file-badge {
+  background: #252624;
+  color: #d4d0c8;
+  border-radius: 0.4rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.exercise-modal__btn-remove-media {
+  background: transparent;
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.exercise-modal__btn-remove-media:hover {
+  background: rgba(248, 113, 113, 0.15);
+}
+
+.exercise-modal__upload-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.exercise-modal__upload-label span {
+  font-size: 0.75rem;
+  color: #aaa69d;
+}
+
+.exercise-modal__upload-label input[type="file"] {
+  font-size: 0.75rem;
+  color: #b0aca3;
+  padding: 0.2rem 0;
+  border: none;
+  background: transparent;
+}
+
+.exercise-modal__upload-label small {
+  font-size: 0.72rem;
+  color: #888;
+}
+
+.exercise-modal__upload-label small.is-selected {
+  color: #efd178;
+}
+
+.exercise-modal__media-disabled {
+  font-size: 0.8rem;
+  color: #888;
+  padding: 0.5rem 0;
+}
+
+.exercise-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid #282926;
+}
+
+.exercise-modal__footer-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.exercise-modal__btn-primary {
+  background: linear-gradient(135deg, #f0c65e, #bd8c27);
+  color: #1f180c;
+  border: none;
+  font-weight: 750;
+  padding: 0.65rem 1.15rem;
+  border-radius: 0.55rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  transition: opacity 0.15s;
+}
+
+.exercise-modal__btn-primary:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.exercise-modal__btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.exercise-modal__btn-secondary {
+  background: #252624;
+  color: #d4d0c8;
+  border: 1px solid #3c3b36;
+  font-weight: 600;
+  padding: 0.65rem 1rem;
+  border-radius: 0.55rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+.exercise-modal__btn-secondary:hover:not(:disabled) {
+  background: #30312e;
+}
+
+.exercise-modal__btn-delete {
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.55rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.15s;
+}
+
+.exercise-modal__btn-delete:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+/* Delete Confirm dialog */
+.exercise-modal__delete-confirm {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.exercise-modal__delete-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.exercise-modal__delete-confirm h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #f4f0e8;
+}
+
+.exercise-modal__delete-confirm p {
+  margin: 0;
+  color: #aaa69d;
+  font-size: 0.9rem;
+  max-width: 24rem;
+}
+
+.exercise-modal__delete-actions {
+  display: flex;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.exercise-modal__btn-danger {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.55rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+.exercise-modal__btn-danger:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+@media (max-width: 600px) {
+  .exercise-modal__grid,
+  .exercise-modal__grid--three {
+    grid-template-columns: 1fr;
+  }
+}

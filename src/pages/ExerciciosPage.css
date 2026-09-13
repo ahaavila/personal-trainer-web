@@ -10,7 +10,8 @@
 .exercises-search input { min-width: 0; flex: 1; border: 0; outline: 0; }
 .exercises-filters select { padding: 0 .7rem; }
 .exercise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: .9rem; }
-.exercise-card { min-height: 11.5rem; padding: 1.2rem; border: 1px solid #35342f; border-radius: 1rem; background: linear-gradient(145deg, #191a19, #141514); }
+.exercise-card { min-height: 11.5rem; padding: 1.2rem; border: 1px solid #35342f; border-radius: 1rem; background: linear-gradient(145deg, #191a19, #141514); cursor: pointer; text-align: left; transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease; width: 100%; box-sizing: border-box; }
+.exercise-card:hover, .exercise-card:focus-visible { transform: translateY(-2px); border-color: #d1a843; box-shadow: 0 8px 24px rgba(209, 168, 67, 0.12); outline: none; }
 .exercise-card__meta { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
 .exercise-card__meta span { padding: .32rem .6rem; border-radius: 999px; color: #efd178; background: #393018; font-size: .75rem; font-weight: 800; }
 .exercise-card__meta small { color: #aaa69d; font-size: .72rem; }

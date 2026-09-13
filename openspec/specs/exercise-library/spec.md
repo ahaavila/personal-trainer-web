@@ -5,7 +5,7 @@ Provides a personal-only private library of exercises with search and filters, h
 ## Requirements
 
 ### Requirement: Personal can view private exercises
-The system SHALL provide an exercises page for authenticated personal users, displaying only exercises belonging to that personal.
+The system SHALL provide an exercises page for authenticated personal users, displaying only exercises belonging to that personal, and allowing the user to select an exercise to inspect or edit it.
 
 #### Scenario: Personal opens the exercise library
 - **WHEN** an authenticated personal opens the exercises page
@@ -18,6 +18,10 @@ The system SHALL provide an exercises page for authenticated personal users, dis
 #### Scenario: Newly created exercise appears in library
 - **WHEN** a personal creates an exercise and returns to the exercise library
 - **THEN** the new exercise appears only in that personal's library
+
+#### Scenario: Selecting an exercise card
+- **WHEN** a personal clicks on an exercise card in the library
+- **THEN** the system opens the exercise details and edit view
 
 ### Requirement: Personal can filter exercises
 The system SHALL allow a personal to filter loaded exercises by name search, muscle group, and level.

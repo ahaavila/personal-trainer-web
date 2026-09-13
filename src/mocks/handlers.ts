@@ -258,4 +258,76 @@ export const handlers = [
 
     return HttpResponse.json({ objectKey, kind, contentType, byteSize }, { status: 201 })
   }),
+
+  http.put('/api/exercicios/:id', async ({ cookies, params, request }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const id = Number(params.id)
+    const index = EXERCISES.findIndex((e) => e.id === id)
+
+    if (index === -1) {
+      return HttpResponse.json({ message: 'Exercício não encontrado.' }, { status: 404 })
+    }
+
+    const input = (await request.json()) as Partial<ExerciseListItem>
+    const current = EXERCISES[index]
+
+    const updated: ExerciseListItem = {
+      ...current,
+      ...(input.name !== undefined ? { name: input.name.trim() } : {}),
+      ...(input.muscleGroup !== undefined ? { muscleGroup: input.muscleGroup.trim() } : {}),
+      ...(input.equipment !== undefined ? { equipment: input.equipment.trim() || undefined } : {}),
+      ...(input.description !== undefined ? { description: input.description.trim() } : {}),
+      ...(input.defaultSets !== undefined ? { defaultSets: Number(input.defaultSets) } : {}),
+      ...(input.defaultReps !== undefined ? { defaultReps: input.defaultReps.trim() } : {}),
+      ...(input.level !== undefined ? { level: input.level } : {}),
+    }
+
+    EXERCISES[index] = updated
+    return HttpResponse.json(updated, { status: 200 })
+  }),
+
+  http.delete('/api/exercicios/:id', ({ cookies, params }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const id = Number(params.id)
+    const index = EXERCISES.findIndex((e) => e.id === id)
+
+    if (index === -1) {
+      return HttpResponse.json({ message: 'Exercício não encontrado.' }, { status: 404 })
+    }
+
+    EXERCISES.splice(index, 1)
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  http.get('/api/exercicios/:id/media', ({ cookies, params }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const id = Number(params.id)
+    const exercise = EXERCISES.find((e) => e.id === id)
+    return HttpResponse.json(exercise?.media || [])
+  }),
+
+  http.delete('/api/exercicios/:id/media/:mediaId', ({ cookies, params }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const id = Number(params.id)
+    const mediaId = Number(params.mediaId)
+    const exercise = EXERCISES.find((e) => e.id === id)
+
+    if (exercise && exercise.media) {
+      exercise.media = exercise.media.filter((m) => m.id !== mediaId)
+    }
+
+    return new HttpResponse(null, { status: 204 })
+  }),
 ]
