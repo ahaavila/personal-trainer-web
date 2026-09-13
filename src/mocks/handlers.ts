@@ -524,4 +524,93 @@ export const handlers = [
 
     return HttpResponse.json(response, { status: 201 })
   }),
+
+  http.put('/api/fichas-de-treino/:id', async ({ cookies, params, request }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const id = Number(params.id)
+    const index = TRAINING_PLANS.findIndex((p) => Number(p.id) === id)
+
+    if (index === -1) {
+      return HttpResponse.json({ message: 'Ficha de treino não encontrada.' }, { status: 404 })
+    }
+
+    const input = (await request.json()) as CreateTrainingPlanInput
+    const current = TRAINING_PLANS[index]
+
+    const alunoId = input.alunoId !== undefined ? Number(input.alunoId) : current.alunoId
+    const aluno = ALUNOS.find((a) => a.id === alunoId) || {
+      id: current.alunoId,
+      name: current.studentName || 'Aluno',
+      email: current.studentEmail || '',
+      objective: current.studentObjective || 'hipertrofia',
+    }
+
+    const title = input.title?.trim() || current.title
+
+    let totalExercises = 0
+    const divisions = (input.divisions || []).map((div, divIndex) => ({
+      id: divIndex + 1,
+      name: div.name.trim(),
+      order: div.order ?? divIndex + 1,
+      notes: div.notes?.trim() || null,
+      exercises: (div.exercises || []).map((ex, exIndex) => {
+        const exId = ex.exercicioId ?? (ex as { exerciseId?: number }).exerciseId
+        const baseEx = EXERCISES.find((item) => item.id === exId)
+        totalExercises += 1
+        return {
+          id: exIndex + 1,
+          exercicioId: exId,
+          exerciseId: exId,
+          exerciseName: baseEx?.name || 'Exercício',
+          muscleGroup: baseEx?.muscleGroup || 'Geral',
+          equipment: baseEx?.equipment || null,
+          order: ex.order ?? exIndex + 1,
+          sets: Number(ex.sets),
+          reps: ex.reps.trim(),
+          restInterval: ex.restInterval?.trim() || null,
+          targetLoad: ex.targetLoad?.trim() || null,
+          notes: ex.notes?.trim() || null,
+        }
+      }),
+    }))
+
+    const updated: TrainingPlan = {
+      ...current,
+      title,
+      alunoId: aluno.id,
+      studentId: aluno.id,
+      studentEmail: aluno.email,
+      studentName: aluno.name,
+      notes: input.notes !== undefined ? (input.notes?.trim() || null) : current.notes,
+      startDate: input.startDate !== undefined ? (input.startDate?.trim() || null) : current.startDate,
+      endDate: input.endDate !== undefined ? (input.endDate?.trim() || null) : current.endDate,
+      divisionsCount: divisions.length,
+      exercisesCount: totalExercises,
+      divisions,
+      updatedAt: new Date().toISOString(),
+    }
+
+    TRAINING_PLANS[index] = updated
+    return HttpResponse.json(updated, { status: 200 })
+  }),
+
+  http.delete('/api/fichas-de-treino/:id', ({ cookies, params }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const id = Number(params.id)
+    const index = TRAINING_PLANS.findIndex((p) => Number(p.id) === id)
+
+    if (index === -1) {
+      return HttpResponse.json({ message: 'Ficha de treino não encontrada.' }, { status: 404 })
+    }
+
+    TRAINING_PLANS.splice(index, 1)
+    PERSONAL_DASHBOARD.metrics.trainingPlans = TRAINING_PLANS.length
+    return new HttpResponse(null, { status: 204 })
+  }),
 ]

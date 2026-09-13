@@ -1,0 +1,400 @@
+.treinos-page {
+  min-height: 100vh;
+  padding: 2rem 2.2rem 3rem;
+  color: #f2efe8;
+  background: #0d0e0d;
+  text-align: left;
+}
+
+.treinos-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.treinos-page h1 {
+  margin: 0 0 0.35rem;
+  color: #f4f0e8;
+  font-size: 2rem;
+}
+
+.treinos-page__header p {
+  margin: 0;
+  color: #aaa69d;
+}
+
+.treinos-page__new-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.9rem;
+  padding: 0 0.9rem;
+  border-radius: 0.65rem;
+  color: #1f180c;
+  background: linear-gradient(135deg, #f0c65e, #bd8c27);
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.treinos-page__new-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.treinos-page__success-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  color: #34d399;
+  padding: 0.85rem 1.2rem;
+  border-radius: 0.65rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.treinos-page__success-close {
+  background: transparent;
+  border: 0;
+  color: #34d399;
+  font-size: 1.35rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 0.25rem;
+}
+
+/* Toolbar */
+.treinos-page__toolbar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.treinos-page__search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 18rem;
+  display: flex;
+  align-items: center;
+}
+
+.treinos-page__search-icon {
+  position: absolute;
+  left: 0.85rem;
+  color: #8c8982;
+  pointer-events: none;
+}
+
+.treinos-page__search-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem 0.65rem 2.5rem;
+  background: #151615;
+  border: 1px solid #383733;
+  border-radius: 0.65rem;
+  color: #f2efe8;
+  font-size: 0.9rem;
+  outline: 0;
+  transition: border-color 0.2s ease;
+}
+
+.treinos-page__search-input:focus {
+  border-color: #dcae43;
+}
+
+.treinos-page__status-select {
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  background: #151615;
+  border: 1px solid #383733;
+  border-radius: 0.65rem;
+  color: #f2efe8;
+  font-size: 0.88rem;
+  font-weight: 600;
+  outline: 0;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.treinos-page__status-select:focus {
+  border-color: #dcae43;
+}
+
+/* Grid & Cards */
+.treinos-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+  gap: 1.25rem;
+}
+
+.treino-card {
+  background: linear-gradient(145deg, #181918, #131413);
+  border: 1px solid #302f2b;
+  border-radius: 0.95rem;
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.treino-card:hover {
+  border-color: #4f4c44;
+  transform: translateY(-2px);
+}
+
+.treino-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.treino-card__title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.treino-card__status-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.35rem;
+  text-transform: uppercase;
+}
+
+.treino-card__status-badge.is-active {
+  background: rgba(52, 211, 153, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.treino-card__status-badge.is-archived {
+  background: rgba(156, 163, 175, 0.15);
+  color: #9ca3af;
+  border: 1px solid rgba(156, 163, 175, 0.3);
+}
+
+.treino-card__title {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #f4f0e8;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.treino-card__student {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: #10110f;
+  border: 1px solid #282724;
+  border-radius: 0.65rem;
+  padding: 0.65rem 0.85rem;
+}
+
+.treino-card__avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #252623;
+  color: #dcae43;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.treino-card__student-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.treino-card__student-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #f2efe8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.treino-card__student-email {
+  font-size: 0.72rem;
+  color: #8c8982;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.treino-card__objective-badge {
+  font-size: 0.68rem;
+  color: #dcae43;
+  background: rgba(220, 174, 67, 0.1);
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.3rem;
+  text-transform: capitalize;
+}
+
+.treino-card__notes {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #aaa69d;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.treino-card__metrics {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.treino-card__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #1f201d;
+  border: 1px solid #33322e;
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.45rem;
+  font-size: 0.78rem;
+  color: #d9c89d;
+  font-weight: 600;
+}
+
+.treino-card__dates {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: #8c8982;
+}
+
+.treino-card__footer {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid #282724;
+}
+
+.treino-card__view-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  background: #252623;
+  border: 1px solid #3f3e38;
+  color: #f2efe8;
+  padding: 0.55rem;
+  border-radius: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.treino-card__view-btn:hover {
+  background: #32332f;
+  border-color: #dcae43;
+  color: #e8bd51;
+}
+
+/* States */
+.treinos-page__loading,
+.treinos-page__error,
+.treinos-page__empty,
+.treinos-page__no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  text-align: center;
+  color: #aaa69d;
+  gap: 1rem;
+}
+
+.treinos-page__error {
+  color: #ef9e8d;
+}
+
+.treinos-page__retry-btn {
+  background: #252623;
+  border: 1px solid #48453e;
+  color: #f2efe8;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.55rem 1.25rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.treinos-page__retry-btn:hover {
+  background: #31332f;
+  border-color: #dcae43;
+}
+
+.treinos-page__empty h3 {
+  margin: 0;
+  color: #f4f0e8;
+  font-size: 1.25rem;
+}
+
+.treinos-page__empty p {
+  margin: 0;
+  max-width: 24rem;
+  font-size: 0.9rem;
+}
+
+.treinos-page__empty-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: linear-gradient(135deg, #f0c65e, #bd8c27);
+  color: #211909;
+  font-size: 0.88rem;
+  font-weight: 800;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.55rem;
+  text-decoration: none;
+  margin-top: 0.5rem;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .treinos-page {
+    padding: 1.25rem;
+  }
+  .treinos-page__header {
+    flex-direction: column;
+  }
+  .treinos-page__grid {
+    grid-template-columns: 1fr;
+  }
+}

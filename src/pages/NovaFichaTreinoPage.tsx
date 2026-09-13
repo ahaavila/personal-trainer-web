@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import {
-  ArrowLeft,
   Dumbbell,
   Layers,
   Plus,
@@ -346,12 +345,11 @@ export default function NovaFichaTreinoPage() {
     <main className="nova-ficha-page">
       <header className="nova-ficha-page__header">
         <div>
-          <span className="nova-ficha-page__eyebrow">Prescrição de Treino</span>
-          <h1>Nova Ficha de Treino</h1>
+          <h1>Criar ficha de treino</h1>
           <p>Monte o planejamento completo de treino com divisões e exercícios personalizados.</p>
         </div>
         <Link to="/treinos" className="nova-ficha-page__back">
-          <ArrowLeft size={18} /> Voltar para treinos
+          Voltar para treinos
         </Link>
       </header>
 

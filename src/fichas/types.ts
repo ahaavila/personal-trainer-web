@@ -30,6 +30,7 @@ export interface TrainingPlanDivisionExercise {
   exerciseId?: number
   exerciseName?: string
   muscleGroup?: string
+  equipment?: string | null
   order: number
   sets: number
   reps: string
@@ -53,10 +54,11 @@ export interface TrainingPlan {
   studentEmail?: string
   studentId?: number | string
   studentName?: string
+  studentObjective?: string
   notes?: string | null
   startDate?: string | null
   endDate?: string | null
-  status?: 'active' | 'archived' | 'draft'
+  status?: 'active' | 'archived' | 'draft' | string
   divisions: TrainingPlanDivision[]
   divisionsCount?: number
   exercisesCount?: number

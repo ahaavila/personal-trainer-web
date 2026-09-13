@@ -1,6 +1,6 @@
 .nova-ficha-page {
   min-height: 100vh;
-  padding: 2rem 2.2rem 4rem;
+  padding: 2rem 2.2rem 3rem;
   color: #f2efe8;
   background: #0d0e0d;
   text-align: left;
@@ -8,32 +8,21 @@
 
 .nova-ficha-page__header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-start;
   gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.nova-ficha-page__eyebrow {
-  display: block;
-  color: #dcae43;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 0.35rem;
+  margin-bottom: 1.5rem;
 }
 
 .nova-ficha-page h1 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.35rem;
   color: #f4f0e8;
-  font-size: clamp(1.8rem, 3vw, 2.45rem);
+  font-size: 2rem;
 }
 
 .nova-ficha-page__header p {
   margin: 0;
   color: #aaa69d;
-  font-size: 0.95rem;
 }
 
 .nova-ficha-page__back {
@@ -42,18 +31,12 @@
   gap: 0.5rem;
   color: #e8bd51;
   font-weight: 700;
-  font-size: 0.9rem;
   text-decoration: none;
-  padding: 0.5rem 0.8rem;
-  border-radius: 0.5rem;
-  background: #191a18;
-  border: 1px solid #32312d;
-  transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .nova-ficha-page__back:hover {
-  background: #252623;
-  border-color: #48453e;
+  text-decoration: underline;
 }
 
 .nova-ficha-form {
