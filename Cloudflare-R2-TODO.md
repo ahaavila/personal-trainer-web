@@ -13,8 +13,31 @@
 - [ ] Confirmar que será usado para arquivos privados de exercícios
 - [ ] Decidir se será usado um bucket dedicado ou um bucket geral com prefixos
 
-## 3) Configurar permissões e segurança
+## 3) Configurar permissões, CORS e segurança
 - [ ] Garantir que o bucket seja privado por padrão
+- [ ] Configurar a política de CORS no Cloudflare R2 para permitir uploads do frontend:
+  ```json
+  [
+    {
+      "AllowedOrigins": [
+        "http://localhost:5173",
+        "http://localhost:3000"
+      ],
+      "AllowedMethods": [
+        "GET",
+        "PUT",
+        "POST",
+        "DELETE",
+        "HEAD"
+      ],
+      "AllowedHeaders": [
+        "*"
+      ],
+      "ExposeHeaders": [],
+      "MaxAgeSeconds": 3600
+    }
+  ]
+  ```
 - [ ] Não expor o bucket publicamente sem necessidade
 - [ ] Planejar uso de URLs assinadas para upload/download
 - [ ] Confirmar que a app/backend será a única entidade a emitir credenciais

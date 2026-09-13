@@ -206,4 +206,56 @@ export const handlers = [
     EXERCISES.unshift(exercise)
     return HttpResponse.json(exercise, { status: 201 })
   }),
+
+  http.post('/api/exercicios/:id/upload-url', async ({ cookies, params, request }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const { kind, contentType, byteSize } = (await request.json()) as {
+      kind?: 'photo' | 'video'
+      contentType?: string
+      byteSize?: number
+    }
+
+    if (!kind || !contentType || !byteSize) {
+      return HttpResponse.json({ message: 'Dados de mídia inválidos.' }, { status: 400 })
+    }
+
+    const exerciseId = Number(params.id)
+    const objectKey = `exercises/1/${exerciseId}/mock-${Date.now()}-${kind}`
+    const uploadUrl = `/mock-upload/${objectKey}`
+
+    return HttpResponse.json({
+      uploadUrl,
+      objectKey,
+      expiresIn: 300,
+      kind,
+      contentType,
+      byteSize,
+    })
+  }),
+
+  http.put('/mock-upload/:path*', () => {
+    return new HttpResponse(null, { status: 200 })
+  }),
+
+  http.post('/api/exercicios/:id/confirm-upload', async ({ cookies, request }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const { objectKey, kind, contentType, byteSize } = (await request.json()) as {
+      objectKey?: string
+      kind?: 'photo' | 'video'
+      contentType?: string
+      byteSize?: number
+    }
+
+    if (!objectKey || !kind) {
+      return HttpResponse.json({ message: 'Dados de confirmação inválidos.' }, { status: 400 })
+    }
+
+    return HttpResponse.json({ objectKey, kind, contentType, byteSize }, { status: 201 })
+  }),
 ]

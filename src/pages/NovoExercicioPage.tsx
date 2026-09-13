@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ArrowLeft, ImageIcon, Save, VideoIcon } from 'lucide-react'
 import { Link, useNavigate } from 'react-router'
-import { createExercise } from '../exercicios/api'
+import { confirmUpload, createExercise, requestUploadUrl, uploadFileToR2 } from '../exercicios/api'
 import type { CreateExerciseInput, ExerciseLevel } from '../exercicios/types'
 import './NovoExercicioPage.css'
 
@@ -35,6 +35,7 @@ function NovoExercicioPage() {
   const [form, setForm] = useState<FormValues>(INITIAL_FORM)
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({})
   const [serverError, setServerError] = useState<string | null>(null)
+  const [statusMessage, setStatusMessage] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   function updateField(name: keyof Omit<FormValues, 'photo' | 'video'>, value: string | number) {
@@ -110,7 +111,8 @@ function NovoExercicioPage() {
     setIsSubmitting(true)
 
     try {
-      await createExercise({
+      setStatusMessage('A criar o exercício...')
+      const created = await createExercise({
         name: form.name.trim(),
         muscleGroup: form.muscleGroup.trim(),
         equipment: form.equipment?.trim() || undefined,
@@ -120,11 +122,36 @@ function NovoExercicioPage() {
         level: form.level,
       })
 
+      if (created.id && R2_ENABLED) {
+        if (form.photo) {
+          setStatusMessage('A obter autorização para o upload da foto...')
+          const photoMeta = await requestUploadUrl(created.id, 'photo', form.photo)
+
+          setStatusMessage('A enviar foto para o Cloudflare R2...')
+          await uploadFileToR2(photoMeta.uploadUrl, form.photo)
+
+          setStatusMessage('A confirmar registo da foto...')
+          await confirmUpload(created.id, photoMeta.objectKey, 'photo', form.photo)
+        }
+
+        if (form.video) {
+          setStatusMessage('A obter autorização para o upload do vídeo...')
+          const videoMeta = await requestUploadUrl(created.id, 'video', form.video)
+
+          setStatusMessage('A enviar vídeo para o Cloudflare R2...')
+          await uploadFileToR2(videoMeta.uploadUrl, form.video)
+
+          setStatusMessage('A confirmar registo do vídeo...')
+          await confirmUpload(created.id, videoMeta.objectKey, 'video', form.video)
+        }
+      }
+
       navigate('/exercicios', { replace: true })
     } catch (error) {
       setServerError(error instanceof Error ? error.message : 'Não foi possível criar o exercício.')
     } finally {
       setIsSubmitting(false)
+      setStatusMessage(null)
     }
   }
 
@@ -255,13 +282,14 @@ function NovoExercicioPage() {
           {errors.video && <small className="novo-exercicio-form__error" role="alert">{errors.video}</small>}
         </section>
 
+        {statusMessage && <p className="novo-exercicio-form__status-message" role="status">{statusMessage}</p>}
         {serverError && <p className="novo-exercicio-form__server-error" role="alert">{serverError}</p>}
 
         <footer>
           <Link to="/exercicios">Cancelar</Link>
           <button type="submit" disabled={isSubmitting}>
             <Save size={18} />
-            {isSubmitting ? 'A guardar...' : 'Guardar exercício'}
+            {isSubmitting ? (statusMessage || 'A guardar...') : 'Guardar exercício'}
           </button>
         </footer>
       </form>
