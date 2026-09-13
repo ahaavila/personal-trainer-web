@@ -1,6 +1,7 @@
 export type AlunoStatus = 'ativo' | 'inativo' | 'não informado'
 
 export interface AlunoListItem {
+  id?: number
   name: string
   email: string
   objective: string

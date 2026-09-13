@@ -3,6 +3,7 @@ import type { LoginErrorResponse, LoginRequestBody, LoginSuccessResponse } from 
 import type { PersonalDashboardData, StudentDashboardData } from '../dashboard/types'
 import type { AlunoListItem } from '../alunos/types'
 import type { ExerciseListItem } from '../exercicios/types'
+import type { CreateTrainingPlanInput, CreateTrainingPlanResponse, TrainingPlan } from '../fichas/types'
 
 const MOCK_SESSION_COOKIE = 'mock_session'
 
@@ -38,15 +39,85 @@ const STUDENT_DASHBOARD: StudentDashboardData = {
 }
 
 const ALUNOS: AlunoListItem[] = [
-  { name: 'Mariana Costa', email: 'mariana.costa@email.com', objective: 'Hipertrofia', level: 'Intermediário', status: 'ativo', latestWorkout: { name: 'Treino A', completedAt: '2026-09-09T08:00:00.000Z' } },
-  { name: 'Lucas Almeida', email: 'lucas.almeida@email.com', objective: 'Emagrecimento', level: 'Iniciante', status: 'ativo', latestWorkout: { name: 'Treino B', completedAt: '2026-09-08T19:00:00.000Z' } },
-  { name: 'Beatriz Rocha', email: 'beatriz.rocha@email.com', objective: 'Condicionamento', level: 'Avançado', status: 'inativo', latestWorkout: null },
+  { id: 1, name: 'Mariana Costa', email: 'mariana.costa@email.com', objective: 'Hipertrofia', level: 'Intermediário', status: 'ativo', latestWorkout: { name: 'Treino A', completedAt: '2026-09-09T08:00:00.000Z' } },
+  { id: 2, name: 'Lucas Almeida', email: 'lucas.almeida@email.com', objective: 'Emagrecimento', level: 'Iniciante', status: 'ativo', latestWorkout: { name: 'Treino B', completedAt: '2026-09-08T19:00:00.000Z' } },
+  { id: 3, name: 'Beatriz Rocha', email: 'beatriz.rocha@email.com', objective: 'Condicionamento', level: 'Avançado', status: 'inativo', latestWorkout: null },
 ]
 
 const EXERCISES: ExerciseListItem[] = [
   { id: 1, muscleGroup: 'Perna', level: 'intermediario', name: 'Agachamento livre', equipment: 'Barra', description: 'Exercício composto para membros inferiores.', defaultSets: 4, defaultReps: '8 a 10' },
   { id: 2, muscleGroup: 'Peito', level: 'intermediario', name: 'Supino reto', equipment: 'Banco', description: 'Fortalecimento de peitoral, ombros e tríceps.', defaultSets: 4, defaultReps: '8 a 12' },
   { id: 3, muscleGroup: 'Costas', level: 'iniciante', name: 'Remada baixa', equipment: 'Halter', description: 'Movimento controlado para dorsais e braços.', defaultSets: 3, defaultReps: '10 a 12' },
+]
+
+const TRAINING_PLANS: TrainingPlan[] = [
+  {
+    id: 1,
+    title: 'Ficha de Treino Inicial',
+    studentEmail: 'mariana.costa@email.com',
+    studentName: 'Mariana Costa',
+    notes: 'Treino para adaptação neuromuscular e hipertrofia',
+    startDate: '2026-09-01',
+    endDate: '2026-11-01',
+    status: 'active',
+    divisionsCount: 2,
+    exercisesCount: 3,
+    createdAt: '2026-09-01T10:00:00.000Z',
+    divisions: [
+      {
+        id: 1,
+        name: 'Treino A · Peito e Tríceps',
+        order: 1,
+        notes: 'Focar em amplitude',
+        exercises: [
+          {
+            id: 1,
+            exerciseId: 2,
+            exerciseName: 'Supino reto',
+            muscleGroup: 'Peito',
+            order: 1,
+            sets: 4,
+            reps: '8 a 12',
+            restInterval: '60s',
+            targetLoad: '20kg',
+            notes: 'Cadência 3010',
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: 'Treino B · Pernas e Costas',
+        order: 2,
+        notes: null,
+        exercises: [
+          {
+            id: 2,
+            exerciseId: 1,
+            exerciseName: 'Agachamento livre',
+            muscleGroup: 'Perna',
+            order: 1,
+            sets: 4,
+            reps: '8 a 10',
+            restInterval: '90s',
+            targetLoad: '40kg',
+            notes: 'Descer até 90 graus',
+          },
+          {
+            id: 3,
+            exerciseId: 3,
+            exerciseName: 'Remada baixa',
+            muscleGroup: 'Costas',
+            order: 2,
+            sets: 3,
+            reps: '10 a 12',
+            restInterval: '60s',
+            targetLoad: '30kg',
+            notes: null,
+          },
+        ],
+      },
+    ],
+  },
 ]
 
 const TEST_CREDENTIALS: Record<string, { password: string; response: LoginSuccessResponse }> = {
@@ -329,5 +400,128 @@ export const handlers = [
     }
 
     return new HttpResponse(null, { status: 204 })
+  }),
+
+  http.get('/api/fichas-de-treino', ({ cookies }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+    return HttpResponse.json(TRAINING_PLANS)
+  }),
+
+  http.post('/api/fichas-de-treino', async ({ cookies, request }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const input = (await request.json()) as CreateTrainingPlanInput
+
+    if (!input || typeof input !== 'object') {
+      return HttpResponse.json({ message: 'Dados da ficha inválidos.' }, { status: 400 })
+    }
+
+    const alunoId = input.alunoId !== undefined ? Number(input.alunoId) : undefined
+    const aluno = ALUNOS.find(
+      (a) => (alunoId !== undefined && a.id === alunoId) || (input as { studentEmail?: string }).studentEmail === a.email,
+    )
+
+    if (!aluno) {
+      return HttpResponse.json({ message: 'Selecione um aluno válido para vincular à ficha.' }, { status: 400 })
+    }
+
+    const title = input.title?.trim()
+    if (!title || title.length < 2) {
+      return HttpResponse.json({ message: 'O título da ficha deve ter pelo menos 2 caracteres.' }, { status: 400 })
+    }
+
+    if (!Array.isArray(input.divisions) || input.divisions.length === 0) {
+      return HttpResponse.json({ message: 'A ficha precisa conter pelo menos uma divisão de treino.' }, { status: 400 })
+    }
+
+    let totalExercises = 0
+    for (const division of input.divisions) {
+      if (!division.name?.trim()) {
+        return HttpResponse.json({ message: 'Todas as divisões de treino precisam ter um nome.' }, { status: 400 })
+      }
+      if (!Array.isArray(division.exercises) || division.exercises.length === 0) {
+        return HttpResponse.json({ message: `A divisão "${division.name}" precisa conter pelo menos um exercício.` }, { status: 400 })
+      }
+
+      for (const ex of division.exercises) {
+        const exId = ex.exercicioId ?? (ex as { exerciseId?: number }).exerciseId
+        const found = EXERCISES.find((item) => item.id === exId)
+        if (!found) {
+          return HttpResponse.json({ message: `Exercício com ID ${exId} não encontrado.` }, { status: 400 })
+        }
+        if (!ex.sets || Number(ex.sets) < 1) {
+          return HttpResponse.json({ message: 'O número de séries de cada exercício deve ser maior que 0.' }, { status: 400 })
+        }
+        if (!ex.reps?.trim()) {
+          return HttpResponse.json({ message: 'As repetições de cada exercício são obrigatórias.' }, { status: 400 })
+        }
+        totalExercises += 1
+      }
+    }
+
+    const newId = Date.now()
+    const nowIso = new Date().toISOString()
+
+    const newPlan: TrainingPlan = {
+      id: newId,
+      title,
+      alunoId: aluno.id,
+      studentEmail: aluno.email,
+      studentId: aluno.id,
+      studentName: aluno.name,
+      notes: input.notes?.trim() || null,
+      startDate: input.startDate?.trim() || null,
+      endDate: input.endDate?.trim() || null,
+      status: 'active',
+      divisionsCount: input.divisions.length,
+      exercisesCount: totalExercises,
+      createdAt: nowIso,
+      updatedAt: nowIso,
+      divisions: input.divisions.map((div, divIndex) => ({
+        id: divIndex + 1,
+        name: div.name.trim(),
+        order: div.order ?? divIndex + 1,
+        notes: div.notes?.trim() || null,
+        exercises: div.exercises.map((ex, exIndex) => {
+          const exId = ex.exercicioId ?? (ex as { exerciseId?: number }).exerciseId
+          const baseEx = EXERCISES.find((item) => item.id === exId)!
+          return {
+            id: exIndex + 1,
+            exercicioId: exId,
+            exerciseId: exId,
+            exerciseName: baseEx.name,
+            muscleGroup: baseEx.muscleGroup,
+            order: ex.order ?? exIndex + 1,
+            sets: Number(ex.sets),
+            reps: ex.reps.trim(),
+            restInterval: ex.restInterval?.trim() || null,
+            targetLoad: ex.targetLoad?.trim() || null,
+            notes: ex.notes?.trim() || null,
+          }
+        }),
+      })),
+    }
+
+    TRAINING_PLANS.unshift(newPlan)
+    PERSONAL_DASHBOARD.metrics.trainingPlans = TRAINING_PLANS.length
+
+    const response: CreateTrainingPlanResponse = {
+      id: newPlan.id,
+      title: newPlan.title,
+      alunoId: aluno.id,
+      studentId: aluno.id,
+      studentEmail: aluno.email,
+      studentName: aluno.name,
+      status: 'active',
+      divisionsCount: newPlan.divisionsCount!,
+      exercisesCount: newPlan.exercisesCount!,
+      createdAt: nowIso,
+    }
+
+    return HttpResponse.json(response, { status: 201 })
   }),
 ]

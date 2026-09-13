@@ -8,6 +8,7 @@ import AlunosPage from './pages/AlunosPage'
 import NovoAlunoPage from './pages/NovoAlunoPage'
 import ExerciciosPage from './pages/ExerciciosPage'
 import NovoExercicioPage from './pages/NovoExercicioPage'
+import NovaFichaTreinoPage from './pages/NovaFichaTreinoPage'
 
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/login" replace /> },
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/nova-ficha-de-treino',
-        element: <ComingSoonPage title="Nova Ficha de Treino" />,
+        element: <RequireRole role="personal"><NovaFichaTreinoPage /></RequireRole>,
       },
       { path: '/treinos', element: <ComingSoonPage title="Treinos" /> },
       { path: '/meu-perfil', element: <ComingSoonPage title="Meu Perfil" /> },
