@@ -120,7 +120,13 @@ const TRAINING_PLANS: TrainingPlan[] = [
   },
 ]
 
-const TEST_CREDENTIALS: Record<string, { password: string; response: LoginSuccessResponse }> = {
+interface TestCredentialUser {
+  password: string
+  response: LoginSuccessResponse
+  status?: string
+}
+
+const TEST_CREDENTIALS: Record<string, TestCredentialUser> = {
   'personal@fitforge.app': {
     password: 'personal123',
     response: { role: 'personal', name: 'Personal Trainer' },
@@ -128,6 +134,12 @@ const TEST_CREDENTIALS: Record<string, { password: string; response: LoginSucces
   'aluno@fitforge.app': {
     password: 'aluno123',
     response: { role: 'aluno', name: 'Aluno' },
+    status: 'ativo',
+  },
+  'aluno.inativo@fitforge.app': {
+    password: 'aluno123',
+    response: { role: 'aluno', name: 'Aluno Inativo' },
+    status: 'inativo',
   },
 }
 
@@ -137,6 +149,13 @@ export const handlers = [
     const match = TEST_CREDENTIALS[email]
 
     if (match && match.password === password) {
+      if (match.response.role === 'aluno' && match.status !== 'ativo') {
+        return HttpResponse.json<LoginSuccessResponse | LoginErrorResponse>(
+          { message: 'A sua conta de aluno está inativa. Contacte o seu personal trainer.' },
+          { status: 401 },
+        )
+      }
+
       return HttpResponse.json<LoginSuccessResponse | LoginErrorResponse>(match.response, {
         status: 200,
         headers: {
@@ -158,6 +177,13 @@ export const handlers = [
     if (!match) {
       return HttpResponse.json<LoginSuccessResponse | LoginErrorResponse>(
         { message: 'Not authenticated.' },
+        { status: 401 },
+      )
+    }
+
+    if (match.response.role === 'aluno' && match.status !== 'ativo') {
+      return HttpResponse.json<LoginSuccessResponse | LoginErrorResponse>(
+        { message: 'A sua conta de aluno está inativa. Contacte o seu personal trainer.' },
         { status: 401 },
       )
     }
