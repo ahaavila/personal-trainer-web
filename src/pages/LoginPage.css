@@ -144,6 +144,11 @@
   align-items: center;
   gap: 0.5rem;
   color: #cbbfa3;
+  cursor: pointer;
+}
+
+.login-form__checkbox input {
+  cursor: pointer;
 }
 
 .login-form__link {

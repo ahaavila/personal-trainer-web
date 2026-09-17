@@ -4,13 +4,29 @@ import { login } from '../auth/api'
 import { useAuth } from '../auth/useAuth'
 import './LoginPage.css'
 
+const REMEMBERED_EMAIL_KEY = 'fitforge:remembered_email'
+
 function LoginPage() {
   const emailId = useId()
   const passwordId = useId()
+  const rememberMeId = useId()
   const navigate = useNavigate()
   const { setUser } = useAuth()
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(() => {
+    try {
+      return localStorage.getItem(REMEMBERED_EMAIL_KEY) || ''
+    } catch {
+      return ''
+    }
+  })
   const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(() => {
+    try {
+      return Boolean(localStorage.getItem(REMEMBERED_EMAIL_KEY))
+    } catch {
+      return false
+    }
+  })
   const [emailError, setEmailError] = useState<string | null>(null)
   const [passwordError, setPasswordError] = useState<string | null>(null)
   const [formError, setFormError] = useState<string | null>(null)
@@ -31,7 +47,22 @@ function LoginPage() {
 
     setIsSubmitting(true)
     try {
-      const user = await login({ email: trimmedEmail, password: trimmedPassword })
+      const user = await login({
+        email: trimmedEmail,
+        password: trimmedPassword,
+        rememberMe,
+      })
+
+      try {
+        if (rememberMe) {
+          localStorage.setItem(REMEMBERED_EMAIL_KEY, trimmedEmail)
+        } else {
+          localStorage.removeItem(REMEMBERED_EMAIL_KEY)
+        }
+      } catch {
+        // Ignore storage errors if localStorage is restricted
+      }
+
       setUser(user)
       navigate('/dashboard')
     } catch (error) {
@@ -97,8 +128,13 @@ function LoginPage() {
           </div>
 
           <div className="login-form__row">
-            <label className="login-form__checkbox">
-              <input type="checkbox" />
+            <label className="login-form__checkbox" htmlFor={rememberMeId}>
+              <input
+                id={rememberMeId}
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(event) => setRememberMe(event.target.checked)}
+              />
               Lembrar de mim
             </label>
             <a className="login-form__link" href="#forgot-password" onClick={(e) => e.preventDefault()}>

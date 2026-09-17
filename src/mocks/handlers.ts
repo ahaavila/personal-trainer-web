@@ -145,7 +145,7 @@ const TEST_CREDENTIALS: Record<string, TestCredentialUser> = {
 
 export const handlers = [
   http.post('/api/auth/login', async ({ request }) => {
-    const { email, password } = (await request.json()) as LoginRequestBody
+    const { email, password, rememberMe } = (await request.json()) as LoginRequestBody
     const match = TEST_CREDENTIALS[email]
 
     if (match && match.password === password) {
@@ -156,10 +156,14 @@ export const handlers = [
         )
       }
 
+      const cookieHeader = rememberMe
+        ? `${MOCK_SESSION_COOKIE}=${email}; Path=/; Max-Age=2592000`
+        : `${MOCK_SESSION_COOKIE}=${email}; Path=/`
+
       return HttpResponse.json<LoginSuccessResponse | LoginErrorResponse>(match.response, {
         status: 200,
         headers: {
-          'Set-Cookie': `${MOCK_SESSION_COOKIE}=${email}; Path=/`,
+          'Set-Cookie': cookieHeader,
         },
       })
     }
