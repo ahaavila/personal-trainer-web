@@ -31,6 +31,5 @@ export const PERSONAL_MENU_ITEMS: MenuItem[] = [
 export const ALUNO_MENU_ITEMS: MenuItem[] = [
   { label: 'Dashboard', path: '/dashboard', icon: Grid2X2 },
   { label: 'Ficha de treino', path: '/ficha-de-treino-atual', icon: ClipboardList },
-  { label: 'Treinos', path: '/treinos', icon: History },
   { label: 'Meu perfil', path: '/meu-perfil', icon: PersonStanding },
 ]
