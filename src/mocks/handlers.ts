@@ -1,5 +1,7 @@
 import { http, HttpResponse } from 'msw'
 import type {
+  ChangePasswordRequestBody,
+  ChangePasswordResponse,
   ForgotPasswordRequestBody,
   ForgotPasswordResponse,
   LoginErrorResponse,
@@ -7,6 +9,8 @@ import type {
   LoginSuccessResponse,
   ResetPasswordRequestBody,
   ResetPasswordResponse,
+  UpdateProfileRequestBody,
+  UserProfileResponse,
 } from '../auth/types'
 import type { PersonalDashboardData, StudentDashboardData } from '../dashboard/types'
 import type { AlunoListItem } from '../alunos/types'
@@ -368,25 +372,36 @@ const TRAINING_PLANS: TrainingPlan[] = [
 ]
 
 interface TestCredentialUser {
+  id?: number
   password: string
   response: LoginSuccessResponse
   status?: string
+  avatarUrl?: string | null
+  objective?: string | null
+  level?: string | null
 }
 
 const TEST_CREDENTIALS: Record<string, TestCredentialUser> = {
   'personal@fitforge.app': {
+    id: 1,
     password: 'personal123',
     response: { role: 'personal', name: 'Personal Trainer' },
   },
   'aluno@fitforge.app': {
+    id: 2,
     password: 'aluno123',
     response: { role: 'aluno', name: 'Aluno' },
     status: 'ativo',
+    objective: 'Hipertrofia',
+    level: 'Iniciante',
   },
   'aluno.inativo@fitforge.app': {
+    id: 3,
     password: 'aluno123',
     response: { role: 'aluno', name: 'Aluno Inativo' },
     status: 'inativo',
+    objective: 'Condicionamento',
+    level: 'Avançado',
   },
 }
 
@@ -512,6 +527,104 @@ export const handlers = [
 
     return HttpResponse.json<LoginSuccessResponse | LoginErrorResponse>(match.response, {
       status: 200,
+    })
+  }),
+
+  http.get('/api/auth/profile', ({ cookies }) => {
+    const email = cookies[MOCK_SESSION_COOKIE]
+    const match = email ? TEST_CREDENTIALS[email] : undefined
+
+    if (!match) {
+      return HttpResponse.json<UserProfileResponse | LoginErrorResponse>(
+        { message: 'Not authenticated.' },
+        { status: 401 },
+      )
+    }
+
+    const profile: UserProfileResponse = {
+      id: match.id || 1,
+      name: match.response.name,
+      email,
+      role: match.response.role,
+      avatarUrl: match.avatarUrl,
+      objective: match.objective,
+      level: match.level,
+      status: match.status,
+    }
+
+    return HttpResponse.json<UserProfileResponse | LoginErrorResponse>(profile, { status: 200 })
+  }),
+
+  http.patch('/api/auth/profile', async ({ cookies, request }) => {
+    const email = cookies[MOCK_SESSION_COOKIE]
+    const match = email ? TEST_CREDENTIALS[email] : undefined
+
+    if (!match) {
+      return HttpResponse.json<UserProfileResponse | LoginErrorResponse>(
+        { message: 'Not authenticated.' },
+        { status: 401 },
+      )
+    }
+
+    const body = (await request.json()) as UpdateProfileRequestBody
+
+    if (!body.name || !body.name.trim()) {
+      return HttpResponse.json<UserProfileResponse | LoginErrorResponse>(
+        { message: 'O nome não pode estar vazio.' },
+        { status: 400 },
+      )
+    }
+
+    match.response.name = body.name.trim()
+    if (body.avatarUrl !== undefined) match.avatarUrl = body.avatarUrl
+    if (body.objective !== undefined) match.objective = body.objective || undefined
+    if (body.level !== undefined) match.level = body.level || undefined
+
+    const profile: UserProfileResponse = {
+      id: match.id || 1,
+      name: match.response.name,
+      email,
+      role: match.response.role,
+      avatarUrl: match.avatarUrl,
+      objective: match.objective,
+      level: match.level,
+      status: match.status,
+    }
+
+    return HttpResponse.json<UserProfileResponse | LoginErrorResponse>(profile, { status: 200 })
+  }),
+
+  http.post('/api/auth/change-password', async ({ cookies, request }) => {
+    const email = cookies[MOCK_SESSION_COOKIE]
+    const match = email ? TEST_CREDENTIALS[email] : undefined
+
+    if (!match) {
+      return HttpResponse.json<LoginErrorResponse>(
+        { message: 'Not authenticated.' },
+        { status: 401 },
+      )
+    }
+
+    const { currentPassword, newPassword } = (await request.json()) as ChangePasswordRequestBody
+
+    if (!currentPassword || match.password !== currentPassword) {
+      return HttpResponse.json<LoginErrorResponse>(
+        { message: 'A senha atual está incorreta.' },
+        { status: 400 },
+      )
+    }
+
+    if (!newPassword || newPassword.length < 6) {
+      return HttpResponse.json<LoginErrorResponse>(
+        { message: 'A nova senha deve ter pelo menos 6 caracteres.' },
+        { status: 400 },
+      )
+    }
+
+    match.password = newPassword
+
+    return HttpResponse.json<ChangePasswordResponse>({
+      message: 'Senha alterada com sucesso.',
     })
   }),
 

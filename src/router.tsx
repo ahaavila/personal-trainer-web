@@ -13,6 +13,7 @@ import NovoExercicioPage from './pages/NovoExercicioPage'
 import NovaFichaTreinoPage from './pages/NovaFichaTreinoPage'
 import TreinosPage from './pages/TreinosPage'
 import EvolucaoPage from './pages/EvolucaoPage'
+import MeuPerfilPage from './pages/MeuPerfilPage'
 
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/login" replace /> },
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
         path: '/evolucao',
         element: <RequireRole role="personal"><EvolucaoPage /></RequireRole>,
       },
-      { path: '/meu-perfil', element: <ComingSoonPage title="Meu Perfil" /> },
+      { path: '/meu-perfil', element: <MeuPerfilPage /> },
       {
         path: '/criar-utilizador',
         element: <RequireRole role="personal"><NovoAlunoPage /></RequireRole>,

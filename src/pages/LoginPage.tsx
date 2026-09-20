@@ -147,21 +147,6 @@ function LoginPage() {
           </button>
 
           {formError && <p className="login-form__error login-form__error--form">{formError}</p>}
-
-          <div className="login-form__divider">
-            <span>ou</span>
-          </div>
-
-          <button
-            type="button"
-            className="login-form__google"
-            onClick={(event) => event.preventDefault()}
-          >
-            <span className="login-form__google-icon" aria-hidden="true">
-              G
-            </span>
-            Continuar com Google
-          </button>
         </form>
 
         <p className="login-panel__footer">

@@ -33,3 +33,30 @@ export interface ResetPasswordRequestBody {
 export interface ResetPasswordResponse {
   message: string
 }
+
+export interface UserProfileResponse {
+  id: number
+  name: string
+  email: string
+  role: Role
+  avatarUrl?: string | null
+  objective?: string | null
+  level?: string | null
+  status?: string | null
+}
+
+export interface UpdateProfileRequestBody {
+  name: string
+  avatarUrl?: string | null
+  objective?: string | null
+  level?: string | null
+}
+
+export interface ChangePasswordRequestBody {
+  currentPassword: string
+  newPassword: string
+}
+
+export interface ChangePasswordResponse {
+  message: string
+}

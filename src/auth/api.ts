@@ -1,4 +1,6 @@
 import type {
+  ChangePasswordRequestBody,
+  ChangePasswordResponse,
   ForgotPasswordRequestBody,
   ForgotPasswordResponse,
   LoginErrorResponse,
@@ -6,6 +8,8 @@ import type {
   LoginSuccessResponse,
   ResetPasswordRequestBody,
   ResetPasswordResponse,
+  UpdateProfileRequestBody,
+  UserProfileResponse,
 } from './types'
 
 export async function login(body: LoginRequestBody): Promise<LoginSuccessResponse> {
@@ -79,4 +83,53 @@ export async function resetPassword(body: ResetPasswordRequestBody): Promise<Res
   }
 
   return data as ResetPasswordResponse
+}
+
+export async function getProfileDetails(): Promise<UserProfileResponse> {
+  const response = await fetch('/api/auth/profile', {
+    method: 'GET',
+    credentials: 'include',
+  })
+
+  const data = (await response.json()) as UserProfileResponse | LoginErrorResponse
+
+  if (!response.ok) {
+    throw new Error((data as LoginErrorResponse).message || 'Não foi possível carregar os dados do perfil.')
+  }
+
+  return data as UserProfileResponse
+}
+
+export async function updateProfile(body: UpdateProfileRequestBody): Promise<UserProfileResponse> {
+  const response = await fetch('/api/auth/profile', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(body),
+  })
+
+  const data = (await response.json()) as UserProfileResponse | LoginErrorResponse
+
+  if (!response.ok) {
+    throw new Error((data as LoginErrorResponse).message || 'Não foi possível atualizar o perfil.')
+  }
+
+  return data as UserProfileResponse
+}
+
+export async function changePassword(body: ChangePasswordRequestBody): Promise<ChangePasswordResponse> {
+  const response = await fetch('/api/auth/change-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(body),
+  })
+
+  const data = (await response.json()) as ChangePasswordResponse | LoginErrorResponse
+
+  if (!response.ok) {
+    throw new Error((data as LoginErrorResponse).message || 'Não foi possível alterar a senha.')
+  }
+
+  return data as ChangePasswordResponse
 }

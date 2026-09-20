@@ -168,41 +168,6 @@
   cursor: pointer;
 }
 
-.login-form__divider {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: #6f6a5f;
-  font-size: 0.8rem;
-}
-
-.login-form__divider::before,
-.login-form__divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: #2a251c;
-}
-
-.login-form__google {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  border: 1px solid #2a251c;
-  border-radius: 0.5rem;
-  padding: 0.8rem;
-  background: #16130f;
-  color: #f2ede4;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.login-form__google-icon {
-  font-weight: 700;
-  color: #e2a83e;
-}
-
 .login-panel__footer {
   text-align: center;
   color: #a7a095;
