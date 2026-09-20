@@ -16,7 +16,6 @@ export interface AlunoListItem {
 export interface CreateAlunoInput {
   name: string
   email: string
-  password: string
   objective: 'hipertrofia' | 'emagrecimento' | 'condicionamento'
   level: 'iniciante' | 'intermediario' | 'avancado'
 }

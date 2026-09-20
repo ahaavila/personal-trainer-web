@@ -314,12 +314,11 @@ export const handlers = [
     const input = (await request.json()) as {
       name?: string
       email?: string
-      password?: string
       objective?: string
       level?: string
     }
 
-    if (!input.name || !input.email || !input.password || !input.objective || !input.level) {
+    if (!input.name || !input.email || !input.objective || !input.level) {
       return HttpResponse.json({ message: 'Invalid aluno data' }, { status: 400 })
     }
 
@@ -338,6 +337,21 @@ export const handlers = [
       latestWorkout: null,
     }
     ALUNOS.push(aluno)
+
+    // Generate activation / password setup token in mock memory
+    const token = `invite-${Math.random().toString(36).substring(2, 10)}`
+    RESET_TOKENS.set(token, {
+      email,
+      expiresAt: Date.now() + 3600000,
+    })
+
+    // Register test credential entry placeholder (student must set password before logging in)
+    TEST_CREDENTIALS[email] = {
+      password: '',
+      response: { role: 'aluno', name: input.name },
+      status: 'ativo',
+    }
+
     return HttpResponse.json(aluno, { status: 201 })
   }),
 

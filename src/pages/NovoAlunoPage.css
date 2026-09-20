@@ -12,9 +12,6 @@
 .novo-aluno-form input, .novo-aluno-form select { width: 100%; box-sizing: border-box; min-height: 2.7rem; border: 1px solid #48453e; border-radius: .6rem; padding: 0 .75rem; outline: 0; color: #f2efe8; background: #10110f; font: inherit; font-size: .9rem; }
 .novo-aluno-form input:focus, .novo-aluno-form select:focus { border-color: #dcae43; }
 .novo-aluno-form__field small, .novo-aluno-form__server-error { color: #ef9e8d; font-size: .75rem; font-weight: 500; }
-.novo-aluno-form__password { position: relative; }
-.novo-aluno-form__password input { padding-right: 2.8rem; }
-.novo-aluno-form__password button { position: absolute; right: .2rem; top: .2rem; display: grid; width: 2.3rem; height: 2.3rem; place-items: center; border: 0; color: #aaa69d; background: transparent; cursor: pointer; }
 .novo-aluno-form__server-error { margin: 1rem 1.4rem 0; }
 .novo-aluno-form footer { display: flex; align-items: center; justify-content: flex-end; gap: 1rem; padding: 1rem 1.4rem; }
 .novo-aluno-form footer button { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; border: 0; border-radius: .6rem; padding: 0 .9rem; color: #211909; background: linear-gradient(135deg, #f0c65e, #bd8c27); font-weight: 800; cursor: pointer; }
