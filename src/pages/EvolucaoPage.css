@@ -1,0 +1,425 @@
+.evolucao-page {
+  min-height: 100vh;
+  padding: 2rem 2.2rem 3rem;
+  color: #f2efe8;
+  background: #0d0e0d;
+}
+
+.evolucao-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.evolucao-header h1 {
+  margin: 0 0 0.35rem;
+  color: #f4f0e8;
+  font-size: 2rem;
+}
+
+.evolucao-header p {
+  margin: 0;
+  color: #aaa69d;
+}
+
+.evolucao-selector-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #161715;
+  border: 1px solid #302f2b;
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+}
+
+.evolucao-selector-box label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #dcae43;
+  white-space: nowrap;
+}
+
+.evolucao-selector-box select {
+  min-height: 2.4rem;
+  padding: 0 0.75rem;
+  background: #10110f;
+  border: 1px solid #48453e;
+  border-radius: 0.5rem;
+  color: #f2efe8;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.evolucao-empty-prompt {
+  background: linear-gradient(145deg, #1a1b1a, #151615);
+  border: 1px dashed #3a3832;
+  border-radius: 1rem;
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.evolucao-empty-prompt__icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: #24221a;
+  color: #e2a83e;
+  display: grid;
+  place-items: center;
+}
+
+.evolucao-empty-prompt h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #f4f0e8;
+}
+
+.evolucao-empty-prompt p {
+  margin: 0;
+  color: #aaa69d;
+  max-width: 32rem;
+}
+
+/* Aluno Summary Card */
+.aluno-summary-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  background: linear-gradient(145deg, #1c1d1b, #151615);
+  border: 1px solid #302f2b;
+  border-radius: 1rem;
+  padding: 1.25rem 1.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.aluno-summary-card__profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.aluno-summary-card__avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #f0c85e, #a97a24);
+  color: #211909;
+  font-size: 1rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+.aluno-summary-card__details strong {
+  display: block;
+  font-size: 1.2rem;
+  color: #f4f0e8;
+}
+
+.aluno-summary-card__details small {
+  color: #aaa69d;
+  font-size: 0.85rem;
+}
+
+.aluno-summary-card__tags {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.aluno-summary-card__tag {
+  background: #222320;
+  border: 1px solid #333430;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  color: #ded9cd;
+}
+
+.aluno-summary-card__tag strong {
+  color: #e2a83e;
+}
+
+/* Tabs */
+.evolucao-tabs {
+  display: flex;
+  gap: 0.75rem;
+  border-bottom: 1px solid #2a2926;
+  margin-bottom: 1.5rem;
+}
+
+.evolucao-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #aaa69d;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.evolucao-tab-btn:hover {
+  color: #f2efe8;
+}
+
+.evolucao-tab-btn--active {
+  color: #e2a83e;
+  border-bottom-color: #e2a83e;
+}
+
+/* Tab 1: Timeline Cards */
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.timeline-card {
+  background: linear-gradient(145deg, #181917, #131412);
+  border: 1px solid #2e2d29;
+  border-radius: 0.85rem;
+  padding: 1.4rem;
+  text-align: left;
+}
+
+.timeline-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid #262522;
+  margin-bottom: 1rem;
+}
+
+.timeline-card__title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f4f0e8;
+}
+
+.timeline-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #aaa69d;
+  font-size: 0.85rem;
+}
+
+.timeline-card__notes {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  color: #cbbfa3;
+  font-style: italic;
+}
+
+.timeline-exercises-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.timeline-exercises-table th {
+  padding: 0.5rem 0.75rem;
+  color: #8c887f;
+  background: #1c1d1a;
+  text-align: left;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.timeline-exercises-table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #222320;
+  color: #dedad0;
+}
+
+.timeline-exercises-table tr:last-child td {
+  border-bottom: none;
+}
+
+.timeline-load-badge {
+  display: inline-block;
+  background: #2b2413;
+  color: #f2c265;
+  border: 1px solid #4a3e20;
+  border-radius: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  font-weight: 700;
+}
+
+/* Tab 2: Exercise Evolution */
+.exercise-evolution-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: left;
+}
+
+.exercise-evolution-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #171816;
+  border: 1px solid #2a2926;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.25rem;
+}
+
+.exercise-evolution-controls label {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #e2a83e;
+}
+
+.exercise-evolution-controls select {
+  min-height: 2.4rem;
+  padding: 0 0.75rem;
+  background: #10110f;
+  border: 1px solid #48453e;
+  border-radius: 0.5rem;
+  color: #f2efe8;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.metric-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1rem;
+}
+
+.metric-card {
+  background: linear-gradient(145deg, #1a1b19, #141513);
+  border: 1px solid #2d2c28;
+  border-radius: 0.75rem;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.metric-card__label {
+  font-size: 0.75rem;
+  color: #aaa69d;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metric-card__value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #f4f0e8;
+}
+
+.metric-card__delta {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.metric-card__delta--positive {
+  color: #64bc61;
+}
+
+.metric-card__delta--neutral {
+  color: #aaa69d;
+}
+
+.chart-card {
+  background: linear-gradient(145deg, #181917, #131412);
+  border: 1px solid #2d2c28;
+  border-radius: 0.85rem;
+  padding: 1.5rem;
+}
+
+.chart-card h3 {
+  margin: 0 0 1.25rem;
+  font-size: 1rem;
+  color: #f4f0e8;
+}
+
+.history-comparison-card {
+  background: linear-gradient(145deg, #181917, #131412);
+  border: 1px solid #2d2c28;
+  border-radius: 0.85rem;
+  padding: 1.5rem;
+}
+
+.history-comparison-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  color: #f4f0e8;
+}
+
+.history-comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.history-comparison-table th {
+  padding: 0.6rem 0.8rem;
+  color: #8c887f;
+  background: #1c1d1a;
+  text-align: left;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.history-comparison-table td {
+  padding: 0.75rem 0.8rem;
+  border-bottom: 1px solid #222320;
+  color: #dedad0;
+}
+
+.delta-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.35rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.delta-badge--up {
+  background: #193818;
+  color: #72d96d;
+}
+
+.delta-badge--neutral {
+  background: #252422;
+  color: #aaa69d;
+}
+
+@media (max-width: 768px) {
+  .evolucao-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .aluno-summary-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

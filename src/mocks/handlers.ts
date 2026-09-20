@@ -12,6 +12,7 @@ import type { PersonalDashboardData, StudentDashboardData } from '../dashboard/t
 import type { AlunoListItem } from '../alunos/types'
 import type { ExerciseListItem } from '../exercicios/types'
 import type { CreateTrainingPlanInput, CreateTrainingPlanResponse, TrainingPlan } from '../fichas/types'
+import type { StudentProgressData } from '../progresso/types'
 
 const MOCK_SESSION_COOKIE = 'mock_session'
 
@@ -51,6 +52,244 @@ const ALUNOS: AlunoListItem[] = [
   { id: 2, name: 'Lucas Almeida', email: 'lucas.almeida@email.com', objective: 'Emagrecimento', level: 'Iniciante', status: 'ativo', latestWorkout: { name: 'Treino B', completedAt: '2026-09-08T19:00:00.000Z' } },
   { id: 3, name: 'Beatriz Rocha', email: 'beatriz.rocha@email.com', objective: 'Condicionamento', level: 'Avançado', status: 'inativo', latestWorkout: null },
 ]
+
+const STUDENT_PROGRESS_MOCKS: Record<number, StudentProgressData> = {
+  1: {
+    aluno: {
+      id: 1,
+      name: 'Mariana Costa',
+      email: 'mariana.costa@email.com',
+      objective: 'Hipertrofia',
+      level: 'Intermediário',
+      status: 'ativo',
+      totalWorkouts: 8,
+    },
+    workoutLogs: [
+      {
+        id: 104,
+        title: 'Treino A · Peito e Tríceps',
+        startedAt: '2026-09-18T08:00:00.000Z',
+        completedAt: '2026-09-18T08:52:00.000Z',
+        durationMinutes: 52,
+        notes: 'Sessão intensa, aumentou carga no supino.',
+        exercises: [
+          {
+            id: 201,
+            exerciseName: 'Supino reto',
+            muscleGroup: 'Peito',
+            setsCompleted: 4,
+            repsCompleted: '10, 10, 8, 8',
+            maxWeightKg: 80,
+            notes: 'Boa amplitude e controlo excêntrico.',
+          },
+          {
+            id: 202,
+            exerciseName: 'Remada baixa',
+            muscleGroup: 'Costas',
+            setsCompleted: 3,
+            repsCompleted: '12, 10, 10',
+            maxWeightKg: 55,
+          },
+        ],
+      },
+      {
+        id: 103,
+        title: 'Treino A · Peito e Tríceps',
+        startedAt: '2026-09-14T08:10:00.000Z',
+        completedAt: '2026-09-14T09:00:00.000Z',
+        durationMinutes: 50,
+        exercises: [
+          {
+            id: 203,
+            exerciseName: 'Supino reto',
+            muscleGroup: 'Peito',
+            setsCompleted: 4,
+            repsCompleted: '10, 10, 10, 8',
+            maxWeightKg: 75,
+            notes: 'Manteve a carga anterior.',
+          },
+        ],
+      },
+      {
+        id: 102,
+        title: 'Treino A · Peito e Tríceps',
+        startedAt: '2026-09-08T08:00:00.000Z',
+        completedAt: '2026-09-08T08:48:00.000Z',
+        durationMinutes: 48,
+        exercises: [
+          {
+            id: 204,
+            exerciseName: 'Supino reto',
+            muscleGroup: 'Peito',
+            setsCompleted: 4,
+            repsCompleted: '12, 10, 10, 10',
+            maxWeightKg: 75,
+          },
+          {
+            id: 205,
+            exerciseName: 'Remada baixa',
+            muscleGroup: 'Costas',
+            setsCompleted: 3,
+            repsCompleted: '12, 12, 10',
+            maxWeightKg: 50,
+          },
+        ],
+      },
+      {
+        id: 101,
+        title: 'Treino A · Peito e Tríceps',
+        startedAt: '2026-09-01T08:00:00.000Z',
+        completedAt: '2026-09-01T08:45:00.000Z',
+        durationMinutes: 45,
+        notes: 'Início do ciclo de adaptação.',
+        exercises: [
+          {
+            id: 206,
+            exerciseName: 'Supino reto',
+            muscleGroup: 'Peito',
+            setsCompleted: 3,
+            repsCompleted: '12, 12, 10',
+            maxWeightKg: 70,
+          },
+          {
+            id: 207,
+            exerciseName: 'Remada baixa',
+            muscleGroup: 'Costas',
+            setsCompleted: 3,
+            repsCompleted: '12, 12, 12',
+            maxWeightKg: 45,
+          },
+        ],
+      },
+    ],
+    exerciseProgress: {
+      'supino-reto': {
+        exerciseId: 2,
+        exerciseName: 'Supino reto',
+        muscleGroup: 'Peito',
+        currentMaxLoad: 80,
+        startLoad: 70,
+        totalGainKg: 10,
+        percentageGain: 14.3,
+        totalSessions: 4,
+        points: [
+          {
+            date: '2026-09-01',
+            sessionTitle: 'Treino A',
+            setsCompleted: 3,
+            repsCompleted: '12, 12, 10',
+            maxWeightKg: 70,
+          },
+          {
+            date: '2026-09-08',
+            sessionTitle: 'Treino A',
+            setsCompleted: 4,
+            repsCompleted: '12, 10, 10, 10',
+            maxWeightKg: 75,
+          },
+          {
+            date: '2026-09-14',
+            sessionTitle: 'Treino A',
+            setsCompleted: 4,
+            repsCompleted: '10, 10, 10, 8',
+            maxWeightKg: 75,
+          },
+          {
+            date: '2026-09-18',
+            sessionTitle: 'Treino A',
+            setsCompleted: 4,
+            repsCompleted: '10, 10, 8, 8',
+            maxWeightKg: 80,
+          },
+        ],
+      },
+      'remada-baixa': {
+        exerciseId: 3,
+        exerciseName: 'Remada baixa',
+        muscleGroup: 'Costas',
+        currentMaxLoad: 55,
+        startLoad: 45,
+        totalGainKg: 10,
+        percentageGain: 22.2,
+        totalSessions: 3,
+        points: [
+          {
+            date: '2026-09-01',
+            sessionTitle: 'Treino A',
+            setsCompleted: 3,
+            repsCompleted: '12, 12, 12',
+            maxWeightKg: 45,
+          },
+          {
+            date: '2026-09-08',
+            sessionTitle: 'Treino A',
+            setsCompleted: 3,
+            repsCompleted: '12, 12, 10',
+            maxWeightKg: 50,
+          },
+          {
+            date: '2026-09-18',
+            sessionTitle: 'Treino A',
+            setsCompleted: 3,
+            repsCompleted: '12, 10, 10',
+            maxWeightKg: 55,
+          },
+        ],
+      },
+    },
+  },
+  2: {
+    aluno: {
+      id: 2,
+      name: 'Lucas Almeida',
+      email: 'lucas.almeida@email.com',
+      objective: 'Emagrecimento',
+      level: 'Iniciante',
+      status: 'ativo',
+      totalWorkouts: 3,
+    },
+    workoutLogs: [
+      {
+        id: 110,
+        title: 'Treino B · Costas e Bíceps',
+        startedAt: '2026-09-08T19:00:00.000Z',
+        completedAt: '2026-09-08T19:40:00.000Z',
+        durationMinutes: 40,
+        exercises: [
+          {
+            id: 210,
+            exerciseName: 'Remada baixa',
+            muscleGroup: 'Costas',
+            setsCompleted: 3,
+            repsCompleted: '12, 12, 10',
+            maxWeightKg: 35,
+          },
+        ],
+      },
+    ],
+    exerciseProgress: {
+      'remada-baixa': {
+        exerciseId: 3,
+        exerciseName: 'Remada baixa',
+        muscleGroup: 'Costas',
+        currentMaxLoad: 35,
+        startLoad: 35,
+        totalGainKg: 0,
+        percentageGain: 0,
+        totalSessions: 1,
+        points: [
+          {
+            date: '2026-09-08',
+            sessionTitle: 'Treino B',
+            setsCompleted: 3,
+            repsCompleted: '12, 12, 10',
+            maxWeightKg: 35,
+          },
+        ],
+      },
+    },
+  },
+}
 
 const EXERCISES: ExerciseListItem[] = [
   { id: 1, muscleGroup: 'Perna', level: 'intermediario', name: 'Agachamento livre', equipment: 'Barra', description: 'Exercício composto para membros inferiores.', defaultSets: 4, defaultReps: '8 a 10' },
@@ -304,6 +543,40 @@ export const handlers = [
       return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
     }
     return HttpResponse.json(ALUNOS)
+  }),
+
+  http.get('/api/alunos/:id/progresso', ({ cookies, params }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const alunoId = Number(params.id)
+    const progress = STUDENT_PROGRESS_MOCKS[alunoId]
+
+    if (progress) {
+      return HttpResponse.json(progress)
+    }
+
+    // Check if aluno exists in ALUNOS list even without mock sessions
+    const aluno = ALUNOS.find((a) => a.id === alunoId)
+    if (aluno) {
+      const emptyProgress: StudentProgressData = {
+        aluno: {
+          id: aluno.id || alunoId,
+          name: aluno.name,
+          email: aluno.email,
+          objective: aluno.objective,
+          level: aluno.level,
+          status: aluno.status,
+          totalWorkouts: 0,
+        },
+        workoutLogs: [],
+        exerciseProgress: {},
+      }
+      return HttpResponse.json(emptyProgress)
+    }
+
+    return HttpResponse.json({ message: 'Aluno não encontrado' }, { status: 404 })
   }),
 
   http.post('/api/alunos', async ({ cookies, request }) => {

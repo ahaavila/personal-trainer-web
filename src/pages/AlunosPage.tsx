@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
-import { Search, UserPlus } from 'lucide-react'
+import { Search, TrendingUp, UserPlus } from 'lucide-react'
 import { getAlunos } from '../alunos/api'
 import type { AlunoListItem, AlunoStatus } from '../alunos/types'
 import './AlunosPage.css'
@@ -69,7 +69,7 @@ function AlunosPage() {
           <select aria-label="Filtrar por objetivo" value={objective} onChange={(event) => setObjective(event.target.value)}><option value="all">Todos os objetivos</option>{objectives.map((value) => <option key={value} value={value}>{value}</option>)}</select>
         </div>
 
-        {loading ? <p className="alunos-state">A carregar alunos...</p> : error ? <div className="alunos-state"><p>{error}</p><button type="button" onClick={() => { setLoading(true); setError(null); setRetry((value) => value + 1) }}>Tentar novamente</button></div> : alunos.length === 0 ? <p className="alunos-state">Ainda não tem alunos associados.</p> : filteredAlunos.length === 0 ? <p className="alunos-state">Nenhum aluno corresponde aos filtros selecionados.</p> : <div className="alunos-table-wrap"><table className="alunos-table"><thead><tr><th>Aluno</th><th>Objetivo</th><th>Nível</th><th>Último treino</th><th>Estado</th></tr></thead><tbody>{filteredAlunos.map((aluno) => <tr key={aluno.email}><td data-label="Aluno"><span className="alunos-avatar">{initials(aluno.name)}</span><span><strong>{aluno.name}</strong><small>{aluno.email}</small></span></td><td data-label="Objetivo">{aluno.objective}</td><td data-label="Nível">{aluno.level}</td><td data-label="Último treino">{latestWorkoutLabel(aluno)}</td><td data-label="Estado"><span className={`alunos-status alunos-status--${aluno.status.replace(' ', '-')}`}>{STATUS_LABELS[aluno.status]}</span></td></tr>)}</tbody></table></div>}
+        {loading ? <p className="alunos-state">A carregar alunos...</p> : error ? <div className="alunos-state"><p>{error}</p><button type="button" onClick={() => { setLoading(true); setError(null); setRetry((value) => value + 1) }}>Tentar novamente</button></div> : alunos.length === 0 ? <p className="alunos-state">Ainda não tem alunos associados.</p> : filteredAlunos.length === 0 ? <p className="alunos-state">Nenhum aluno corresponde aos filtros selecionados.</p> : <div className="alunos-table-wrap"><table className="alunos-table"><thead><tr><th>Aluno</th><th>Objetivo</th><th>Nível</th><th>Último treino</th><th>Estado</th><th>Ações</th></tr></thead><tbody>{filteredAlunos.map((aluno) => <tr key={aluno.email}><td data-label="Aluno"><span className="alunos-avatar">{initials(aluno.name)}</span><span><strong>{aluno.name}</strong><small>{aluno.email}</small></span></td><td data-label="Objetivo">{aluno.objective}</td><td data-label="Nível">{aluno.level}</td><td data-label="Último treino">{latestWorkoutLabel(aluno)}</td><td data-label="Estado"><span className={`alunos-status alunos-status--${aluno.status.replace(' ', '-')}`}>{STATUS_LABELS[aluno.status]}</span></td><td data-label="Ações"><Link to={`/evolucao?alunoId=${aluno.id || 1}`} className="alunos-action-btn" title="Ver evolução"><TrendingUp size={16} /><span>Evolução</span></Link></td></tr>)}</tbody></table></div>}
       </section>
     </main>
   )
