@@ -1,5 +1,5 @@
 import { useId, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { login } from '../auth/api'
 import { useAuth } from '../auth/useAuth'
 import './LoginPage.css'
@@ -137,9 +137,9 @@ function LoginPage() {
               />
               Lembrar de mim
             </label>
-            <a className="login-form__link" href="#forgot-password" onClick={(e) => e.preventDefault()}>
+            <Link className="login-form__link" to="/esqueci-minha-senha">
               Esqueci minha senha?
-            </a>
+            </Link>
           </div>
 
           <button type="submit" className="login-form__submit" disabled={isSubmitting}>

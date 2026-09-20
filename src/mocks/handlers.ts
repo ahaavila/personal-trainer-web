@@ -1,5 +1,13 @@
 import { http, HttpResponse } from 'msw'
-import type { LoginErrorResponse, LoginRequestBody, LoginSuccessResponse } from '../auth/types'
+import type {
+  ForgotPasswordRequestBody,
+  ForgotPasswordResponse,
+  LoginErrorResponse,
+  LoginRequestBody,
+  LoginSuccessResponse,
+  ResetPasswordRequestBody,
+  ResetPasswordResponse,
+} from '../auth/types'
 import type { PersonalDashboardData, StudentDashboardData } from '../dashboard/types'
 import type { AlunoListItem } from '../alunos/types'
 import type { ExerciseListItem } from '../exercicios/types'
@@ -143,7 +151,78 @@ const TEST_CREDENTIALS: Record<string, TestCredentialUser> = {
   },
 }
 
+interface ResetTokenData {
+  email: string
+  expiresAt: number
+}
+
+const RESET_TOKENS = new Map<string, ResetTokenData>([
+  ['mock-token-personal', { email: 'personal@fitforge.app', expiresAt: Date.now() + 3600000 }],
+])
+
 export const handlers = [
+  http.post('/api/auth/forgot-password', async ({ request }) => {
+    const { email } = (await request.json()) as ForgotPasswordRequestBody
+
+    if (!email || typeof email !== 'string') {
+      return HttpResponse.json<LoginErrorResponse>(
+        { message: 'O e-mail é obrigatório.' },
+        { status: 400 },
+      )
+    }
+
+    const token = `reset-${Math.random().toString(36).substring(2, 10)}`
+    RESET_TOKENS.set(token, {
+      email,
+      expiresAt: Date.now() + 3600000,
+    })
+
+    const simulatedUrl = `/redefinir-senha?token=${token}`
+
+    return HttpResponse.json<ForgotPasswordResponse>({
+      message: 'Se o e-mail estiver registado, enviámos instruções para redefinir a sua senha.',
+      token,
+      simulatedUrl,
+    })
+  }),
+
+  http.post('/api/auth/reset-password', async ({ request }) => {
+    const { token, password } = (await request.json()) as ResetPasswordRequestBody
+
+    if (!token) {
+      return HttpResponse.json<LoginErrorResponse>(
+        { message: 'Token de recuperação inválido ou em falta.' },
+        { status: 400 },
+      )
+    }
+
+    const tokenData = RESET_TOKENS.get(token)
+    if (!tokenData || tokenData.expiresAt < Date.now()) {
+      return HttpResponse.json<LoginErrorResponse>(
+        { message: 'Token de recuperação inválido ou expirado.' },
+        { status: 400 },
+      )
+    }
+
+    if (!password || password.length < 6) {
+      return HttpResponse.json<LoginErrorResponse>(
+        { message: 'A nova senha deve ter pelo menos 6 caracteres.' },
+        { status: 400 },
+      )
+    }
+
+    const user = TEST_CREDENTIALS[tokenData.email]
+    if (user) {
+      user.password = password
+    }
+
+    RESET_TOKENS.delete(token)
+
+    return HttpResponse.json<ResetPasswordResponse>({
+      message: 'Senha redefinida com sucesso. Pode agora iniciar sessão com a sua nova senha.',
+    })
+  }),
+
   http.post('/api/auth/login', async ({ request }) => {
     const { email, password, rememberMe } = (await request.json()) as LoginRequestBody
     const match = TEST_CREDENTIALS[email]

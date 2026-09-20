@@ -3,6 +3,8 @@ import AppLayout from './layouts/AppLayout'
 import RequireRole from './auth/RequireRole'
 import ComingSoonPage from './pages/ComingSoonPage'
 import LoginPage from './pages/LoginPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 import DashboardPage from './pages/DashboardPage'
 import AlunosPage from './pages/AlunosPage'
 import NovoAlunoPage from './pages/NovoAlunoPage'
@@ -14,6 +16,8 @@ import TreinosPage from './pages/TreinosPage'
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/login" replace /> },
   { path: '/login', element: <LoginPage /> },
+  { path: '/esqueci-minha-senha', element: <ForgotPasswordPage /> },
+  { path: '/redefinir-senha', element: <ResetPasswordPage /> },
   {
     element: <AppLayout />,
     children: [

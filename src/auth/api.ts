@@ -1,4 +1,12 @@
-import type { LoginErrorResponse, LoginRequestBody, LoginSuccessResponse } from './types'
+import type {
+  ForgotPasswordRequestBody,
+  ForgotPasswordResponse,
+  LoginErrorResponse,
+  LoginRequestBody,
+  LoginSuccessResponse,
+  ResetPasswordRequestBody,
+  ResetPasswordResponse,
+} from './types'
 
 export async function login(body: LoginRequestBody): Promise<LoginSuccessResponse> {
   const response = await fetch('/api/auth/login', {
@@ -39,4 +47,36 @@ export async function logout(): Promise<void> {
     method: 'POST',
     credentials: 'include',
   })
+}
+
+export async function requestPasswordReset(body: ForgotPasswordRequestBody): Promise<ForgotPasswordResponse> {
+  const response = await fetch('/api/auth/forgot-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+
+  const data = (await response.json()) as ForgotPasswordResponse | LoginErrorResponse
+
+  if (!response.ok) {
+    throw new Error((data as LoginErrorResponse).message || 'Erro ao solicitar recuperação de senha.')
+  }
+
+  return data as ForgotPasswordResponse
+}
+
+export async function resetPassword(body: ResetPasswordRequestBody): Promise<ResetPasswordResponse> {
+  const response = await fetch('/api/auth/reset-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+
+  const data = (await response.json()) as ResetPasswordResponse | LoginErrorResponse
+
+  if (!response.ok) {
+    throw new Error((data as LoginErrorResponse).message || 'Erro ao redefinir senha.')
+  }
+
+  return data as ResetPasswordResponse
 }

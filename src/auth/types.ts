@@ -14,3 +14,22 @@ export interface LoginSuccessResponse {
 export interface LoginErrorResponse {
   message: string
 }
+
+export interface ForgotPasswordRequestBody {
+  email: string
+}
+
+export interface ForgotPasswordResponse {
+  message: string
+  token?: string
+  simulatedUrl?: string
+}
+
+export interface ResetPasswordRequestBody {
+  token: string
+  password: string
+}
+
+export interface ResetPasswordResponse {
+  message: string
+}
