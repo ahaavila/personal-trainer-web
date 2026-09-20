@@ -52,3 +52,23 @@ export interface StudentProgressData {
   workoutLogs: WorkoutSessionLog[]
   exerciseProgress: Record<string, ExerciseProgressSummary> // keyed by exerciseId or name
 }
+
+export interface CreateExercicioExecucaoPayload {
+  exercicioId: number
+  order?: number
+  setsCompleted: number
+  repsCompleted: string
+  maxWeightKg: number
+  notes?: string
+}
+
+export interface CreateWorkoutExecutionPayload {
+  alunoId?: number
+  treinoId?: number
+  title: string
+  startedAt: string
+  completedAt: string
+  durationMinutes: number
+  notes?: string
+  exercicios: CreateExercicioExecucaoPayload[]
+}

@@ -78,3 +78,17 @@ export async function deleteTrainingPlan(id: number | string): Promise<void> {
     throw new Error(payload.message || 'Não foi possível excluir a ficha de treino.')
   }
 }
+
+export async function requestPlanActivation(): Promise<{ message: string }> {
+  const response = await fetch('/api/fichas-de-treino/solicitar-ativacao', {
+    method: 'POST',
+    credentials: 'include',
+  })
+
+  if (!response.ok) {
+    const payload = (await response.json().catch(() => ({}))) as { message?: string }
+    throw new Error(payload.message || 'Não foi possível enviar a solicitação ao personal.')
+  }
+
+  return (await response.json()) as { message: string }
+}

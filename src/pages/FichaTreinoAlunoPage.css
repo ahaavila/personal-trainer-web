@@ -1,0 +1,363 @@
+.ficha-aluno-page {
+  min-height: 100vh;
+  padding: 2rem 2.2rem 3rem;
+  color: #f2efe8;
+  background: #0d0e0d;
+  text-align: left;
+}
+
+.ficha-aluno-header {
+  margin-bottom: 2rem;
+}
+
+.ficha-aluno-header h1 {
+  margin: 0 0 0.35rem;
+  color: #f4f0e8;
+  font-size: 2rem;
+}
+
+.ficha-aluno-header p {
+  margin: 0;
+  color: #aaa69d;
+}
+
+.ficha-aluno-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+  gap: 1.5rem;
+}
+
+.ficha-aluno-card {
+  background: linear-gradient(145deg, #191a18, #131412);
+  border: 1px solid #302f2b;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+.ficha-aluno-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.ficha-aluno-card__top h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.25rem;
+  color: #f4f0e8;
+}
+
+.ficha-aluno-card__dates {
+  font-size: 0.82rem;
+  color: #aaa69d;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ficha-aluno-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ficha-aluno-badge--active {
+  background: #193818;
+  color: #72d96d;
+  border: 1px solid #285429;
+}
+
+.ficha-aluno-badge--archived {
+  background: #252422;
+  color: #aaa69d;
+  border: 1px solid #383733;
+}
+
+.ficha-aluno-card__notes {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #cbbfa3;
+  line-height: 1.4;
+}
+
+.ficha-aluno-card__meta {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.85rem;
+  color: #e2a83e;
+  background: #1f1d16;
+  padding: 0.6rem 0.85rem;
+  border-radius: 0.5rem;
+}
+
+.ficha-aluno-card__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.6rem;
+  padding: 0 1.25rem;
+  border-radius: 0.55rem;
+  border: 0;
+  background: linear-gradient(135deg, #f0c65e, #bd8c27);
+  color: #211909;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Modal Inspection view for aluno */
+.plan-inspection-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 11, 10, 0.92);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.plan-inspection-container {
+  background: linear-gradient(145deg, #181917, #131412);
+  border: 1px solid #33322d;
+  border-radius: 1.25rem;
+  width: 100%;
+  max-width: 52rem;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+  color: #f2efe8;
+  text-align: left;
+}
+
+.plan-inspection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #282723;
+  background: #141513;
+  border-radius: 1.25rem 1.25rem 0 0;
+}
+
+.plan-inspection-header h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.4rem;
+  color: #f4f0e8;
+}
+
+.plan-inspection-header p {
+  margin: 0;
+  color: #aaa69d;
+  font-size: 0.85rem;
+}
+
+.plan-inspection-body {
+  padding: 1.5rem 2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.division-card {
+  background: #191a18;
+  border: 1px solid #2d2c28;
+  border-radius: 0.85rem;
+  padding: 1.25rem;
+}
+
+.division-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.division-card__header h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #f4f0e8;
+}
+
+.division-start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.2rem;
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: linear-gradient(135deg, #f0c65e, #bd8c27);
+  color: #211909;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.division-start-btn--disabled {
+  background: #252422;
+  color: #7d7870;
+  border: 1px solid #383733;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.plan-inactive-notice {
+  background: #2b2311;
+  border: 1px solid #57461d;
+  border-radius: 0.6rem;
+  padding: 0.75rem 1rem;
+  color: #f2c265;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* No active plan banner */
+.no-active-plan-banner {
+  background: linear-gradient(145deg, #1f1b13, #151410);
+  border: 1px solid #4a3e20;
+  border-radius: 1rem;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.no-active-plan-banner__content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.no-active-plan-banner__icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: #2c2311;
+  color: #e2a83e;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.no-active-plan-banner h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.15rem;
+  color: #f4f0e8;
+}
+
+.no-active-plan-banner p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #cbbfa3;
+  max-width: 38rem;
+  line-height: 1.45;
+}
+
+.no-active-plan-banner__success {
+  margin-top: 0.5rem !important;
+  color: #72d96d !important;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.no-active-plan-banner__error {
+  margin-top: 0.5rem !important;
+  color: #ef9e8d !important;
+  font-weight: 700;
+}
+
+.no-active-plan-banner__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1.25rem;
+  border-radius: 0.6rem;
+  border: none;
+  background: linear-gradient(135deg, #f0c65e, #bd8c27);
+  color: #211909;
+  font-weight: 800;
+  font-size: 0.88rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s ease;
+}
+
+.no-active-plan-banner__btn:hover {
+  opacity: 0.92;
+}
+
+.no-active-plan-banner__btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.division-exercises-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.division-exercises-table th {
+  padding: 0.5rem 0.75rem;
+  color: #8c887f;
+  background: #1c1d1a;
+  text-align: left;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.division-exercises-table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #242521;
+}
+
+.division-exercises-table tr:last-child td {
+  border-bottom: none;
+}
+
+.plan-inspection-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 2rem;
+  border-top: 1px solid #282723;
+  background: #141513;
+  border-radius: 0 0 1.25rem 1.25rem;
+}
+
+.plan-inspection-close-btn {
+  background: #252422;
+  border: 1px solid #383733;
+  color: #f2efe8;
+  border-radius: 0.5rem;
+  min-height: 2.4rem;
+  padding: 0 1.25rem;
+  cursor: pointer;
+  font-weight: 700;
+}

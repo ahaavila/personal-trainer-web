@@ -1,7 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router'
 import AppLayout from './layouts/AppLayout'
 import RequireRole from './auth/RequireRole'
-import ComingSoonPage from './pages/ComingSoonPage'
 import LoginPage from './pages/LoginPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
@@ -14,6 +13,7 @@ import NovaFichaTreinoPage from './pages/NovaFichaTreinoPage'
 import TreinosPage from './pages/TreinosPage'
 import EvolucaoPage from './pages/EvolucaoPage'
 import MeuPerfilPage from './pages/MeuPerfilPage'
+import FichaTreinoAlunoPage from './pages/FichaTreinoAlunoPage'
 
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/login" replace /> },
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/ficha-de-treino-atual',
-        element: <ComingSoonPage title="Ficha de Treino Atual" />,
+        element: <RequireRole role="aluno"><FichaTreinoAlunoPage /></RequireRole>,
       },
     ],
   },

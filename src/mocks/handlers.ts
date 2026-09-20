@@ -16,7 +16,7 @@ import type { PersonalDashboardData, StudentDashboardData } from '../dashboard/t
 import type { AlunoListItem } from '../alunos/types'
 import type { ExerciseListItem } from '../exercicios/types'
 import type { CreateTrainingPlanInput, CreateTrainingPlanResponse, TrainingPlan } from '../fichas/types'
-import type { StudentProgressData } from '../progresso/types'
+import type { CreateWorkoutExecutionPayload, StudentProgressData, WorkoutSessionLog } from '../progresso/types'
 
 const MOCK_SESSION_COOKIE = 'mock_session'
 
@@ -912,10 +912,136 @@ export const handlers = [
   }),
 
   http.get('/api/fichas-de-treino', ({ cookies }) => {
-    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+    const sessionEmail = cookies[MOCK_SESSION_COOKIE]
+    if (!sessionEmail) {
+      return HttpResponse.json({ message: 'Not authenticated.' }, { status: 401 })
+    }
+
+    if (sessionEmail === 'personal@fitforge.app') {
+      return HttpResponse.json(TRAINING_PLANS)
+    }
+
+    // If logged in as student, return only their plans
+    const studentPlans = TRAINING_PLANS.filter(
+      (p) => p.studentEmail?.toLowerCase() === sessionEmail.toLowerCase(),
+    )
+    return HttpResponse.json(studentPlans)
+  }),
+
+  http.post('/api/fichas-de-treino/solicitar-ativacao', ({ cookies }) => {
+    const sessionEmail = cookies[MOCK_SESSION_COOKIE]
+    if (!sessionEmail) {
+      return HttpResponse.json({ message: 'Not authenticated.' }, { status: 401 })
+    }
+
+    return HttpResponse.json({
+      message: 'O seu Personal Trainer foi notificado para preparar uma nova rotina de treinos.',
+    })
+  }),
+
+  http.get('/api/fichas-de-treino/:id', ({ cookies, params }) => {
+    const sessionEmail = cookies[MOCK_SESSION_COOKIE]
+    if (!sessionEmail) {
+      return HttpResponse.json({ message: 'Not authenticated.' }, { status: 401 })
+    }
+
+    const id = Number(params.id)
+    const plan = TRAINING_PLANS.find((p) => Number(p.id) === id)
+    if (!plan) {
+      return HttpResponse.json({ message: 'Ficha de treino não encontrada.' }, { status: 404 })
+    }
+
+    if (
+      sessionEmail !== 'personal@fitforge.app' &&
+      plan.studentEmail?.toLowerCase() !== sessionEmail.toLowerCase()
+    ) {
       return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
     }
-    return HttpResponse.json(TRAINING_PLANS)
+
+    return HttpResponse.json(plan)
+  }),
+
+  http.post('/api/treinos/execucoes', async ({ cookies, request }) => {
+    const sessionEmail = cookies[MOCK_SESSION_COOKIE]
+    if (!sessionEmail) {
+      return HttpResponse.json({ message: 'Not authenticated.' }, { status: 401 })
+    }
+
+    const payload = (await request.json()) as CreateWorkoutExecutionPayload
+
+    const user = TEST_CREDENTIALS[sessionEmail]
+    const alunoId = payload.alunoId || user?.id || 2
+    const alunoProgress = STUDENT_PROGRESS_MOCKS[alunoId]
+
+    const newLog: WorkoutSessionLog = {
+      id: Date.now(),
+      title: payload.title || 'Treino Realizado',
+      startedAt: payload.startedAt || new Date().toISOString(),
+      completedAt: payload.completedAt || new Date().toISOString(),
+      durationMinutes: payload.durationMinutes || 45,
+      notes: payload.notes,
+      exercises: (payload.exercicios || []).map((ex, index) => {
+        const foundEx = EXERCISES.find((e) => e.id === ex.exercicioId)
+        return {
+          id: Date.now() + index,
+          exerciseName: foundEx?.name || `Exercício ${ex.exercicioId}`,
+          muscleGroup: foundEx?.muscleGroup || 'Geral',
+          setsCompleted: ex.setsCompleted,
+          repsCompleted: ex.repsCompleted,
+          maxWeightKg: ex.maxWeightKg,
+          notes: ex.notes,
+        }
+      }),
+    }
+
+    if (alunoProgress) {
+      alunoProgress.workoutLogs.unshift(newLog)
+      alunoProgress.aluno.totalWorkouts += 1
+
+      // Update exercise progress points
+      const sessionDate = newLog.completedAt.split('T')[0]
+      for (const ex of newLog.exercises) {
+        const key = ex.exerciseName.toLowerCase().replace(/\s+/g, '-')
+        if (!alunoProgress.exerciseProgress[key]) {
+          alunoProgress.exerciseProgress[key] = {
+            exerciseId: ex.id,
+            exerciseName: ex.exerciseName,
+            muscleGroup: ex.muscleGroup,
+            currentMaxLoad: ex.maxWeightKg,
+            startLoad: ex.maxWeightKg,
+            totalGainKg: 0,
+            percentageGain: 0,
+            totalSessions: 1,
+            points: [
+              {
+                date: sessionDate,
+                sessionTitle: newLog.title,
+                setsCompleted: ex.setsCompleted,
+                repsCompleted: ex.repsCompleted,
+                maxWeightKg: ex.maxWeightKg,
+              },
+            ],
+          }
+        } else {
+          const series = alunoProgress.exerciseProgress[key]
+          series.points.push({
+            date: sessionDate,
+            sessionTitle: newLog.title,
+            setsCompleted: ex.setsCompleted,
+            repsCompleted: ex.repsCompleted,
+            maxWeightKg: ex.maxWeightKg,
+          })
+          series.currentMaxLoad = Math.max(series.currentMaxLoad, ex.maxWeightKg)
+          series.totalSessions += 1
+          series.totalGainKg = series.currentMaxLoad - series.startLoad
+          series.percentageGain = series.startLoad > 0
+            ? Math.round(((series.currentMaxLoad - series.startLoad) / series.startLoad) * 1000) / 10
+            : 0
+        }
+      }
+    }
+
+    return HttpResponse.json(newLog, { status: 201 })
   }),
 
   http.post('/api/fichas-de-treino', async ({ cookies, request }) => {
