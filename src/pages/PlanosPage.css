@@ -2,6 +2,8 @@
   padding: 2.2rem 2.8rem;
   max-width: 1080px;
   margin: 0 auto;
+  background: var(--brand-bg, #0d0e0d);
+  min-height: 100vh;
 }
 
 .planos-page__header {
@@ -105,9 +107,9 @@
 }
 
 .planos-badge--pro {
-  background: #2b2311;
-  border: 1px solid #e6b94e;
-  color: #f2c265;
+  background: var(--brand-primary-subtle, #2b2311);
+  border: 1px solid var(--brand-primary, #e6b94e);
+  color: var(--brand-primary, #f2c265);
 }
 
 .planos-grid {
@@ -133,21 +135,21 @@
 }
 
 .planos-card--highlight {
-  border-color: #73571d;
+  border-color: var(--brand-primary-border, #73571d);
   background: linear-gradient(180deg, #181712 0%, #111210 100%);
-  box-shadow: 0 10px 30px rgba(230, 185, 78, 0.06);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .planos-card--highlight:hover {
-  border-color: #e6b94e;
+  border-color: var(--brand-primary, #e6b94e);
 }
 
 .planos-card__badge-promo {
   position: absolute;
   top: -11px;
   right: 24px;
-  background: #e6b94e;
-  color: #19160e;
+  background: var(--brand-primary, #e6b94e);
+  color: var(--brand-btn-text, #19160e);
   font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -156,7 +158,7 @@
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  box-shadow: 0 4px 10px rgba(230, 185, 78, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .planos-card__badge-current {
@@ -249,14 +251,14 @@
 }
 
 .planos-btn--primary {
-  background: #e6b94e;
-  color: #1a160d;
-  border: 1px solid #e6b94e;
+  background: var(--brand-primary-gradient, var(--brand-primary, #e6b94e));
+  color: var(--brand-btn-text, #1a160d);
+  border: 1px solid var(--brand-primary, #e6b94e);
 }
 
 .planos-btn--primary:hover:not(:disabled) {
-  background: #f4c85d;
-  box-shadow: 0 6px 18px rgba(230, 185, 78, 0.28);
+  opacity: 0.92;
+  box-shadow: 0 6px 18px var(--brand-primary-subtle, rgba(230, 185, 78, 0.28));
 }
 
 .planos-btn--outline {

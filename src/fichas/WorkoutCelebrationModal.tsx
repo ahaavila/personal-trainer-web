@@ -28,14 +28,14 @@ export function WorkoutCelebrationModal({ payload, onClose }: WorkoutCelebration
     >
       <div
         style={{
-          background: 'linear-gradient(145deg, #1b1c19, #131412)',
-          border: '1px solid #e2a83e',
+          background: 'var(--brand-bg-card, linear-gradient(145deg, #1b1c19, #131412))',
+          border: '1px solid var(--brand-primary, #e2a83e)',
           borderRadius: '1.25rem',
           maxWidth: '32rem',
           width: '100%',
           padding: '2.5rem',
           textAlign: 'center',
-          boxShadow: '0 20px 50px rgba(226, 168, 62, 0.2)',
+          boxShadow: '0 20px 50px var(--brand-primary-subtle, rgba(226, 168, 62, 0.2))',
           color: '#f4f0e8',
         }}
       >
@@ -44,8 +44,8 @@ export function WorkoutCelebrationModal({ payload, onClose }: WorkoutCelebration
             width: '4.5rem',
             height: '4.5rem',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #f0c65e, #bd8c27)',
-            color: '#211909',
+            background: 'var(--brand-primary-gradient, linear-gradient(135deg, #f0c65e, #bd8c27))',
+            color: 'var(--brand-btn-text, #211909)',
             display: 'grid',
             placeItems: 'center',
             margin: '0 auto 1.5rem',
@@ -70,7 +70,7 @@ export function WorkoutCelebrationModal({ payload, onClose }: WorkoutCelebration
           }}
         >
           <div style={{ background: '#191a18', border: '1px solid #33322d', borderRadius: '0.75rem', padding: '1rem' }}>
-            <Clock size={18} color="#e2a83e" style={{ margin: '0 auto 0.4rem' }} />
+            <Clock size={18} color="var(--brand-primary, #e2a83e)" style={{ margin: '0 auto 0.4rem' }} />
             <div style={{ fontSize: '1.3rem', fontWeight: 800 }}>{payload.durationMinutes}m</div>
             <div style={{ fontSize: '0.72rem', color: '#8f877b', textTransform: 'uppercase' }}>Duração</div>
           </div>
@@ -82,7 +82,7 @@ export function WorkoutCelebrationModal({ payload, onClose }: WorkoutCelebration
           </div>
 
           <div style={{ background: '#191a18', border: '1px solid #33322d', borderRadius: '0.75rem', padding: '1rem' }}>
-            <Dumbbell size={18} color="#f2c265" style={{ margin: '0 auto 0.4rem' }} />
+            <Dumbbell size={18} color="var(--brand-primary, #f2c265)" style={{ margin: '0 auto 0.4rem' }} />
             <div style={{ fontSize: '1.3rem', fontWeight: 800 }}>{maxLoad} kg</div>
             <div style={{ fontSize: '0.72rem', color: '#8f877b', textTransform: 'uppercase' }}>Carga Pico</div>
           </div>
@@ -96,8 +96,8 @@ export function WorkoutCelebrationModal({ payload, onClose }: WorkoutCelebration
             minHeight: '2.8rem',
             border: 'none',
             borderRadius: '0.6rem',
-            background: 'linear-gradient(135deg, #f0c65e, #bd8c27)',
-            color: '#211909',
+            background: 'var(--brand-primary-gradient, linear-gradient(135deg, #f0c65e, #bd8c27))',
+            color: 'var(--brand-btn-text, #211909)',
             fontSize: '1rem',
             fontWeight: 800,
             cursor: 'pointer',

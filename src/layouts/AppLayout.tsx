@@ -5,6 +5,7 @@ import { logout } from '../auth/api'
 import { useAuth } from '../auth/useAuth'
 import { getAlunos } from '../alunos/api'
 import { getExercises } from '../exercicios/api'
+import { applyTheme, getBranding } from '../branding/api'
 import type { AlunoListItem } from '../alunos/types'
 import type { ExerciseListItem } from '../exercicios/types'
 import { ALUNO_MENU_ITEMS, PERSONAL_MENU_ITEMS } from '../navigation/menuItems'
@@ -47,6 +48,42 @@ function AppLayout() {
       return null
     }
   })
+
+  const [customLogoUrl, setCustomLogoUrl] = useState<string | null>(null)
+
+  // Load and apply custom branding (for PRO personal trainer or student of PRO personal)
+  useEffect(() => {
+    if (!user) return
+    let cancelled = false
+
+    const loadBranding = () => {
+      getBranding()
+        .then((res) => {
+          if (cancelled) return
+          if (res.branding.logoUrl || res.branding.primaryColor || res.branding.backgroundColor) {
+            setCustomLogoUrl(res.branding.logoUrl)
+            applyTheme(res.branding.primaryColor, res.branding.backgroundColor)
+          } else {
+            setCustomLogoUrl(null)
+            applyTheme(null, null)
+          }
+        })
+        .catch(() => {
+          if (!cancelled) {
+            setCustomLogoUrl(null)
+            applyTheme(null, null)
+          }
+        })
+    }
+
+    loadBranding()
+    window.addEventListener('fitforge:branding_updated', loadBranding)
+
+    return () => {
+      cancelled = true
+      window.removeEventListener('fitforge:branding_updated', loadBranding)
+    }
+  }, [user])
 
   // Load search pool only if user is Personal Trainer
   useEffect(() => {
@@ -174,7 +211,11 @@ function AppLayout() {
       <aside className="app-sidebar">
         <div className="app-sidebar__brand">
           <span className="app-sidebar__logo" aria-hidden="true">
-            <Dumbbell size={19} strokeWidth={2.5} />
+            {customLogoUrl ? (
+              <img src={customLogoUrl} alt="Logo personalizada" className="app-sidebar__custom-logo" />
+            ) : (
+              <Dumbbell size={19} strokeWidth={2.5} />
+            )}
           </span>
           <span>FitManager Pro</span>
         </div>

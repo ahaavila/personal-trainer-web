@@ -1,4 +1,13 @@
 :root {
+  --brand-primary: #e6b94e;
+  --brand-btn-text: #1a160d;
+  --brand-primary-hover: #f4c85d;
+  --brand-primary-gradient: linear-gradient(135deg, #f0c65e, #bd8c27);
+  --brand-primary-subtle: rgba(230, 185, 78, 0.15);
+  --brand-primary-border: rgba(230, 185, 78, 0.4);
+  --brand-bg: #0c0a08;
+  --brand-bg-sidebar: #090a09;
+  --brand-bg-card: #151615;
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;

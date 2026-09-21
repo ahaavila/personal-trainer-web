@@ -64,7 +64,7 @@ function PersonalDashboard({
         </div>
         <div className="dashboard-view__actions">
           {!isPro && (
-            <Link className="dashboard-button dashboard-button--muted" to="/planos" style={{ color: '#e6b94e', borderColor: '#52431e' }}>
+            <Link className="dashboard-button dashboard-button--muted" to="/planos" style={{ color: 'var(--brand-primary, #e6b94e)', borderColor: 'var(--brand-primary-border, #52431e)' }}>
               <Sparkles size={17} /> Upgrade PRO
             </Link>
           )}

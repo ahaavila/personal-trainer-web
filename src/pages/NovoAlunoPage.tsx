@@ -96,13 +96,13 @@ function NovoAlunoPage() {
           <h1>Criar conta de aluno</h1>
           <p>Defina os dados iniciais para vincular o aluno ao seu acompanhamento.</p>
         </div>
-        <Link to="/alunos">Voltar para alunos</Link>
+        <Link to="/alunos" className="novo-aluno-back-link">Voltar para alunos</Link>
       </header>
 
       {isQuotaReached && (
         <div className="novo-aluno-quota-warning" role="alert">
           <div className="novo-aluno-quota-warning__text">
-            <Sparkles size={18} color="#e6b94e" />
+            <Sparkles size={18} color="var(--brand-primary, #e6b94e)" />
             <span>
               <strong>Limite de alunos atingido:</strong> Já tem 5 alunos ativos no Plano Básico.
             </span>
@@ -169,7 +169,7 @@ function NovoAlunoPage() {
         </section>
         {serverError && <p className="novo-aluno-form__server-error" role="alert">{serverError}</p>}
         <footer>
-          <Link to="/alunos">Cancelar</Link>
+          <Link to="/alunos" className="novo-aluno-btn-cancel">Cancelar</Link>
           <button type="submit" disabled={isSubmitting}>
             <UserPlus size={18} /> {isSubmitting ? 'A criar...' : 'Criar aluno'}
           </button>

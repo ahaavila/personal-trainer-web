@@ -39,7 +39,7 @@
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #dcae43;
+  color: var(--brand-primary, #dcae43);
   margin-bottom: 0.25rem;
 }
 
@@ -103,7 +103,7 @@
 }
 
 .exercise-picker-modal__search-input:focus {
-  border-color: #dcae43;
+  border-color: var(--brand-primary, #dcae43);
 }
 
 .exercise-picker-modal__group-pills {
@@ -132,9 +132,9 @@
 }
 
 .exercise-picker-modal__pill.is-active {
-  background: #dcae43;
-  color: #1a1508;
-  border-color: #dcae43;
+  background: var(--brand-primary, #dcae43);
+  color: var(--brand-btn-text, #1a1508);
+  border-color: var(--brand-primary, #dcae43);
   font-weight: 700;
 }
 
@@ -199,8 +199,8 @@
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: #dcae43;
-  background: rgba(220, 174, 67, 0.12);
+  color: var(--brand-primary, #dcae43);
+  background: var(--brand-primary-subtle, rgba(220, 174, 67, 0.12));
   padding: 0.15rem 0.45rem;
   border-radius: 0.3rem;
 }
@@ -250,20 +250,20 @@
 }
 
 .exercise-picker-card__add-btn:hover {
-  background: #dcae43;
-  color: #1a1508;
-  border-color: #dcae43;
+  background: var(--brand-primary, #dcae43);
+  color: var(--brand-btn-text, #1a1508);
+  border-color: var(--brand-primary, #dcae43);
 }
 
 .exercise-picker-card__add-btn.is-already-added {
-  background: rgba(220, 174, 67, 0.08);
-  border-color: rgba(220, 174, 67, 0.3);
-  color: #dcae43;
+  background: var(--brand-primary-subtle, rgba(220, 174, 67, 0.08));
+  border-color: var(--brand-primary-border, rgba(220, 174, 67, 0.3));
+  color: var(--brand-primary, #dcae43);
 }
 
 .exercise-picker-card__add-btn.is-already-added:hover {
-  background: #dcae43;
-  color: #1a1508;
+  background: var(--brand-primary, #dcae43);
+  color: var(--brand-btn-text, #1a1508);
 }
 
 @media (max-width: 640px) {

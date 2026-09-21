@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from 'react'
-import { Camera, Check, KeyRound, Shield, Trash2, User } from 'lucide-react'
+import { Link } from 'react-router'
+import { Camera, Check, KeyRound, Palette, RotateCcw, Shield, Sparkles, Trash2, User, Zap } from 'lucide-react'
 import { changePassword, getProfileDetails, updateProfile } from '../auth/api'
 import type { UserProfileResponse } from '../auth/types'
+import { getSubscriptionStatus } from '../subscription/api'
+import type { SubscriptionStatusResponse } from '../subscription/types'
+import { applyTheme, getBranding, updateBranding } from '../branding/api'
 import { useAuth } from '../auth/useAuth'
 import './MeuPerfilPage.css'
 
@@ -42,6 +46,16 @@ export default function MeuPerfilPage() {
   const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null)
   const [passwordError, setPasswordError] = useState<string | null>(null)
 
+  // Subscription and Branding State
+  const [subscription, setSubscription] = useState<SubscriptionStatusResponse | null>(null)
+  const [brandLogoUrl, setBrandLogoUrl] = useState<string | null>(null)
+  const [brandPrimaryColor, setBrandPrimaryColor] = useState('#e6b94e')
+  const [brandBackgroundColor, setBrandBackgroundColor] = useState('#0c0a08')
+  const [brandingSaving, setBrandingSaving] = useState(false)
+  const [brandingSuccess, setBrandingSuccess] = useState<string | null>(null)
+  const [brandingError, setBrandingError] = useState<string | null>(null)
+  const brandLogoInputRef = useRef<HTMLInputElement>(null)
+
   useEffect(() => {
     let cancelled = false
     getProfileDetails()
@@ -75,6 +89,28 @@ export default function MeuPerfilPage() {
           setErrorLoading(err instanceof Error ? err.message : 'Não foi possível carregar os dados do perfil.')
           setLoading(false)
         }
+      })
+
+    // Load subscription and branding if user is personal trainer
+    getSubscriptionStatus()
+      .then((sub) => {
+        if (!cancelled) setSubscription(sub)
+      })
+      .catch(() => {
+        // Ignore subscription fetch failure
+      })
+
+    getBranding()
+      .then((b) => {
+        if (!cancelled && b.branding) {
+          setBrandLogoUrl(b.branding.logoUrl)
+          if (b.branding.primaryColor) setBrandPrimaryColor(b.branding.primaryColor)
+          if (b.branding.backgroundColor) setBrandBackgroundColor(b.branding.backgroundColor)
+          applyTheme(b.branding.primaryColor, b.branding.backgroundColor)
+        }
+      })
+      .catch(() => {
+        // Ignore branding fetch failure
       })
 
     return () => {
@@ -210,6 +246,98 @@ export default function MeuPerfilPage() {
     }
   }
 
+  const handleBrandLogoChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (!file.type.startsWith('image/')) {
+      setBrandingError('Por favor selecione um arquivo de imagem válido (PNG ou JPG).')
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = (uploadEvent) => {
+      const img = new Image()
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        const maxDim = 320
+        let { width, height } = img
+
+        if (width > height) {
+          if (width > maxDim) {
+            height = Math.round((height * maxDim) / width)
+            width = maxDim
+          }
+        } else {
+          if (height > maxDim) {
+            width = Math.round((width * maxDim) / height)
+            height = maxDim
+          }
+        }
+
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext('2d')
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height)
+          setBrandLogoUrl(canvas.toDataURL('image/png', 0.9))
+        } else {
+          setBrandLogoUrl(uploadEvent.target?.result as string)
+        }
+      }
+      img.src = uploadEvent.target?.result as string
+    }
+    reader.readAsDataURL(file)
+  }
+
+  const handleSaveBranding = async (e: FormEvent) => {
+    e.preventDefault()
+    setBrandingSuccess(null)
+    setBrandingError(null)
+    setBrandingSaving(true)
+
+    try {
+      await updateBranding({
+        logoUrl: brandLogoUrl,
+        primaryColor: brandPrimaryColor,
+        backgroundColor: brandBackgroundColor,
+      })
+
+      applyTheme(brandPrimaryColor, brandBackgroundColor)
+      window.dispatchEvent(new Event('fitforge:branding_updated'))
+      setBrandingSuccess('Identidade visual atualizada com sucesso! Seus alunos já podem ver sua nova marca.')
+    } catch (err) {
+      setBrandingError(err instanceof Error ? err.message : 'Falha ao salvar personalização visual.')
+    } finally {
+      setBrandingSaving(false)
+    }
+  }
+
+  const handleResetBranding = async () => {
+    setBrandingSuccess(null)
+    setBrandingError(null)
+    setBrandingSaving(true)
+
+    try {
+      await updateBranding({
+        logoUrl: null,
+        primaryColor: '#e6b94e',
+        backgroundColor: '#0c0a08',
+      })
+
+      setBrandLogoUrl(null)
+      setBrandPrimaryColor('#e6b94e')
+      setBrandBackgroundColor('#0c0a08')
+      applyTheme(null, null)
+      window.dispatchEvent(new Event('fitforge:branding_updated'))
+      setBrandingSuccess('Cores e logotipo restaurados para os padrões originais.')
+    } catch (err) {
+      setBrandingError(err instanceof Error ? err.message : 'Falha ao restaurar padrões.')
+    } finally {
+      setBrandingSaving(false)
+    }
+  }
+
   const handleChangePassword = async (e: FormEvent) => {
     e.preventDefault()
     setPasswordErrors({})
@@ -333,7 +461,7 @@ export default function MeuPerfilPage() {
         <section className="meu-perfil-card">
           <header className="meu-perfil-card__header">
             <h2 className="meu-perfil-card__title">
-              <User size={18} color="#e2a83e" />
+              <User size={18} color="var(--brand-primary, #e2a83e)" />
               Dados Pessoais
             </h2>
           </header>
@@ -421,7 +549,7 @@ export default function MeuPerfilPage() {
         <section className="meu-perfil-card">
           <header className="meu-perfil-card__header">
             <h2 className="meu-perfil-card__title">
-              <KeyRound size={18} color="#e2a83e" />
+              <KeyRound size={18} color="var(--brand-primary, #e2a83e)" />
               Segurança & Senha
             </h2>
           </header>
@@ -500,6 +628,163 @@ export default function MeuPerfilPage() {
             </button>
           </form>
         </section>
+
+        {/* Section 3: Personalização Visual (PRO) - Personal Trainers only */}
+        {isPersonal && (
+          <section className="meu-perfil-card">
+            <header className="meu-perfil-card__header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <h2 className="meu-perfil-card__title">
+                  <Palette size={18} color="var(--brand-primary, #e2a83e)" />
+                  Personalização Visual da Marca
+                </h2>
+                <span className="meu-perfil-pro-tag">
+                  <Sparkles size={12} /> PRO
+                </span>
+              </div>
+            </header>
+
+            {subscription?.plan !== 'pro' ? (
+              <div className="meu-perfil-pro-locked">
+                <div className="meu-perfil-pro-locked__content">
+                  <Sparkles size={28} color="var(--brand-primary, #e6b94e)" />
+                  <h3>Recurso Exclusivo do Plano PRO</h3>
+                  <p>
+                    Personalize o aplicativo com a sua própria logomarca e paleta de cores para si e para todos os seus alunos!
+                  </p>
+                  <Link to="/planos" className="meu-perfil-btn meu-perfil-btn--upgrade">
+                    <Zap size={16} /> Fazer Upgrade para o Plano PRO
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <form className="meu-perfil-form" onSubmit={handleSaveBranding} noValidate>
+                {brandingSuccess && (
+                  <div className="meu-perfil-alert meu-perfil-alert--success">
+                    {brandingSuccess}
+                  </div>
+                )}
+                {brandingError && (
+                  <div className="meu-perfil-alert meu-perfil-alert--error">
+                    {brandingError}
+                  </div>
+                )}
+
+                <p style={{ margin: '0 0 1.25rem', color: '#aaa69d', fontSize: '0.88rem' }}>
+                  As alterações de logotipo e cores aqui definidas serão aplicadas imediatamente no seu painel e no acesso de todos os seus alunos vinculados.
+                </p>
+
+                {/* Logo Upload */}
+                <div className="meu-perfil-brand-logo-group">
+                  <span className="meu-perfil-field-heading">Logotipo do App</span>
+                  <div className="meu-perfil-brand-logo-row">
+                    <div className="meu-perfil-brand-logo-preview">
+                      {brandLogoUrl ? (
+                        <img src={brandLogoUrl} alt="Logo personalizada" />
+                      ) : (
+                        <span style={{ fontSize: '0.78rem', color: '#8c887f' }}>Padrão</span>
+                      )}
+                    </div>
+
+                    <input
+                      id="brand-logo-file-input"
+                      type="file"
+                      ref={brandLogoInputRef}
+                      onChange={handleBrandLogoChange}
+                      accept="image/png,image/jpeg,image/webp"
+                      style={{ display: 'none' }}
+                      aria-label="Upload de logotipo da marca"
+                    />
+
+                    <div style={{ display: 'flex', gap: '0.6rem' }}>
+                      <button
+                        type="button"
+                        className="meu-perfil-avatar-btn"
+                        onClick={() => brandLogoInputRef.current?.click()}
+                        disabled={brandingSaving}
+                      >
+                        <Camera size={14} />
+                        {brandLogoUrl ? 'Trocar Logotipo' : 'Carregar Logotipo'}
+                      </button>
+
+                      {brandLogoUrl && (
+                        <button
+                          type="button"
+                          className="meu-perfil-avatar-btn meu-perfil-avatar-btn--remove"
+                          onClick={() => setBrandLogoUrl(null)}
+                          disabled={brandingSaving}
+                        >
+                          <Trash2 size={14} />
+                          Remover
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Color Pickers */}
+                <div className="meu-perfil-form__row">
+                  <div className="meu-perfil-form__field">
+                    <label htmlFor="brand-primary-color">Cor Principal / Destaque</label>
+                    <div className="meu-perfil-color-picker-row">
+                      <input
+                        id="brand-primary-color"
+                        type="color"
+                        value={brandPrimaryColor}
+                        onChange={(e) => setBrandPrimaryColor(e.target.value)}
+                        className="meu-perfil-color-input"
+                      />
+                      <input
+                        type="text"
+                        value={brandPrimaryColor}
+                        onChange={(e) => setBrandPrimaryColor(e.target.value)}
+                        className="meu-perfil-color-text"
+                        placeholder="#e6b94e"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="meu-perfil-form__field">
+                    <label htmlFor="brand-bg-color">Cor de Fundo / Base Escura</label>
+                    <div className="meu-perfil-color-picker-row">
+                      <input
+                        id="brand-bg-color"
+                        type="color"
+                        value={brandBackgroundColor}
+                        onChange={(e) => setBrandBackgroundColor(e.target.value)}
+                        className="meu-perfil-color-input"
+                      />
+                      <input
+                        type="text"
+                        value={brandBackgroundColor}
+                        onChange={(e) => setBrandBackgroundColor(e.target.value)}
+                        className="meu-perfil-color-text"
+                        placeholder="#0c0a08"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="meu-perfil-branding-actions">
+                  <button type="submit" className="meu-perfil-btn" disabled={brandingSaving}>
+                    <Check size={18} />
+                    {brandingSaving ? 'A guardar...' : 'Guardar Identidade Visual'}
+                  </button>
+
+                  <button
+                    type="button"
+                    className="meu-perfil-btn meu-perfil-btn--reset"
+                    onClick={handleResetBranding}
+                    disabled={brandingSaving}
+                  >
+                    <RotateCcw size={16} />
+                    Restaurar Padrão
+                  </button>
+                </div>
+              </form>
+            )}
+          </section>
+        )}
       </div>
     </main>
   )

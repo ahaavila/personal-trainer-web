@@ -64,13 +64,13 @@
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 50%;
-  background: #2b2311;
-  border: 1px solid #54411b;
+  background: var(--brand-primary-subtle, #2b2311);
+  border: 1px solid var(--brand-primary, #54411b);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1.25rem;
-  box-shadow: 0 8px 20px rgba(230, 185, 78, 0.15);
+  box-shadow: 0 8px 20px var(--brand-primary-subtle, rgba(230, 185, 78, 0.15));
 }
 
 .paywall-card h2 {
@@ -112,7 +112,7 @@
 }
 
 .paywall-box__plan-title {
-  color: #e6b94e;
+  color: var(--brand-primary, #e6b94e);
   font-size: 1.05rem;
   font-weight: 800;
 }
@@ -178,14 +178,14 @@
 }
 
 .paywall-btn--primary {
-  background: #e6b94e;
-  color: #1a160d;
-  border: 1px solid #e6b94e;
+  background: var(--brand-primary-gradient, var(--brand-primary, #e6b94e));
+  color: var(--brand-btn-text, #1a160d);
+  border: 1px solid var(--brand-primary, #e6b94e);
 }
 
 .paywall-btn--primary:hover:not(:disabled) {
-  background: #f4c85d;
-  box-shadow: 0 6px 18px rgba(230, 185, 78, 0.28);
+  opacity: 0.92;
+  box-shadow: 0 6px 18px var(--brand-primary-subtle, rgba(230, 185, 78, 0.28));
 }
 
 .paywall-btn--secondary {

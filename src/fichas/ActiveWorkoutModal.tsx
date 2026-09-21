@@ -251,7 +251,7 @@ export function ActiveWorkoutModal({
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <div className="active-workout-timer-badge">
-              <Clock size={18} color="#e2a83e" />
+              <Clock size={18} color="var(--brand-primary, #e2a83e)" />
               <span className="active-workout-timer-text">{formatTimer(elapsedSeconds)}</span>
               <button
                 type="button"
@@ -279,7 +279,7 @@ export function ActiveWorkoutModal({
               gap: '0.75rem',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#e2a83e', fontSize: '0.85rem', fontWeight: 700 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--brand-primary, #e2a83e)', fontSize: '0.85rem', fontWeight: 700 }}>
               <Hourglass size={16} />
               <span>Tempo de Descanso entre Séries:</span>
             </div>
@@ -293,9 +293,9 @@ export function ActiveWorkoutModal({
                   style={{
                     padding: '0.25rem 0.6rem',
                     borderRadius: '0.4rem',
-                    border: selectedRestSeconds === sec ? '1px solid #e2a83e' : '1px solid #3d3b35',
-                    background: selectedRestSeconds === sec ? '#2b2311' : '#141513',
-                    color: selectedRestSeconds === sec ? '#f2c265' : '#aaa69d',
+                    border: selectedRestSeconds === sec ? '1px solid var(--brand-primary, #e2a83e)' : '1px solid #3d3b35',
+                    background: selectedRestSeconds === sec ? 'var(--brand-primary-subtle, #2b2311)' : '#141513',
+                    color: selectedRestSeconds === sec ? 'var(--brand-primary, #f2c265)' : '#aaa69d',
                     fontSize: '0.8rem',
                     fontWeight: 700,
                     cursor: 'pointer',

@@ -112,8 +112,8 @@
   display: flex;
   gap: 1.25rem;
   font-size: 0.8rem;
-  color: #e2a83e;
-  background: #24221a;
+  color: var(--brand-primary, #e2a83e);
+  background: var(--brand-primary-subtle, #24221a);
   padding: 0.4rem 0.8rem;
   border-radius: 0.4rem;
   margin-bottom: 1rem;
@@ -150,7 +150,7 @@
 }
 
 .sets-table input:focus {
-  border-color: #e2a83e;
+  border-color: var(--brand-primary, #e2a83e);
   outline: none;
 }
 
@@ -191,8 +191,8 @@
   padding: 0 1.5rem;
   border-radius: 0.6rem;
   border: 0;
-  background: linear-gradient(135deg, #f0c65e, #bd8c27);
-  color: #211909;
+  background: var(--brand-primary-gradient, linear-gradient(135deg, #f0c65e, #bd8c27));
+  color: var(--brand-btn-text, #211909);
   font-weight: 800;
   font-size: 0.95rem;
   cursor: pointer;

@@ -2,7 +2,7 @@
   min-height: 100vh;
   padding: 2rem 2.2rem 3rem;
   color: #f2efe8;
-  background: #0d0e0d;
+  background: var(--brand-bg, #0d0e0d);
   text-align: left;
 }
 
@@ -29,7 +29,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #e8bd51;
+  color: var(--brand-primary, #e8bd51);
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
@@ -47,8 +47,8 @@
 }
 
 .nova-ficha-card {
-  background: linear-gradient(145deg, #181918, #131413);
-  border: 1px solid #302f2b;
+  background: var(--brand-bg-card, linear-gradient(145deg, #181918, #131413));
+  border: 1px solid var(--brand-primary-border, #302f2b);
   border-radius: 1rem;
   padding: 1.6rem;
   display: flex;
@@ -72,7 +72,7 @@
 }
 
 .nova-ficha-card__icon {
-  color: #dcae43;
+  color: var(--brand-primary, #dcae43);
   margin-top: 0.2rem;
   flex-shrink: 0;
 }
@@ -128,7 +128,7 @@
 .nova-ficha-division-notes input:focus,
 .nova-ficha-division-name-input:focus,
 .nova-ficha-table-row input:focus {
-  border-color: #dcae43;
+  border-color: var(--brand-primary, #dcae43);
 }
 
 .nova-ficha-field textarea {
@@ -157,8 +157,8 @@
   align-items: center;
   gap: 0.45rem;
   background: #252623;
-  border: 1px solid #4a473f;
-  color: #e8bd51;
+  border: 1px solid var(--brand-primary-border, #4a473f);
+  color: var(--brand-primary, #e8bd51);
   font-size: 0.85rem;
   font-weight: 700;
   padding: 0.6rem 1rem;
@@ -169,7 +169,7 @@
 
 .nova-ficha-btn-secondary:hover {
   background: #31332f;
-  border-color: #dcae43;
+  border-color: var(--brand-primary, #dcae43);
 }
 
 /* Division Cards */
@@ -204,9 +204,9 @@
 }
 
 .nova-ficha-division-badge {
-  background: rgba(220, 174, 67, 0.15);
-  border: 1px solid rgba(220, 174, 67, 0.4);
-  color: #dcae43;
+  background: var(--brand-primary-subtle, rgba(220, 174, 67, 0.15));
+  border: 1px solid var(--brand-primary-border, rgba(220, 174, 67, 0.4));
+  color: var(--brand-primary, #dcae43);
   font-size: 0.75rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -275,20 +275,20 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: #dcae43;
+  background: var(--brand-primary, #dcae43);
   border: 0;
-  color: #1a1508;
+  color: var(--brand-btn-text, #1a1508);
   font-weight: 700;
   font-size: 0.85rem;
   padding: 0.6rem 1rem;
   border-radius: 0.5rem;
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition: background 0.15s ease, opacity 0.15s ease;
   margin-top: 0.5rem;
 }
 
 .nova-ficha-btn-add-exercise:hover {
-  background: #eed074;
+  background: var(--brand-primary-hover, #eed074);
 }
 
 .nova-ficha-exercises-table {
@@ -341,7 +341,7 @@
   height: 1.5rem;
   border-radius: 50%;
   background: #252623;
-  color: #dcae43;
+  color: var(--brand-primary, #dcae43);
   font-size: 0.75rem;
   font-weight: 800;
   flex-shrink: 0;
@@ -410,8 +410,8 @@
   align-items: center;
   gap: 0.4rem;
   background: transparent;
-  border: 1px dashed #48453e;
-  color: #e8bd51;
+  border: 1px dashed var(--brand-primary-border, #48453e);
+  color: var(--brand-primary, #e8bd51);
   font-size: 0.82rem;
   font-weight: 700;
   padding: 0.45rem 0.85rem;
@@ -421,8 +421,8 @@
 }
 
 .nova-ficha-btn-add-more-exercise:hover {
-  background: rgba(220, 174, 67, 0.08);
-  border-color: #dcae43;
+  background: var(--brand-primary-subtle, rgba(220, 174, 67, 0.08));
+  border-color: var(--brand-primary, #dcae43);
 }
 
 /* Server Error */
@@ -468,12 +468,12 @@
   border: 0;
   border-radius: 0.65rem;
   padding: 0 1.5rem;
-  color: #211909;
-  background: linear-gradient(135deg, #f0c65e, #bd8c27);
+  color: var(--brand-btn-text, #211909);
+  background: var(--brand-primary-gradient, linear-gradient(135deg, #f0c65e, #bd8c27));
   font-weight: 800;
   font-size: 0.95rem;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(220, 174, 67, 0.25);
+  box-shadow: 0 4px 12px var(--brand-primary-subtle, rgba(220, 174, 67, 0.25));
   transition: transform 0.1s ease, filter 0.15s ease;
 }
 

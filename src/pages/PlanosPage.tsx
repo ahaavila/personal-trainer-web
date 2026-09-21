@@ -162,19 +162,19 @@ export default function PlanosPage() {
 
               <ul className="planos-card__features">
                 <li>
-                  <Check size={16} color="#e6b94e" />
+                  <Check size={16} color="var(--brand-primary, #e6b94e)" />
                   <span>Até <strong>5 alunos ativos</strong></span>
                 </li>
                 <li>
-                  <Check size={16} color="#e6b94e" />
+                  <Check size={16} color="var(--brand-primary, #e6b94e)" />
                   <span>Prescrição e fichas de treino completas</span>
                 </li>
                 <li>
-                  <Check size={16} color="#e6b94e" />
+                  <Check size={16} color="var(--brand-primary, #e6b94e)" />
                   <span>Biblioteca de exercícios e vídeos</span>
                 </li>
                 <li>
-                  <Check size={16} color="#e6b94e" />
+                  <Check size={16} color="var(--brand-primary, #e6b94e)" />
                   <span>Acompanhamento de evolução e cargas</span>
                 </li>
               </ul>
@@ -207,27 +207,27 @@ export default function PlanosPage() {
 
               <ul className="planos-card__features">
                 <li>
-                  <Check size={16} color="#e6b94e" />
+                  <Check size={16} color="var(--brand-primary, #e6b94e)" />
                   <span><strong>Alunos Ilimitados</strong></span>
                 </li>
                 <li>
-                  <Check size={16} color="#e6b94e" />
+                  <Check size={16} color="var(--brand-primary, #e6b94e)" />
                   <span>Prescrição e fichas de treino ilimitadas</span>
                 </li>
                 <li>
-                  <Check size={16} color="#e6b94e" />
+                  <Check size={16} color="var(--brand-primary, #e6b94e)" />
                   <span>Upload e reprodução de vídeos em Cloudflare R2</span>
                 </li>
                 <li>
-                  <Check size={16} color="#e6b94e" />
+                  <Check size={16} color="var(--brand-primary, #e6b94e)" />
                   <span>Histórico completo de evolução de cargas</span>
                 </li>
                 <li>
-                  <Check size={16} color="#e6b94e" />
+                  <Check size={16} color="var(--brand-primary, #e6b94e)" />
                   <span>Gestão segura de pagamentos com Stripe</span>
                 </li>
                 <li>
-                  <Check size={16} color="#e6b94e" />
+                  <Check size={16} color="var(--brand-primary, #e6b94e)" />
                   <span>Suporte prioritário</span>
                 </li>
               </ul>
@@ -259,7 +259,7 @@ export default function PlanosPage() {
           </div>
 
           <div className="planos-guarantee">
-            <Shield size={18} color="#e6b94e" />
+            <Shield size={18} color="var(--brand-primary, #e6b94e)" />
             <span>Pagamento seguro via <strong>Stripe</strong>. Cancele quando quiser diretamente no portal do cliente.</span>
           </div>
         </>

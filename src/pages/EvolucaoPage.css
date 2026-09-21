@@ -2,7 +2,7 @@
   min-height: 100vh;
   padding: 2rem 2.2rem 3rem;
   color: #f2efe8;
-  background: #0d0e0d;
+  background: var(--brand-bg, #0d0e0d);
 }
 
 .evolucao-header {
@@ -38,7 +38,7 @@
 .evolucao-selector-box label {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #dcae43;
+  color: var(--brand-primary, #dcae43);
   white-space: nowrap;
 }
 
@@ -54,9 +54,13 @@
   cursor: pointer;
 }
 
+.evolucao-selector-box select:focus {
+  border-color: var(--brand-primary, #dcae43);
+}
+
 .evolucao-empty-prompt {
-  background: linear-gradient(145deg, #1a1b1a, #151615);
-  border: 1px dashed #3a3832;
+  background: var(--brand-bg-card, linear-gradient(145deg, #1a1b1a, #151615));
+  border: 1px dashed var(--brand-primary-border, #3a3832);
   border-radius: 1rem;
   padding: 4rem 2rem;
   text-align: center;
@@ -70,8 +74,8 @@
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 50%;
-  background: #24221a;
-  color: #e2a83e;
+  background: var(--brand-primary-subtle, #24221a);
+  color: var(--brand-primary, #e2a83e);
   display: grid;
   place-items: center;
 }
@@ -112,8 +116,8 @@
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background: linear-gradient(145deg, #f0c85e, #a97a24);
-  color: #211909;
+  background: var(--brand-primary-gradient, linear-gradient(145deg, #f0c85e, #a97a24));
+  color: var(--brand-btn-text, #211909);
   font-size: 1rem;
   font-weight: 800;
   display: grid;
@@ -147,7 +151,7 @@
 }
 
 .aluno-summary-card__tag strong {
-  color: #e2a83e;
+  color: var(--brand-primary, #e2a83e);
 }
 
 /* Tabs */
@@ -179,8 +183,8 @@
 }
 
 .evolucao-tab-btn--active {
-  color: #e2a83e;
-  border-bottom-color: #e2a83e;
+  color: var(--brand-primary, #e2a83e);
+  border-bottom-color: var(--brand-primary, #e2a83e);
 }
 
 /* Tab 1: Timeline Cards */
@@ -261,9 +265,9 @@
 
 .timeline-load-badge {
   display: inline-block;
-  background: #2b2413;
-  color: #f2c265;
-  border: 1px solid #4a3e20;
+  background: var(--brand-primary-subtle, #2b2413);
+  color: var(--brand-primary, #f2c265);
+  border: 1px solid var(--brand-primary-border, #4a3e20);
   border-radius: 0.35rem;
   padding: 0.2rem 0.5rem;
   font-weight: 700;
@@ -290,7 +294,7 @@
 .exercise-evolution-controls label {
   font-weight: 700;
   font-size: 0.88rem;
-  color: #e2a83e;
+  color: var(--brand-primary, #e2a83e);
 }
 
 .exercise-evolution-controls select {
@@ -302,6 +306,10 @@
   color: #f2efe8;
   font-family: inherit;
   font-size: 0.9rem;
+}
+
+.exercise-evolution-controls select:focus {
+  border-color: var(--brand-primary, #dcae43);
 }
 
 .metric-cards-grid {

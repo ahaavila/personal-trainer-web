@@ -221,7 +221,7 @@ export default function EvolucaoPage() {
                     <article key={log.id} className="timeline-card">
                       <header className="timeline-card__header">
                         <div className="timeline-card__title">
-                          <Dumbbell size={20} color="#e2a83e" />
+                          <Dumbbell size={20} color="var(--brand-primary, #e2a83e)" />
                           <span>{log.title}</span>
                         </div>
                         <div className="timeline-card__meta">

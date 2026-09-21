@@ -86,8 +86,8 @@ export function LoadProgressionChart({ points, exerciseName }: LoadProgressionCh
       >
         <defs>
           <linearGradient id="loadAreaGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#e2a83e" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#e2a83e" stopOpacity="0.0" />
+            <stop offset="0%" stopColor="var(--brand-primary, #e2a83e)" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="var(--brand-primary, #e2a83e)" stopOpacity="0.0" />
           </linearGradient>
         </defs>
 
@@ -126,7 +126,7 @@ export function LoadProgressionChart({ points, exerciseName }: LoadProgressionCh
         <path
           d={pathD}
           fill="none"
-          stroke="#e2a83e"
+          stroke="var(--brand-primary, #e2a83e)"
           strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -149,7 +149,7 @@ export function LoadProgressionChart({ points, exerciseName }: LoadProgressionCh
                 x={c.x}
                 y={bottomY + 20}
                 textAnchor="middle"
-                fill={isHovered ? '#f2c265' : '#8f877b'}
+                fill={isHovered ? 'var(--brand-primary, #f2c265)' : '#8f877b'}
                 fontSize="11"
                 fontWeight={isHovered ? 'bold' : 'normal'}
                 fontFamily="inherit"
@@ -162,8 +162,8 @@ export function LoadProgressionChart({ points, exerciseName }: LoadProgressionCh
                 cx={c.x}
                 cy={c.y}
                 r={isHovered ? 6 : 4}
-                fill={isHovered ? '#f2c265' : '#0c0a08'}
-                stroke="#e2a83e"
+                fill={isHovered ? 'var(--brand-primary, #f2c265)' : '#0c0a08'}
+                stroke="var(--brand-primary, #e2a83e)"
                 strokeWidth={isHovered ? 3 : 2}
               />
 
@@ -172,7 +172,7 @@ export function LoadProgressionChart({ points, exerciseName }: LoadProgressionCh
                 x={c.x}
                 y={c.y - 10}
                 textAnchor="middle"
-                fill={isHovered ? '#f4f0e8' : '#e2a83e'}
+                fill={isHovered ? '#f4f0e8' : 'var(--brand-primary, #e2a83e)'}
                 fontSize="11"
                 fontWeight="700"
                 fontFamily="inherit"

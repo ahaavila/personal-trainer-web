@@ -68,7 +68,7 @@ export function ExerciseMediaViewerModal({
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.4rem',
-                color: '#e2a83e',
+                color: 'var(--brand-primary, #e2a83e)',
                 textDecoration: 'underline',
                 fontWeight: 600,
               }}
@@ -121,7 +121,7 @@ export function ExerciseMediaViewerModal({
         <header className="exercise-media-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <span className="exercise-media-badge-icon">
-              <Video size={16} color="#e2a83e" />
+              <Video size={16} color="var(--brand-primary, #e2a83e)" />
             </span>
             <h3>{exerciseName}</h3>
           </div>

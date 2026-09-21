@@ -2,7 +2,7 @@
   min-height: 100vh;
   padding: 2rem 2.2rem 3rem;
   color: #f2efe8;
-  background: #0d0e0d;
+  background: var(--brand-bg, #0d0e0d);
   text-align: left;
 }
 
@@ -32,8 +32,8 @@
   min-height: 2.9rem;
   padding: 0 0.9rem;
   border-radius: 0.65rem;
-  color: #1f180c;
-  background: linear-gradient(135deg, #f0c65e, #bd8c27);
+  color: var(--brand-btn-text, #1f180c);
+  background: var(--brand-primary-gradient, linear-gradient(135deg, #f0c65e, #bd8c27));
   font-weight: 750;
   text-decoration: none;
   white-space: nowrap;
@@ -104,7 +104,7 @@
 }
 
 .treinos-page__search-input:focus {
-  border-color: #dcae43;
+  border-color: var(--brand-primary, #dcae43);
 }
 
 .treinos-page__status-select {
@@ -122,7 +122,7 @@
 }
 
 .treinos-page__status-select:focus {
-  border-color: #dcae43;
+  border-color: var(--brand-primary, #dcae43);
 }
 
 /* Grid & Cards */
@@ -133,8 +133,8 @@
 }
 
 .treino-card {
-  background: linear-gradient(145deg, #181918, #131413);
-  border: 1px solid #302f2b;
+  background: var(--brand-bg-card, linear-gradient(145deg, #181918, #131413));
+  border: 1px solid var(--brand-primary-border, #302f2b);
   border-radius: 0.95rem;
   padding: 1.35rem;
   display: flex;
@@ -145,7 +145,7 @@
 }
 
 .treino-card:hover {
-  border-color: #4f4c44;
+  border-color: var(--brand-primary, #4f4c44);
   transform: translateY(-2px);
 }
 
@@ -205,12 +205,14 @@
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  background: #252623;
-  color: #dcae43;
+  background: var(--brand-primary-gradient, #252623);
+  color: var(--brand-btn-text, #dcae43);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  font-weight: 800;
+  font-size: 0.72rem;
 }
 
 .treino-card__student-info {
@@ -239,8 +241,8 @@
 
 .treino-card__objective-badge {
   font-size: 0.68rem;
-  color: #dcae43;
-  background: rgba(220, 174, 67, 0.1);
+  color: var(--brand-primary, #dcae43);
+  background: var(--brand-primary-subtle, rgba(220, 174, 67, 0.1));
   padding: 0.15rem 0.45rem;
   border-radius: 0.3rem;
   text-transform: capitalize;
@@ -271,7 +273,7 @@
   padding: 0.35rem 0.65rem;
   border-radius: 0.45rem;
   font-size: 0.78rem;
-  color: #d9c89d;
+  color: var(--brand-primary, #d9c89d);
   font-weight: 600;
 }
 
@@ -308,8 +310,8 @@
 
 .treino-card__view-btn:hover {
   background: #32332f;
-  border-color: #dcae43;
-  color: #e8bd51;
+  border-color: var(--brand-primary, #dcae43);
+  color: var(--brand-primary, #e8bd51);
 }
 
 /* States */
@@ -345,7 +347,7 @@
 
 .treinos-page__retry-btn:hover {
   background: #31332f;
-  border-color: #dcae43;
+  border-color: var(--brand-primary, #dcae43);
 }
 
 .treinos-page__empty h3 {
@@ -364,8 +366,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  background: linear-gradient(135deg, #f0c65e, #bd8c27);
-  color: #211909;
+  background: var(--brand-primary-gradient, linear-gradient(135deg, #f0c65e, #bd8c27));
+  color: var(--brand-btn-text, #211909);
   font-size: 0.88rem;
   font-weight: 800;
   padding: 0.65rem 1.25rem;

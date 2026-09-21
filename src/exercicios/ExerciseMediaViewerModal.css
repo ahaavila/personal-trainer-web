@@ -50,8 +50,8 @@
   width: 1.8rem;
   height: 1.8rem;
   border-radius: 0.4rem;
-  background: #2b2311;
-  border: 1px solid #4a3a19;
+  background: var(--brand-primary-subtle, #2b2311);
+  border: 1px solid var(--brand-primary-border, #4a3a19);
 }
 
 .exercise-media-header h3 {

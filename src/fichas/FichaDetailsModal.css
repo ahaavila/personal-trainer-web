@@ -50,7 +50,7 @@
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #dcae43;
+  color: var(--brand-primary, #dcae43);
 }
 
 .ficha-details-modal__status-badge {
@@ -84,7 +84,7 @@
   width: 100%;
   max-width: 26rem;
   background: #0f100e;
-  border: 1px solid #dcae43;
+  border: 1px solid var(--brand-primary, #dcae43);
   border-radius: 0.5rem;
   padding: 0.45rem 0.75rem;
   color: #f2efe8;
@@ -105,7 +105,7 @@
   gap: 0.35rem;
   background: #252623;
   border: 1px solid #4a473f;
-  color: #e8bd51;
+  color: var(--brand-primary, #e8bd51);
   font-size: 0.8rem;
   font-weight: 700;
   padding: 0.45rem 0.85rem;
@@ -116,7 +116,7 @@
 
 .ficha-details-modal__btn-edit:hover {
   background: #333430;
-  border-color: #dcae43;
+  border-color: var(--brand-primary, #dcae43);
 }
 
 .ficha-details-modal__btn-delete {
@@ -255,7 +255,7 @@
 }
 
 .ficha-details-modal__meta-icon {
-  color: #dcae43;
+  color: var(--brand-primary, #dcae43);
   margin-top: 0.2rem;
   flex-shrink: 0;
 }
@@ -331,7 +331,7 @@
 .ficha-details-modal__field label {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #dcae43;
+  color: var(--brand-primary, #dcae43);
 }
 
 .ficha-details-modal__field textarea {
@@ -348,8 +348,8 @@
 }
 
 .ficha-details-modal__notes-card {
-  background: rgba(220, 174, 67, 0.05);
-  border: 1px solid rgba(220, 174, 67, 0.2);
+  background: var(--brand-primary-subtle, rgba(220, 174, 67, 0.05));
+  border: 1px solid var(--brand-primary-border, rgba(220, 174, 67, 0.2));
   border-radius: 0.65rem;
   padding: 0.85rem 1.1rem;
   font-size: 0.85rem;
@@ -358,7 +358,7 @@
 
 .ficha-details-modal__notes-card strong {
   display: block;
-  color: #dcae43;
+  color: var(--brand-primary, #dcae43);
   margin-bottom: 0.25rem;
 }
 
@@ -391,8 +391,8 @@
   align-items: center;
   gap: 0.35rem;
   background: #252623;
-  border: 1px solid #4a473f;
-  color: #e8bd51;
+  border: 1px solid var(--brand-primary-border, #4a473f);
+  color: var(--brand-primary, #e8bd51);
   font-size: 0.78rem;
   font-weight: 700;
   padding: 0.45rem 0.85rem;
@@ -402,7 +402,7 @@
 
 .ficha-details-modal__btn-add-division:hover {
   background: #31332f;
-  border-color: #dcae43;
+  border-color: var(--brand-primary, #dcae43);
 }
 
 /* Division Cards */
@@ -427,8 +427,9 @@
 }
 
 .ficha-details-division-badge {
-  background: rgba(220, 174, 67, 0.15);
-  color: #dcae43;
+  background: var(--brand-primary-subtle, rgba(220, 174, 67, 0.15));
+  border: 1px solid var(--brand-primary-border, transparent);
+  color: var(--brand-primary, #dcae43);
   font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -538,7 +539,7 @@
 
 .col-num {
   font-size: 0.75rem;
-  color: #dcae43;
+  color: var(--brand-primary, #dcae43);
   font-weight: 800;
 }
 
@@ -555,7 +556,7 @@
 }
 
 .col-sets strong {
-  color: #dcae43;
+  color: var(--brand-primary, #dcae43);
 }
 
 /* Edit Mode Table */
@@ -574,8 +575,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  background: #dcae43;
-  color: #1a1508;
+  background: var(--brand-primary, #dcae43);
+  color: var(--brand-btn-text, #1a1508);
   border: 0;
   font-weight: 700;
   font-size: 0.8rem;
@@ -675,8 +676,8 @@
   align-items: center;
   gap: 0.35rem;
   background: transparent;
-  border: 1px dashed #48453e;
-  color: #e8bd51;
+  border: 1px dashed var(--brand-primary-border, #48453e);
+  color: var(--brand-primary, #e8bd51);
   font-size: 0.78rem;
   font-weight: 700;
   padding: 0.35rem 0.75rem;
@@ -685,8 +686,8 @@
 }
 
 .ficha-details-btn-add-another-ex:hover {
-  background: rgba(220, 174, 67, 0.08);
-  border-color: #dcae43;
+  background: var(--brand-primary-subtle, rgba(220, 174, 67, 0.08));
+  border-color: var(--brand-primary, #dcae43);
 }
 
 .ficha-details-modal__empty {
@@ -723,16 +724,16 @@
 .ficha-details-modal__btn-close:hover,
 .ficha-details-modal__btn-cancel-edit:hover {
   background: #333430;
-  border-color: #dcae43;
+  border-color: var(--brand-primary, #dcae43);
 }
 
 .ficha-details-modal__btn-save {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  background: linear-gradient(135deg, #f0c65e, #bd8c27);
+  background: var(--brand-primary-gradient, linear-gradient(135deg, #f0c65e, #bd8c27));
   border: 0;
-  color: #211909;
+  color: var(--brand-btn-text, #211909);
   font-size: 0.88rem;
   font-weight: 800;
   padding: 0.6rem 1.4rem;

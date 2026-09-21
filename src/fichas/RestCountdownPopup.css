@@ -17,8 +17,8 @@
 }
 
 .rest-popup-card {
-  background: linear-gradient(145deg, #1d1e1b, #131412);
-  border: 1px solid #e2a83e;
+  background: var(--brand-bg-card, linear-gradient(145deg, #1d1e1b, #131412));
+  border: 1px solid var(--brand-primary, #e2a83e);
   border-radius: 1.25rem;
   width: 100%;
   max-width: 28rem;
@@ -28,7 +28,7 @@
   align-items: center;
   text-align: center;
   position: relative;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(226, 168, 62, 0.15);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px var(--brand-primary-subtle, rgba(226, 168, 62, 0.15));
   color: #f4f0e8;
 }
 
@@ -57,7 +57,7 @@
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #e2a83e;
+  color: var(--brand-primary, #e2a83e);
   margin: 0 0 0.5rem;
 }
 
@@ -90,8 +90,8 @@
 }
 
 .rest-popup-timer-circle--active {
-  border-color: #e2a83e;
-  box-shadow: 0 0 24px rgba(226, 168, 62, 0.2);
+  border-color: var(--brand-primary, #e2a83e);
+  box-shadow: 0 0 24px var(--brand-primary-subtle, rgba(226, 168, 62, 0.2));
 }
 
 .rest-popup-timer-circle--finished {
@@ -111,7 +111,7 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #e2a83e;
+  color: var(--brand-primary, #e2a83e);
   margin-top: 0.4rem;
   font-weight: 700;
 }
@@ -136,8 +136,8 @@
 
 .rest-popup-adjust-btn:hover {
   background: #2c2f29;
-  border-color: #e2a83e;
-  color: #f2c265;
+  border-color: var(--brand-primary, #e2a83e);
+  color: var(--brand-primary, #f2c265);
 }
 
 .rest-popup-actions {
@@ -151,8 +151,8 @@
   min-height: 2.85rem;
   border: none;
   border-radius: 0.6rem;
-  background: linear-gradient(135deg, #f0c65e, #bd8c27);
-  color: #211909;
+  background: var(--brand-primary-gradient, linear-gradient(135deg, #f0c65e, #bd8c27));
+  color: var(--brand-btn-text, #211909);
   font-weight: 800;
   font-size: 0.95rem;
   cursor: pointer;

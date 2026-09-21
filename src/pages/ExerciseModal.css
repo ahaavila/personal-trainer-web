@@ -40,8 +40,9 @@
   display: inline-block;
   padding: 0.2rem 0.5rem;
   border-radius: 999px;
-  color: #efd178;
-  background: #393018;
+  color: var(--brand-primary, #efd178);
+  background: var(--brand-primary-subtle, #393018);
+  border: 1px solid var(--brand-primary-border, transparent);
   font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -119,7 +120,7 @@
 .exercise-modal__field input:focus,
 .exercise-modal__field select:focus,
 .exercise-modal__field textarea:focus {
-  border-color: #d1a843;
+  border-color: var(--brand-primary, #d1a843);
 }
 
 .exercise-modal__field textarea {
@@ -142,10 +143,10 @@
 }
 
 .exercise-modal__status-msg {
-  color: #efd178;
+  color: var(--brand-primary, #efd178);
   font-size: 0.85rem;
-  background: rgba(239, 209, 120, 0.1);
-  border: 1px solid rgba(239, 209, 120, 0.25);
+  background: var(--brand-primary-subtle, rgba(239, 209, 120, 0.1));
+  border: 1px solid var(--brand-primary-border, rgba(239, 209, 120, 0.25));
   border-radius: 0.5rem;
   padding: 0.6rem 0.8rem;
   margin: 0;
@@ -192,7 +193,7 @@
 }
 
 .exercise-modal__media-icon {
-  color: #d1a843;
+  color: var(--brand-primary, #d1a843);
 }
 
 .exercise-modal__media-preview {
@@ -272,7 +273,7 @@
 }
 
 .exercise-modal__upload-label small.is-selected {
-  color: #efd178;
+  color: var(--brand-primary, #efd178);
 }
 
 .exercise-modal__media-disabled {
@@ -297,8 +298,8 @@
 }
 
 .exercise-modal__btn-primary {
-  background: linear-gradient(135deg, #f0c65e, #bd8c27);
-  color: #1f180c;
+  background: var(--brand-primary-gradient, linear-gradient(135deg, #f0c65e, #bd8c27));
+  color: var(--brand-btn-text, #1f180c);
   border: none;
   font-weight: 750;
   padding: 0.65rem 1.15rem;

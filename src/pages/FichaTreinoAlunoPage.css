@@ -95,7 +95,7 @@
   display: flex;
   gap: 1.25rem;
   font-size: 0.85rem;
-  color: #e2a83e;
+  color: var(--brand-primary, #e2a83e);
   background: #1f1d16;
   padding: 0.6rem 0.85rem;
   border-radius: 0.5rem;
@@ -110,8 +110,8 @@
   padding: 0 1.25rem;
   border-radius: 0.55rem;
   border: 0;
-  background: linear-gradient(135deg, #f0c65e, #bd8c27);
-  color: #211909;
+  background: var(--brand-primary-gradient, linear-gradient(135deg, #f0c65e, #bd8c27));
+  color: var(--brand-btn-text, #211909);
   font-weight: 800;
   font-size: 0.9rem;
   cursor: pointer;
@@ -256,8 +256,8 @@
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 50%;
-  background: #2c2311;
-  color: #e2a83e;
+  background: var(--brand-primary-subtle, #2c2311);
+  color: var(--brand-primary, #e2a83e);
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -300,8 +300,8 @@
   padding: 0 1.25rem;
   border-radius: 0.6rem;
   border: none;
-  background: linear-gradient(135deg, #f0c65e, #bd8c27);
-  color: #211909;
+  background: var(--brand-primary-gradient, linear-gradient(135deg, #f0c65e, #bd8c27));
+  color: var(--brand-btn-text, #211909);
   font-weight: 800;
   font-size: 0.88rem;
   cursor: pointer;
@@ -347,10 +347,10 @@
   align-items: center;
   gap: 0.35rem;
   padding: 0.35rem 0.65rem;
-  background: #24221a;
-  border: 1px solid #4a3e21;
+  background: var(--brand-primary-subtle, #24221a);
+  border: 1px solid var(--brand-primary-border, #4a3e21);
   border-radius: 0.4rem;
-  color: #f2c265;
+  color: var(--brand-primary, #f2c265);
   font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
@@ -358,9 +358,8 @@
 }
 
 .exercise-view-video-btn:hover {
-  background: #332b17;
-  border-color: #e2a83e;
-  color: #ffd98a;
+  border-color: var(--brand-primary, #e2a83e);
+  color: var(--brand-primary, #ffd98a);
 }
 
 .plan-inspection-footer {

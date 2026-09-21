@@ -64,6 +64,12 @@ const MOCK_SUBSCRIPTION = {
   currentPeriodEnd: null as string | null,
 }
 
+const MOCK_BRANDING = {
+  logoUrl: null as string | null,
+  primaryColor: null as string | null,
+  backgroundColor: null as string | null,
+}
+
 const STUDENT_PROGRESS_MOCKS: Record<number, StudentProgressData> = {
   1: {
     aluno: {
@@ -1359,5 +1365,48 @@ export const handlers = [
     TRAINING_PLANS.splice(index, 1)
     PERSONAL_DASHBOARD.metrics.trainingPlans = TRAINING_PLANS.length
     return new HttpResponse(null, { status: 204 })
+  }),
+
+  http.get('/api/auth/branding', ({ cookies }) => {
+    const sessionEmail = cookies[MOCK_SESSION_COOKIE]
+    if (!sessionEmail) {
+      return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 })
+    }
+
+    const isPro = MOCK_SUBSCRIPTION.plan === 'pro'
+
+    return HttpResponse.json({
+      isCustom: isPro && Boolean(MOCK_BRANDING.logoUrl || MOCK_BRANDING.primaryColor || MOCK_BRANDING.backgroundColor),
+      branding: isPro ? MOCK_BRANDING : { logoUrl: null, primaryColor: null, backgroundColor: null },
+    })
+  }),
+
+  http.patch('/api/auth/branding', async ({ cookies, request }) => {
+    const sessionEmail = cookies[MOCK_SESSION_COOKIE]
+    if (sessionEmail !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    if (MOCK_SUBSCRIPTION.plan !== 'pro') {
+      return HttpResponse.json(
+        { message: 'A personalização visual de marca é exclusiva para assinantes do Plano PRO.' },
+        { status: 403 },
+      )
+    }
+
+    const body = (await request.json()) as {
+      logoUrl?: string | null
+      primaryColor?: string | null
+      backgroundColor?: string | null
+    }
+
+    if (body.logoUrl !== undefined) MOCK_BRANDING.logoUrl = body.logoUrl
+    if (body.primaryColor !== undefined) MOCK_BRANDING.primaryColor = body.primaryColor
+    if (body.backgroundColor !== undefined) MOCK_BRANDING.backgroundColor = body.backgroundColor
+
+    return HttpResponse.json({
+      isCustom: Boolean(MOCK_BRANDING.logoUrl || MOCK_BRANDING.primaryColor || MOCK_BRANDING.backgroundColor),
+      branding: MOCK_BRANDING,
+    })
   }),
 ]

@@ -58,7 +58,7 @@ export function UpgradePaywallModal({
         </button>
 
         <div className="paywall-icon-badge">
-          <Sparkles size={24} color="#e6b94e" />
+          <Sparkles size={24} color="var(--brand-primary, #e6b94e)" />
         </div>
 
         <h2>Limite do Plano Básico Atingido</h2>
@@ -73,19 +73,19 @@ export function UpgradePaywallModal({
           </div>
           <ul className="paywall-features">
             <li>
-              <Check size={16} color="#e6b94e" />
+              <Check size={16} color="var(--brand-primary, #e6b94e)" />
               <span><strong>Alunos Ilimitados</strong></span>
             </li>
             <li>
-              <Check size={16} color="#e6b94e" />
+              <Check size={16} color="var(--brand-primary, #e6b94e)" />
               <span>Prescrição e fichas de treino completas</span>
             </li>
             <li>
-              <Check size={16} color="#e6b94e" />
+              <Check size={16} color="var(--brand-primary, #e6b94e)" />
               <span>Faturação e pagamentos seguros com Stripe</span>
             </li>
             <li>
-              <Check size={16} color="#e6b94e" />
+              <Check size={16} color="var(--brand-primary, #e6b94e)" />
               <span>Cancele quando quiser</span>
             </li>
           </ul>

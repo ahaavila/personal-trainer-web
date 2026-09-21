@@ -358,7 +358,7 @@ export default function FichaTreinoAlunoPage() {
                               <tr key={ex.id}>
                                 <td>
                                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
-                                    <Dumbbell size={14} color="#e2a83e" />
+                                    <Dumbbell size={14} color="var(--brand-primary, #e2a83e)" />
                                     <strong>{ex.exerciseName}</strong>
                                   </span>
                                 </td>
