@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { AlertCircle, Bell, Calendar, Check, ChevronRight, ClipboardList, Dumbbell, Play, X } from 'lucide-react'
+import { AlertCircle, Bell, Calendar, Check, ChevronRight, ClipboardList, Dumbbell, Play, Video, X } from 'lucide-react'
 import { getTrainingPlans, requestPlanActivation } from '../fichas/api'
-import type { TrainingPlan, TrainingPlanDivision } from '../fichas/types'
+import type { TrainingPlan, TrainingPlanDivision, TrainingPlanDivisionExercise } from '../fichas/types'
 import { ActiveWorkoutModal } from '../fichas/ActiveWorkoutModal'
 import { WorkoutCelebrationModal } from '../fichas/WorkoutCelebrationModal'
+import { ExerciseMediaViewerModal } from '../exercicios/ExerciseMediaViewerModal'
 import { logWorkoutExecution } from '../progresso/api'
 import type { CreateWorkoutExecutionPayload } from '../progresso/types'
 import { useAuth } from '../auth/useAuth'
@@ -25,6 +26,11 @@ function formatDateRange(startDate?: string | null, endDate?: string | null) {
   if (startDate && !endDate) return `A partir de ${formatSingleDate(startDate)}`
   if (!startDate && endDate) return `Até ${formatSingleDate(endDate)}`
   return `${formatSingleDate(startDate)} a ${formatSingleDate(endDate)}`
+}
+
+function isPlanActive(plan: TrainingPlan): boolean {
+  if (!plan.status) return true
+  return plan.status === 'active'
 }
 
 const ACTIVATION_REQUESTED_KEY_PREFIX = 'fitforge:workout_requested:'
@@ -61,6 +67,9 @@ export default function FichaTreinoAlunoPage() {
   // Completed workout celebration modal
   const [finishedPayload, setFinishedPayload] = useState<CreateWorkoutExecutionPayload | null>(null)
 
+  // Exercise media viewer modal
+  const [selectedExerciseForMedia, setSelectedExerciseForMedia] = useState<TrainingPlanDivisionExercise | null>(null)
+
   useEffect(() => {
     let cancelled = false
     getTrainingPlans()
@@ -68,7 +77,7 @@ export default function FichaTreinoAlunoPage() {
         if (!cancelled) {
           setPlans(data)
           // If the student now has an active plan created, clear any previous request state
-          if (data.some((p) => p.status === 'active')) {
+          if (data.some((p) => isPlanActive(p))) {
             try {
               localStorage.removeItem(storageKey)
             } catch {
@@ -141,7 +150,7 @@ export default function FichaTreinoAlunoPage() {
     )
   }
 
-  const hasActivePlan = plans.some((p) => p.status === 'active')
+  const hasActivePlan = plans.some((p) => isPlanActive(p))
 
   return (
     <main className="ficha-aluno-page">
@@ -228,7 +237,7 @@ export default function FichaTreinoAlunoPage() {
       ) : (
         <div className="ficha-aluno-grid">
           {plans.map((plan) => {
-            const isActive = plan.status === 'active'
+            const isActive = isPlanActive(plan)
             return (
               <article key={plan.id} className="ficha-aluno-card">
                 <div>
@@ -272,7 +281,7 @@ export default function FichaTreinoAlunoPage() {
 
       {/* Plan Inspection Modal */}
       {inspectingPlan && (() => {
-        const isPlanActive = inspectingPlan.status === 'active'
+        const isCurrentPlanActive = isPlanActive(inspectingPlan)
 
         return (
           <div className="plan-inspection-modal" role="dialog" aria-modal="true">
@@ -281,8 +290,8 @@ export default function FichaTreinoAlunoPage() {
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
                     <h2>{inspectingPlan.title}</h2>
-                    <span className={`ficha-aluno-badge ${isPlanActive ? 'ficha-aluno-badge--active' : 'ficha-aluno-badge--archived'}`}>
-                      {isPlanActive ? 'Ativo' : 'Arquivado'}
+                    <span className={`ficha-aluno-badge ${isCurrentPlanActive ? 'ficha-aluno-badge--active' : 'ficha-aluno-badge--archived'}`}>
+                      {isCurrentPlanActive ? 'Ativo' : 'Arquivado'}
                     </span>
                   </div>
                   <p>{inspectingPlan.notes || 'Rotinas de treino prescritas'}</p>
@@ -298,7 +307,7 @@ export default function FichaTreinoAlunoPage() {
               </header>
 
               <div className="plan-inspection-body">
-                {!isPlanActive && (
+                {!isCurrentPlanActive && (
                   <div className="plan-inactive-notice">
                     <AlertCircle size={18} />
                     <span>Esta ficha de treino está arquivada/inativa. Não é possível iniciar novas sessões de treino para este plano.</span>
@@ -319,13 +328,13 @@ export default function FichaTreinoAlunoPage() {
                         </div>
                         <button
                           type="button"
-                          className={`division-start-btn ${!isPlanActive ? 'division-start-btn--disabled' : ''}`}
-                          onClick={() => isPlanActive && handleStartWorkout(div, inspectingPlan.title)}
-                          disabled={!isPlanActive}
-                          title={isPlanActive ? 'Iniciar Treino' : 'Ficha inativa/arquivada - Início desabilitado'}
+                          className={`division-start-btn ${!isCurrentPlanActive ? 'division-start-btn--disabled' : ''}`}
+                          onClick={() => isCurrentPlanActive && handleStartWorkout(div, inspectingPlan.title)}
+                          disabled={!isCurrentPlanActive}
+                          title={isCurrentPlanActive ? 'Iniciar Treino' : 'Ficha inativa/arquivada - Início desabilitado'}
                         >
-                          <Play size={14} fill={isPlanActive ? '#211909' : '#6b665c'} />
-                          {isPlanActive ? 'Iniciar Treino' : 'Ficha Inativa'}
+                          <Play size={14} fill={isCurrentPlanActive ? '#211909' : '#6b665c'} />
+                          {isCurrentPlanActive ? 'Iniciar Treino' : 'Ficha Inativa'}
                         </button>
                       </header>
 
@@ -338,24 +347,44 @@ export default function FichaTreinoAlunoPage() {
                             <th>Reps</th>
                             <th>Carga Alvo</th>
                             <th>Descanso</th>
+                            <th style={{ textAlign: 'center' }}>Vídeo</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {div.exercises.map((ex) => (
-                            <tr key={ex.id}>
-                              <td>
-                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
-                                  <Dumbbell size={14} color="#e2a83e" />
-                                  <strong>{ex.exerciseName}</strong>
-                                </span>
-                              </td>
-                              <td>{ex.muscleGroup}</td>
-                              <td>{ex.sets}</td>
-                              <td>{ex.reps}</td>
-                              <td>{ex.targetLoad || '-'}</td>
-                              <td>{ex.restInterval || '-'}</td>
-                            </tr>
-                          ))}
+                          {div.exercises.map((ex) => {
+                            const hasVideo = ex.hasVideo ?? Boolean(ex.media?.some((m) => m.kind === 'video'))
+
+                            return (
+                              <tr key={ex.id}>
+                                <td>
+                                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                                    <Dumbbell size={14} color="#e2a83e" />
+                                    <strong>{ex.exerciseName}</strong>
+                                  </span>
+                                </td>
+                                <td>{ex.muscleGroup}</td>
+                                <td>{ex.sets}</td>
+                                <td>{ex.reps}</td>
+                                <td>{ex.targetLoad || '-'}</td>
+                                <td>{ex.restInterval || '-'}</td>
+                                <td style={{ textAlign: 'center' }}>
+                                  {hasVideo ? (
+                                    <button
+                                      type="button"
+                                      className="exercise-view-video-btn"
+                                      onClick={() => setSelectedExerciseForMedia(ex)}
+                                      title={`Ver vídeo do exercício ${ex.exerciseName || ''}`}
+                                    >
+                                      <Video size={14} />
+                                      <span>Vídeo</span>
+                                    </button>
+                                  ) : (
+                                    <span style={{ color: '#524f47', fontSize: '0.8rem' }}>—</span>
+                                  )}
+                                </td>
+                              </tr>
+                            )
+                          })}
                         </tbody>
                       </table>
                     </div>
@@ -393,6 +422,16 @@ export default function FichaTreinoAlunoPage() {
         <WorkoutCelebrationModal
           payload={finishedPayload}
           onClose={() => setFinishedPayload(null)}
+        />
+      )}
+
+      {/* Exercise Media/Video Modal */}
+      {selectedExerciseForMedia && (
+        <ExerciseMediaViewerModal
+          exerciseId={selectedExerciseForMedia.exerciseId || selectedExerciseForMedia.exercicioId}
+          exerciseName={selectedExerciseForMedia.exerciseName || 'Exercício'}
+          initialMedia={selectedExerciseForMedia.media}
+          onClose={() => setSelectedExerciseForMedia(null)}
         />
       )}
     </main>

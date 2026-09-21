@@ -37,6 +37,8 @@ export interface TrainingPlanDivisionExercise {
   restInterval?: string | null
   targetLoad?: string | null
   notes?: string | null
+  hasVideo?: boolean
+  media?: import('../exercicios/types').ExerciseMediaItem[]
 }
 
 export interface TrainingPlanDivision {

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Check, CheckCircle2, Clock, Hourglass, Pause, Play, Trophy } from 'lucide-react'
+import { Check, CheckCircle2, Clock, Hourglass, Pause, Play, Trophy, Video } from 'lucide-react'
 import { RestCountdownPopup } from './RestCountdownPopup'
-import type { TrainingPlanDivision } from './types'
+import { ExerciseMediaViewerModal } from '../exercicios/ExerciseMediaViewerModal'
+import type { TrainingPlanDivision, TrainingPlanDivisionExercise } from './types'
 import type { CreateWorkoutExecutionPayload } from '../progresso/types'
 import './ActiveWorkoutModal.css'
 
@@ -64,6 +65,9 @@ export function ActiveWorkoutModal({
     completedSetNumber: number
     nextInfo?: string
   } | null>(null)
+
+  // Exercise media modal state
+  const [selectedExerciseForMedia, setSelectedExerciseForMedia] = useState<TrainingPlanDivisionExercise | null>(null)
 
   // Exercises tracking state
   const [exerciseRecords, setExerciseRecords] = useState<ExerciseRecord[]>(() => {
@@ -305,11 +309,25 @@ export function ActiveWorkoutModal({
 
           {exerciseRecords.map((exRecord, exIdx) => {
             const prescription = division.exercises[exIdx]
+            const hasVideo = prescription?.hasVideo ?? Boolean(prescription?.media?.some((m) => m.kind === 'video'))
 
             return (
               <div key={exRecord.exerciseId} className="exercise-execution-card">
                 <div className="exercise-execution-card__header">
-                  <h3>{exRecord.exerciseName}</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                    <h3>{exRecord.exerciseName}</h3>
+                    {hasVideo && (
+                      <button
+                        type="button"
+                        className="exercise-view-video-btn"
+                        onClick={() => setSelectedExerciseForMedia(prescription || { exerciseId: exRecord.exerciseId, exerciseName: exRecord.exerciseName, muscleGroup: exRecord.muscleGroup, order: exIdx + 1, sets: 0, reps: '' })}
+                        title={`Ver vídeo do exercício ${exRecord.exerciseName}`}
+                      >
+                        <Video size={13} />
+                        <span>Vídeo</span>
+                      </button>
+                    )}
+                  </div>
                   <span style={{ fontSize: '0.78rem', color: '#aaa69d' }}>{exRecord.muscleGroup}</span>
                 </div>
 
@@ -412,6 +430,15 @@ export function ActiveWorkoutModal({
           completedSetNumber={activeRestPopup.completedSetNumber}
           nextInfo={activeRestPopup.nextInfo}
           onClose={() => setActiveRestPopup(null)}
+        />
+      )}
+
+      {selectedExerciseForMedia && (
+        <ExerciseMediaViewerModal
+          exerciseId={selectedExerciseForMedia.exerciseId || selectedExerciseForMedia.exercicioId}
+          exerciseName={selectedExerciseForMedia.exerciseName || 'Exercício'}
+          initialMedia={selectedExerciseForMedia.media}
+          onClose={() => setSelectedExerciseForMedia(null)}
         />
       )}
     </div>

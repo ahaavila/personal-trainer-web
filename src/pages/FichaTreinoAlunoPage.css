@@ -342,6 +342,27 @@
   border-bottom: none;
 }
 
+.exercise-view-video-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  background: #24221a;
+  border: 1px solid #4a3e21;
+  border-radius: 0.4rem;
+  color: #f2c265;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.exercise-view-video-btn:hover {
+  background: #332b17;
+  border-color: #e2a83e;
+  color: #ffd98a;
+}
+
 .plan-inspection-footer {
   display: flex;
   justify-content: flex-end;

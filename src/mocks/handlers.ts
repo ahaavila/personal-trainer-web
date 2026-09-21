@@ -296,7 +296,25 @@ const STUDENT_PROGRESS_MOCKS: Record<number, StudentProgressData> = {
 }
 
 const EXERCISES: ExerciseListItem[] = [
-  { id: 1, muscleGroup: 'Perna', level: 'intermediario', name: 'Agachamento livre', equipment: 'Barra', description: 'Exercício composto para membros inferiores.', defaultSets: 4, defaultReps: '8 a 10' },
+  {
+    id: 1,
+    muscleGroup: 'Perna',
+    level: 'intermediario',
+    name: 'Agachamento livre',
+    equipment: 'Barra',
+    description: 'Exercício composto para membros inferiores.',
+    defaultSets: 4,
+    defaultReps: '8 a 10',
+    media: [
+      {
+        id: 101,
+        kind: 'video',
+        contentType: 'video/mp4',
+        byteSize: 1048576,
+        url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+      },
+    ],
+  },
   { id: 2, muscleGroup: 'Peito', level: 'intermediario', name: 'Supino reto', equipment: 'Banco', description: 'Fortalecimento de peitoral, ombros e tríceps.', defaultSets: 4, defaultReps: '8 a 12' },
   { id: 3, muscleGroup: 'Costas', level: 'iniciante', name: 'Remada baixa', equipment: 'Halter', description: 'Movimento controlado para dorsais e braços.', defaultSets: 3, defaultReps: '10 a 12' },
 ]
@@ -352,6 +370,15 @@ const TRAINING_PLANS: TrainingPlan[] = [
             restInterval: '90s',
             targetLoad: '40kg',
             notes: 'Descer até 90 graus',
+            media: [
+              {
+                id: 101,
+                kind: 'video',
+                contentType: 'video/mp4',
+                byteSize: 1048576,
+                url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+              },
+            ],
           },
           {
             id: 3,
@@ -886,8 +913,8 @@ export const handlers = [
   }),
 
   http.get('/api/exercicios/:id/media', ({ cookies, params }) => {
-    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
-      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    if (!cookies[MOCK_SESSION_COOKIE]) {
+      return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 })
     }
 
     const id = Number(params.id)
