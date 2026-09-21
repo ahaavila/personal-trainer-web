@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router'
+import { Link, useSearchParams } from 'react-router'
 import { Plus, Search } from 'lucide-react'
 import { getExercises } from '../exercicios/api'
 import type { ExerciseListItem } from '../exercicios/types'
@@ -9,13 +9,16 @@ import './ExerciciosPage.css'
 const LEVEL_LABELS = { iniciante: 'Iniciante', intermediario: 'Intermediário', avancado: 'Avançado' }
 
 function ExerciciosPage() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const exerciseIdParam = searchParams.get('exerciseId')
+
   const [exercises, setExercises] = useState<ExerciseListItem[]>([])
   const [search, setSearch] = useState('')
   const [muscleGroup, setMuscleGroup] = useState('all')
   const [level, setLevel] = useState('all')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [selectedExercise, setSelectedExercise] = useState<ExerciseListItem | null>(null)
+  const [manualSelectedExercise, setManualSelectedExercise] = useState<ExerciseListItem | null>(null)
   const [retry, setRetry] = useState(0)
 
   useEffect(() => {
@@ -39,6 +42,10 @@ function ExerciciosPage() {
     }
   }, [retry])
 
+  const selectedExercise =
+    manualSelectedExercise ??
+    (exerciseIdParam ? exercises.find((item) => String(item.id) === exerciseIdParam) ?? null : null)
+
   const groups = [...new Set(exercises.map((exercise) => exercise.muscleGroup))]
   const levels = [...new Set(exercises.map((exercise) => exercise.level))]
   const filtered = exercises.filter((exercise) => {
@@ -46,14 +53,32 @@ function ExerciciosPage() {
     return matchesSearch && (muscleGroup === 'all' || exercise.muscleGroup === muscleGroup) && (level === 'all' || exercise.level === level)
   })
 
+  function handleCloseModal() {
+    setManualSelectedExercise(null)
+    if (searchParams.has('exerciseId')) {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev)
+          next.delete('exerciseId')
+          return next
+        },
+        { replace: true },
+      )
+    }
+  }
+
   function handleExerciseUpdated(updated: ExerciseListItem) {
     setExercises((current) =>
       current.map((item) => (item.id === updated.id ? updated : item)),
     )
+    if (manualSelectedExercise?.id === updated.id) {
+      setManualSelectedExercise(updated)
+    }
   }
 
   function handleExerciseDeleted(deletedId: number) {
     setExercises((current) => current.filter((item) => item.id !== deletedId))
+    handleCloseModal()
   }
 
   return (
@@ -127,7 +152,7 @@ function ExerciciosPage() {
                 type="button"
                 className="exercise-card"
                 key={exercise.id || exercise.name}
-                onClick={() => setSelectedExercise(exercise)}
+                onClick={() => setManualSelectedExercise(exercise)}
               >
                 <div className="exercise-card__meta">
                   <span>{exercise.muscleGroup}</span>
@@ -154,7 +179,7 @@ function ExerciciosPage() {
       {selectedExercise && (
         <ExerciseModal
           exercise={selectedExercise}
-          onClose={() => setSelectedExercise(null)}
+          onClose={handleCloseModal}
           onUpdated={handleExerciseUpdated}
           onDeleted={handleExerciseDeleted}
         />
