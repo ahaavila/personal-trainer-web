@@ -1,8 +1,4 @@
-## Purpose
-
-Provides a personal-only form that creates an aluno account, assigns it to the creating personal, and returns the personal to their updated aluno roster.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Personal can create an aluno
 The system SHALL provide a personal-only new aluno form accepting name, email, objective, and level, and SHALL NOT require or display fields for a temporary password or password confirmation. The system SHALL inform the trainer that an invitation email will be dispatched to the student to establish their password. The system SHALL enforce active student quota limits according to the personal trainer's subscription plan.
@@ -19,13 +15,6 @@ The system SHALL provide a personal-only new aluno form accepting name, email, o
 #### Scenario: Missing or invalid form data
 - **WHEN** a personal submits missing required fields or an invalid email format
 - **THEN** the system shows field-level validation errors and does not submit the request
-
-### Requirement: Creation errors are recoverable
-The system SHALL show an API creation error without discarding the personal's entered form values.
-
-#### Scenario: Duplicate email
-- **WHEN** a personal submits an email already used by an account
-- **THEN** the system shows an error explaining that the email is unavailable and retains the form values
 
 ### Requirement: Only personal can access creation
 The system SHALL deny an authenticated aluno access to the new aluno route before rendering the creation form.

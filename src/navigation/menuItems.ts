@@ -6,6 +6,7 @@ import {
   Grid2X2,
   History,
   PersonStanding,
+  Sparkles,
   TrendingUp,
   UserPlus,
   Users,
@@ -24,6 +25,7 @@ export const PERSONAL_MENU_ITEMS: MenuItem[] = [
   { label: 'Nova Ficha de Treino', path: '/nova-ficha-de-treino', icon: FilePlus2 },
   { label: 'Treinos', path: '/treinos', icon: History },
   { label: 'Evolução dos Alunos', path: '/evolucao', icon: TrendingUp },
+  { label: 'Planos & PRO', path: '/planos', icon: Sparkles },
   { label: 'Meu Perfil', path: '/meu-perfil', icon: PersonStanding },
   { label: 'Criar utilizador', path: '/criar-utilizador', icon: UserPlus },
 ]

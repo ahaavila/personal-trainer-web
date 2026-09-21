@@ -1,8 +1,4 @@
-## Purpose
-
-Provides a personal-facing table of assigned alunos, with search and filters that make it possible to find and review student training status quickly.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Personal can view assigned alunos
 The system SHALL provide an alunos page for authenticated personal users, listing only the alunos assigned to that personal, along with an active student quota indicator reflecting their current subscription plan.
@@ -16,32 +12,6 @@ The system SHALL provide an alunos page for authenticated personal users, listin
 - **WHEN** the personal has no assigned alunos
 - **THEN** the system displays an intentional empty state instead of an empty/broken table
 
-### Requirement: Aluno access to the listing is denied
-The system SHALL deny an authenticated aluno access to the alunos route before loading the listing data.
-
-#### Scenario: Aluno opens the alunos route directly
-- **WHEN** an authenticated aluno navigates directly to `/alunos`
-- **THEN** the system displays a 403 access-denied page and does not request the aluno listing endpoint
-
-#### Scenario: Unauthenticated user opens the alunos route
-- **WHEN** a user without an authenticated session navigates to `/alunos`
-- **THEN** the system redirects the user to `/login`
-
-### Requirement: Personal can filter alunos
-The system SHALL allow a personal to filter the displayed alunos by name/email search, status, and objective.
-
-#### Scenario: Searching by name or email
-- **WHEN** the personal enters part of an aluno name or email
-- **THEN** only alunos matching that text are displayed
-
-#### Scenario: Filtering by status and objective
-- **WHEN** the personal selects a status and/or objective filter
-- **THEN** only alunos matching all selected filters are displayed
-
-#### Scenario: No alunos match filters
-- **WHEN** the active filters match no alunos
-- **THEN** the system displays a no-results state
-
 ### Requirement: New aluno action navigates to creation
 The system SHALL provide a "Novo aluno" action on the alunos page that opens the functional aluno creation form, or displays an upgrade prompt if the personal is on Plano Básico and has already reached 5 active students.
 
@@ -52,7 +22,3 @@ The system SHALL provide a "Novo aluno" action on the alunos page that opens the
 #### Scenario: Selecting Novo aluno when quota is reached
 - **WHEN** a personal on Plano Básico with 5 active students selects "Novo aluno"
 - **THEN** the system informs the user that the Plano Básico limit of 5 active students has been reached and offers a direct action to upgrade to Plano PRO
-
-#### Scenario: Returning after creation
-- **WHEN** a personal successfully creates an aluno
-- **THEN** the system navigates to the alunos list and the newly created aluno is present

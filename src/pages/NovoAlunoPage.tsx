@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
-import { UserPlus } from 'lucide-react'
+import { Sparkles, UserPlus, Zap } from 'lucide-react'
 import { createAluno } from '../alunos/api'
 import type { CreateAlunoInput } from '../alunos/types'
+import { getSubscriptionStatus } from '../subscription/api'
+import type { SubscriptionStatusResponse } from '../subscription/types'
+import { UpgradePaywallModal } from '../subscription/UpgradePaywallModal'
 import './NovoAlunoPage.css'
 
 type FormValues = CreateAlunoInput
@@ -21,6 +24,25 @@ function NovoAlunoPage() {
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({})
   const [serverError, setServerError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [subscription, setSubscription] = useState<SubscriptionStatusResponse | null>(null)
+  const [isPaywallOpen, setIsPaywallOpen] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    getSubscriptionStatus()
+      .then((data) => {
+        if (!cancelled) setSubscription(data)
+      })
+      .catch(() => {
+        // Ignore failure
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const isBasicPlan = subscription ? subscription.plan === 'basic' : true
+  const isQuotaReached = isBasicPlan && (subscription ? subscription.activeStudents >= 5 : false)
 
   function updateField(name: FieldName, value: string) {
     setForm((current) => ({ ...current, [name]: value }))
@@ -38,6 +60,12 @@ function NovoAlunoPage() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setServerError(null)
+
+    if (isQuotaReached) {
+      setIsPaywallOpen(true)
+      return
+    }
+
     if (!validate()) return
 
     setIsSubmitting(true)
@@ -50,7 +78,11 @@ function NovoAlunoPage() {
       })
       navigate('/alunos', { state: { createdAluno: form.name.trim() } })
     } catch (error) {
-      setServerError(error instanceof Error ? error.message : 'Não foi possível criar o aluno.')
+      const msg = error instanceof Error ? error.message : 'Não foi possível criar o aluno.'
+      setServerError(msg)
+      if (msg.toLowerCase().includes('limite')) {
+        setIsPaywallOpen(true)
+      }
     } finally {
       setIsSubmitting(false)
     }
@@ -66,6 +98,25 @@ function NovoAlunoPage() {
         </div>
         <Link to="/alunos">Voltar para alunos</Link>
       </header>
+
+      {isQuotaReached && (
+        <div className="novo-aluno-quota-warning" role="alert">
+          <div className="novo-aluno-quota-warning__text">
+            <Sparkles size={18} color="#e6b94e" />
+            <span>
+              <strong>Limite de alunos atingido:</strong> Já tem 5 alunos ativos no Plano Básico.
+            </span>
+          </div>
+          <button
+            type="button"
+            className="novo-aluno-quota-warning__btn"
+            onClick={() => setIsPaywallOpen(true)}
+          >
+            <Zap size={14} /> Fazer Upgrade para PRO
+          </button>
+        </div>
+      )}
+
       <form className="novo-aluno-form" onSubmit={handleSubmit} noValidate>
         <section>
           <h2>Dados de acesso</h2>
@@ -124,6 +175,12 @@ function NovoAlunoPage() {
           </button>
         </footer>
       </form>
+
+      <UpgradePaywallModal
+        isOpen={isPaywallOpen}
+        onClose={() => setIsPaywallOpen(false)}
+        currentActiveStudents={subscription?.activeStudents ?? 5}
+      />
     </main>
   )
 }

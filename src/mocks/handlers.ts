@@ -57,6 +57,13 @@ const ALUNOS: AlunoListItem[] = [
   { id: 3, name: 'Beatriz Rocha', email: 'beatriz.rocha@email.com', objective: 'Condicionamento', level: 'Avançado', status: 'inativo', latestWorkout: null },
 ]
 
+const MOCK_SUBSCRIPTION = {
+  plan: 'basic' as 'basic' | 'pro',
+  status: 'active' as const,
+  stripeCustomerId: null as string | null,
+  currentPeriodEnd: null as string | null,
+}
+
 const STUDENT_PROGRESS_MOCKS: Record<number, StudentProgressData> = {
   1: {
     aluno: {
@@ -741,7 +748,18 @@ export const handlers = [
       return HttpResponse.json({ message: 'Email is already in use' }, { status: 409 })
     }
 
+    if (MOCK_SUBSCRIPTION.plan === 'basic') {
+      const activeCount = ALUNOS.filter((a) => a.status === 'ativo').length
+      if (activeCount >= 5) {
+        return HttpResponse.json(
+          { message: 'Atingiu o limite de 5 alunos ativos do Plano Básico. Faça o upgrade para o Plano PRO.' },
+          { status: 403 },
+        )
+      }
+    }
+
     const aluno: AlunoListItem = {
+      id: ALUNOS.length + 1,
       name: input.name,
       email,
       objective: input.objective,
@@ -766,6 +784,73 @@ export const handlers = [
     }
 
     return HttpResponse.json(aluno, { status: 201 })
+  }),
+
+  http.patch('/api/alunos/:id/status', async ({ cookies, params, request }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const id = Number(params.id)
+    const aluno = ALUNOS.find((a) => a.id === id)
+    if (!aluno) {
+      return HttpResponse.json({ message: 'Aluno não encontrado' }, { status: 404 })
+    }
+
+    const body = (await request.json()) as { status: 'ativo' | 'inativo' }
+    if (body.status === 'ativo' && aluno.status !== 'ativo' && MOCK_SUBSCRIPTION.plan === 'basic') {
+      const activeCount = ALUNOS.filter((a) => a.status === 'ativo').length
+      if (activeCount >= 5) {
+        return HttpResponse.json(
+          { message: 'Atingiu o limite de 5 alunos ativos do Plano Básico. Faça o upgrade para o Plano PRO.' },
+          { status: 403 },
+        )
+      }
+    }
+
+    aluno.status = body.status
+    return HttpResponse.json(aluno)
+  }),
+
+  http.get('/api/subscription/status', ({ cookies }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    const activeStudents = ALUNOS.filter((a) => a.status === 'ativo').length
+    const isPro = MOCK_SUBSCRIPTION.plan === 'pro'
+
+    return HttpResponse.json({
+      plan: MOCK_SUBSCRIPTION.plan,
+      status: MOCK_SUBSCRIPTION.status,
+      activeStudents,
+      maxActiveStudents: isPro ? null : 5,
+      isUnlimited: isPro,
+      stripeCustomerId: MOCK_SUBSCRIPTION.stripeCustomerId,
+      currentPeriodEnd: MOCK_SUBSCRIPTION.currentPeriodEnd,
+    })
+  }),
+
+  http.post('/api/subscription/checkout', ({ cookies }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    // Mock upgrade to pro immediately or provide mock url
+    MOCK_SUBSCRIPTION.plan = 'pro'
+    MOCK_SUBSCRIPTION.status = 'active'
+    MOCK_SUBSCRIPTION.stripeCustomerId = 'cus_mock123'
+    MOCK_SUBSCRIPTION.currentPeriodEnd = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+
+    return HttpResponse.json({ url: '/planos?upgraded=true' })
+  }),
+
+  http.post('/api/subscription/portal', ({ cookies }) => {
+    if (cookies[MOCK_SESSION_COOKIE] !== 'personal@fitforge.app') {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 })
+    }
+
+    return HttpResponse.json({ url: '/planos' })
   }),
 
   http.get('/api/exercicios', ({ cookies }) => {

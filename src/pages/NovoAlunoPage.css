@@ -4,6 +4,53 @@
 .novo-aluno-page h1 { margin: .55rem 0; color: #f4f0e8; font-size: 2rem; }
 .novo-aluno-page__header p, .novo-aluno-form section > p { color: #aaa69d; }
 .novo-aluno-page__header > a, .novo-aluno-form footer > a { color: #e8bd51; font-weight: 700; text-decoration: none; }
+
+.novo-aluno-quota-warning {
+  max-width: 54rem;
+  box-sizing: border-box;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: #252216;
+  border: 1px solid #574519;
+  border-radius: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.novo-aluno-quota-warning__text {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #f3d789;
+  font-size: 0.9rem;
+}
+
+.novo-aluno-quota-warning__text strong {
+  color: #f7f4ec;
+}
+
+.novo-aluno-quota-warning__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  background: #e6b94e;
+  border: 1px solid #e6b94e;
+  border-radius: 0.5rem;
+  color: #1a160d;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.novo-aluno-quota-warning__btn:hover {
+  background: #f4c85d;
+}
+
 .novo-aluno-form { max-width: 54rem; border: 1px solid #302f2b; border-radius: 1rem; overflow: hidden; background: linear-gradient(145deg, #1a1b1a, #151615); }
 .novo-aluno-form section { padding: 1.4rem; border-bottom: 1px solid #302f2b; }
 .novo-aluno-form h2 { margin: 0 0 .3rem; color: #f2efe8; font-size: 1.2rem; }

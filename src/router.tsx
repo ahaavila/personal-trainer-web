@@ -14,6 +14,7 @@ import TreinosPage from './pages/TreinosPage'
 import EvolucaoPage from './pages/EvolucaoPage'
 import MeuPerfilPage from './pages/MeuPerfilPage'
 import FichaTreinoAlunoPage from './pages/FichaTreinoAlunoPage'
+import PlanosPage from './pages/PlanosPage'
 
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/login" replace /> },
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
         element: <RequireRole role="personal"><EvolucaoPage /></RequireRole>,
       },
       { path: '/meu-perfil', element: <MeuPerfilPage /> },
+      {
+        path: '/planos',
+        element: <RequireRole role="personal"><PlanosPage /></RequireRole>,
+      },
       {
         path: '/criar-utilizador',
         element: <RequireRole role="personal"><NovoAlunoPage /></RequireRole>,
